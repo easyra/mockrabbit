@@ -43,8 +43,8 @@
 
       <div class="column is-one-third">
         <Embed url={'https://www.youtube.com/embed/x5-JVvCrGC8'} />
-        <a href="live" class="button is-info is-large is-fullwidth">
-          WATCH MORE
+        <a href="live" class="button is-primary is-large is-fullwidth">
+          Watch More
         </a>
       </div>
     </div>
