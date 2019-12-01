@@ -1,18 +1,32 @@
+<script>
+  const classes = [
+    "",
+    "",
+    "",
+    "",
+    "is-danger",
+    "is-warning",
+    "is-info",
+    "is-primary"
+  ];
+  const className = classes[Math.floor(Math.random() * classes.length)];
+</script>
+
 <style>
   .panel-icon {
     height: inherit;
   }
+  .notification {
+    padding: 10px;
+    margin: 10px 0;
+  }
 </style>
 
-<div class="panel-block">
-  <p class="is-size-7">
-    <span title="Tier 1 Sub" class="tag is-info">username</span>
+<div class={`notification ${className}`}>
+  <p class="is-size-6">
+    <strong>Username:</strong>
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis natus
     officiis in assumenda maiores temporibus.
   </p>
-  <span class="panel-icon">
-    <i class="fas fa-caret-up" />
-    0
-    <i class="fas fa-caret-down" />
-  </span>
+
 </div>

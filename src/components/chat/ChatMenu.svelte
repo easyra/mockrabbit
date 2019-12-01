@@ -3,25 +3,24 @@
 </script>
 
 <style>
-  .panel {
+  .chat {
     min-height: 300px;
-    max-height: 75vh;
     width: 100%;
     position: relative;
     overflow: auto;
+    height: 100%;
+    max-height: 85%;
   }
-
-  .fas {
-    cursor: pointer;
+  .textarea {
+    height: 10%;
+  }
+  .button {
+    float: right;
   }
 </style>
 
-<div class="panel is-black">
-  <p class="panel-heading ">Chat</p>
-  <p class="panel-tabs">
-    <a class="is-active">Chat</a>
-    <a>Donate</a>
-    <a href="">Settings</a>
-  </p>
+<button class="button is-danger is-fullwidth">Subscribe Now!</button>
+<div class="chat">
   <ChatMessages />
 </div>
+<textarea name="" id="" cols="30" rows="10" class="textarea" />
