@@ -3,24 +3,16 @@
 </script>
 
 <style>
-  .chat {
-    min-height: 300px;
-    width: 100%;
-    position: relative;
-    overflow: auto;
-    height: 100%;
-    max-height: 85%;
-  }
   .textarea {
-    height: 10%;
+    height: 50px;
+    resize: none;
+    border-color: #363636;
   }
   .button {
     float: right;
   }
 </style>
 
-<button class="button is-danger is-fullwidth">Subscribe Now!</button>
-<div class="chat">
-  <ChatMessages />
-</div>
-<textarea name="" id="" cols="30" rows="10" class="textarea" />
+<ChatMessages />
+
+<textarea name="" id="" cols="30" rows="10" class="textarea is-dark" />

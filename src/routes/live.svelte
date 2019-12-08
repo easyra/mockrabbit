@@ -5,13 +5,21 @@
 
 <style>
   section {
-    margin: 15px;
+    padding: 15px;
+  }
+  .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
   }
 </style>
 
 <svelte:head>
   <title>Livestream</title>
 </svelte:head>
+
+<!-- <div class="background" /> -->
 
 <section class="">
   <div class="columns">
