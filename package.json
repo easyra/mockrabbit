@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
+    "nanoscroller": "^0.8.7",
+    "perfect-scrollbar": "^1.4.0",
     "polka": "next",
+    "simplebar": "^5.0.7",
     "sirv": "^0.4.0"
   },
   "devDependencies": {
