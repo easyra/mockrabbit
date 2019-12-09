@@ -42,7 +42,7 @@
       <a href="https://www.twitter.com/" target="_blank" class="navbar-item">
         Twitter
       </a>
-      <li class="navbar-item has-text-danger">Subscribe</li>
+      <li class="navbar-item has-text-warning">Subscribe</li>
     </ul>
     <ul class="navbar-end">
       <a href="" class="navbar-item">Login</a>
