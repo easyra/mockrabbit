@@ -11,8 +11,8 @@ function App() {
       <Grid
         container
         justify='space-around'
-        alignItems='center'
-        style={{ marginTop: 25 }}
+        // alignItems='center'
+        style={{ margin: "75px 0" }}
       >
         <Grid item md={6}>
           <CTA />

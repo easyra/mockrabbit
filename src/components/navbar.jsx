@@ -41,7 +41,7 @@ const Navbar = () => {
           <Button color='inherit'>Discord</Button>
           <Button color='inherit'>Twitch</Button>
           <Button color='inherit'>Twitter</Button>
-          <Button variant='contained'>
+          <Button color='secondary' variant='contained'>
             <FavoriteIcon />
             Support The Stream
           </Button>
