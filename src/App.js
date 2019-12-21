@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Navbar from "./components/navbar.jsx";
+import { Paper, Grid } from "@material-ui/core";
+import ResponsiveEmbed from "react-responsive-embed";
+import CTA from "./components/home/CTA.jsx";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Navbar />
+      <Grid
+        container
+        justify='space-around'
+        alignItems='center'
+        style={{ marginTop: 25 }}
+      >
+        <Grid item md={6}>
+          <CTA />
+        </Grid>
+        <Grid item md={4}>
+          <Paper>
+            <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 }
