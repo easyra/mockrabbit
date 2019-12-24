@@ -79,16 +79,14 @@ const CTA = () => {
           sollicitudin in ipsum vel feugiat. Proin interdum nisi et sem egestas
           rhoncus.
         </Typography>
-        <Button
-          variant='contained'
-          color='secondary'
-          style={{ float: "right" }}
-        >
-          <Icon>
-            <StarIcon />
-          </Icon>
-          Join the Community
-        </Button>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant='contained' color='secondary'>
+            <Icon>
+              <StarIcon />
+            </Icon>
+            Join the Community
+          </Button>
+        </div>
       </div>
     );
   };
@@ -120,7 +118,16 @@ const CTA = () => {
       return renderSignUpPage();
     }
     if (activePage === 1) {
-      return renderSocialCards("Facebook.com/mockRabbit");
+      return renderSocialCards("facebook.com/mockRabbit");
+    }
+    if (activePage === 2) {
+      return renderSocialCards("twitter.com/mockRabbit");
+    }
+    if (activePage === 3) {
+      return renderSocialCards("youtube.com/mockRabbit");
+    }
+    if (activePage === 4) {
+      return renderSocialCards("subscriber feed");
     }
   };
 
