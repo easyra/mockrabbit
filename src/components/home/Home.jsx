@@ -5,7 +5,7 @@ import ResponsiveEmbed from "react-responsive-embed";
 import CTA from "./CTA.jsx";
 import VideoCard from "./VideoCard.jsx";
 
-const Home = () => {
+const Home = ({ history }) => {
   const renderVideoCard = () => {
     return <VideoCard />;
   };

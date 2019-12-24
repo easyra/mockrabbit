@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import {
   Toolbar,
@@ -7,6 +7,7 @@ import {
   Button,
   makeStyles
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
@@ -22,7 +23,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Navbar = () => {
+const Navbar = ({ location }) => {
+  let homeHidden = location.pathname === "/";
+  console.log(location.pathname);
   const classes = useStyles();
   return (
     <AppBar
@@ -36,6 +39,11 @@ const Navbar = () => {
           <MenuIcon />
         </IconButton>
         <div className={classes.title}>
+          {!homeHidden && (
+            <Button component={Link} to='/' color='inherit'>
+              Home
+            </Button>
+          )}
           <Button color='inherit'>YouTube</Button>
           <Button color='inherit'>Facebook</Button>
           <Button color='inherit'>Discord</Button>
@@ -48,7 +56,9 @@ const Navbar = () => {
         </div>
 
         <Button color='inherit'>Login</Button>
-        <Button color='inherit'>Stream</Button>
+        <Button component={Link} to='/stream' color='inherit'>
+          Stream
+        </Button>
       </Toolbar>
     </AppBar>
   );
