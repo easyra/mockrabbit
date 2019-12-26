@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -12,6 +12,7 @@ import {
   Menu,
   MenuItem
 } from "@material-ui/core";
+import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
 import SimpleBar from "simplebar-react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
@@ -24,6 +25,9 @@ const Live = () => {
   const classes = useStyles();
   const bottomScroll = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+
+  //------------------------------------------------------ Methods
 
   const handleClick = e => {
     setAnchorEl(e.target);
@@ -33,6 +37,13 @@ const Live = () => {
     console.log("hi");
     console.log(anchorEl);
   };
+
+  const addMessage = ({ username, text }) => {
+    setChatMessages(prevState => [...prevState, { username, text }]);
+    bottomScroll.current.scrollIntoView();
+  };
+
+  //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
     return (
       <Grid md={9}>
@@ -40,18 +51,12 @@ const Live = () => {
       </Grid>
     );
   };
-  const renderChatMessage = () => {
+  const renderChatMessage = ({ username, text }) => {
     return (
-      <Paper
-        className={classes.message}
-        elevation={3}
-        onClick={() => {
-          bottomScroll.current.scrollIntoView();
-        }}
-      >
+      <Paper className={classes.message} elevation={3}>
         <Typography variant='body2' style={{ opacity: 0.8 }}>
-          <strong>username:</strong> Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Molestias quos officiis numquam quasi harum labore.
+          <strong>{username}: </strong>
+          {text}
         </Typography>
       </Paper>
     );
@@ -66,23 +71,7 @@ const Live = () => {
               forceVisible='y'
               autoHide={false}
             >
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
-              {renderChatMessage()}
+              {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
               <div ref={bottomScroll} className='bottom'></div>
             </SimpleBar>
             {renderChatBox()}
@@ -151,6 +140,29 @@ const Live = () => {
       </Paper>
     );
   };
+
+  //----------------------------------------------------------Effects
+
+  useEffect(() => {
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 8,
+        min: 4
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 1
+      }
+    });
+    const interval = setInterval(() => {
+      const message = {
+        username: "username",
+        text: lorem.generateSentences(Math.floor(Math.random() * 3))
+      };
+      addMessage(message);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div>
       <Grid container justify='space-between'>
