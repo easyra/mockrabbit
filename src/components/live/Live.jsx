@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Grid,
   Paper,
@@ -21,6 +21,7 @@ import "simplebar/dist/simplebar.min.css";
 
 const Live = () => {
   const classes = useStyles();
+  const bottomScroll = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = e => {
@@ -40,7 +41,13 @@ const Live = () => {
   };
   const renderChatMessage = () => {
     return (
-      <Paper className={classes.message} elevation={3}>
+      <Paper
+        className={classes.message}
+        elevation={3}
+        onClick={() => {
+          bottomScroll.current.scrollIntoView();
+        }}
+      >
         <Typography variant='body2' style={{ opacity: 0.8 }}>
           <strong>username:</strong> Lorem ipsum dolor sit amet consectetur
           adipisicing elit. Molestias quos officiis numquam quasi harum labore.
@@ -75,6 +82,7 @@ const Live = () => {
               {renderChatMessage()}
               {renderChatMessage()}
               {renderChatMessage()}
+              <div ref={bottomScroll} className='bottom'></div>
             </SimpleBar>
             {renderChatBox()}
           </div>
