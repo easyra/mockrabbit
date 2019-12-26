@@ -17,6 +17,7 @@ import SimpleBar from "simplebar-react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SettingsIcon from "@material-ui/icons/Settings";
 import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import "simplebar/dist/simplebar.min.css";
 
 const Live = () => {
@@ -123,7 +124,7 @@ const Live = () => {
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
           <div className={classes.chatBar}>
-            <div>
+            <div style={{ flexGrow: 1 }}>
               <IconButton onClick={handleClick}>
                 <ChatBubbleIcon fontSize='small' />
               </IconButton>
@@ -131,6 +132,9 @@ const Live = () => {
 
             <IconButton>
               <EmojiEmotionsIcon fontSize='smaill' />
+            </IconButton>
+            <IconButton>
+              <LoyaltyIcon fontSize='small' />
             </IconButton>
             <IconButton>
               <SettingsIcon fontSize='small' />
