@@ -56,7 +56,7 @@ const Navbar = ({ location }) => {
         </div>
 
         <Button color='inherit'>Login</Button>
-        <Button component={Link} to='/stream' color='inherit'>
+        <Button component={Link} to='/live' color='inherit'>
           Stream
         </Button>
       </Toolbar>
