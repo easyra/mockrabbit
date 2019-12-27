@@ -34,7 +34,6 @@ const Live = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    console.log("hi");
     console.log(anchorEl);
   };
 
@@ -46,24 +45,14 @@ const Live = () => {
   //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
     return (
-      <Grid md={9}>
+      <Grid md={9} sm={10} xs={12}>
         <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
       </Grid>
     );
   };
-  const renderChatMessage = ({ username, text }) => {
-    return (
-      <Paper className={classes.message} elevation={3}>
-        <Typography variant='body2' style={{ opacity: 0.8 }}>
-          <strong>{username}: </strong>
-          {text}
-        </Typography>
-      </Paper>
-    );
-  };
   const renderChatMenu = () => {
     return (
-      <Grid md={3}>
+      <Grid md={3} sm={10} xs={12}>
         <div className={classes.chatWrapper}>
           <div className={classes.chat2}>
             <SimpleBar
@@ -80,10 +69,19 @@ const Live = () => {
       </Grid>
     );
   };
+
   const renderChatBox = () => {
     return (
       <Paper elevation={4} style={{ margin: 5 }}>
-        <AppBar position='static' color='primary' elevation={0}>
+        <TextField
+          style={{ padding: 5 }}
+          fullWidth
+          multiline
+          rowsMax='3'
+          variant='outlined'
+          size='small'
+        />
+        <AppBar position='static' color='default' elevation={0}>
           <Menu
             id='simple-menu'
             anchorEl={anchorEl}
@@ -130,13 +128,16 @@ const Live = () => {
             </IconButton>
           </div>
         </AppBar>
-        <TextField
-          style={{ padding: 5 }}
-          fullWidth
-          multiline
-          rowsMax='3'
-          variant='outlined'
-        />
+      </Paper>
+    );
+  };
+  const renderChatMessage = ({ username, text }) => {
+    return (
+      <Paper className={classes.message} elevation={3}>
+        <Typography variant='body2' style={{ opacity: 0.8 }}>
+          <strong>{username}: </strong>
+          {text}
+        </Typography>
       </Paper>
     );
   };
@@ -163,9 +164,20 @@ const Live = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (chatMessages.length > 51) {
+      setChatMessages(prevState => {
+        prevState.shift();
+        return [...prevState];
+      });
+    }
+  });
+
+  //----------------------------------------------Render
   return (
     <div>
-      <Grid container justify='space-between'>
+      <Grid container justify='center'>
         {renderVideoPlayer()}
         {renderChatMenu()}
       </Grid>
@@ -174,6 +186,8 @@ const Live = () => {
 };
 
 export default Live;
+
+//-----------------------------------------------------------CSS
 
 const useStyles = makeStyles({
   chatWrapper: {
