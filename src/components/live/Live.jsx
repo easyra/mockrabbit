@@ -18,14 +18,25 @@ import SimpleBar from "simplebar-react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SettingsIcon from "@material-ui/icons/Settings";
 import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
-import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
 
 const Live = () => {
   const classes = useStyles();
-  const bottomScroll = useRef(null);
+  const chatScroll = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
+  const [shouldScroll, setShouldScroll] = useState(true);
+  const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+      max: 8,
+      min: 4
+    },
+    wordsPerSentence: {
+      max: 16,
+      min: 1
+    }
+  });
 
   //------------------------------------------------------ Methods
 
@@ -34,12 +45,32 @@ const Live = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
-    console.log(anchorEl);
   };
 
-  const addMessage = ({ username, text }) => {
-    setChatMessages(prevState => [...prevState, { username, text }]);
-    bottomScroll.current.scrollIntoView();
+  const addMessage = async ({ username, text }) => {
+    await setChatMessages(prevState => [...prevState, { username, text }]);
+
+    // chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+    if (shouldScroll) {
+      scrollDown();
+    }
+  };
+
+  const scrollDown = () => {
+    chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+  };
+
+  const handleScroll = () => {
+    // chatScroll.current.recalculate();
+
+    if (
+      chatScroll.current.scrollTop <=
+      chatScroll.current.scrollHeight - 540 - 50
+    ) {
+      setShouldScroll(false);
+    } else {
+      setShouldScroll(true);
+    }
   };
 
   //------------------------------------------------------ Live Components
@@ -59,11 +90,18 @@ const Live = () => {
               style={{ height: "100%" }}
               forceVisible='y'
               autoHide={false}
+              scrollableNodeProps={{ ref: chatScroll }}
+              onScroll={handleScroll}
             >
               {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
-              <div ref={bottomScroll} className='bottom'></div>
+              <div className='bottom'></div>
             </SimpleBar>
             {renderChatBox()}
+            {!shouldScroll && (
+              <Paper className={classes.shouldScroll} onClick={scrollDown}>
+                <Typography variant='body2'>Scroll Down</Typography>
+              </Paper>
+            )}
           </div>
         </div>
       </Grid>
@@ -112,16 +150,23 @@ const Live = () => {
           </Menu>
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
-              <IconButton onClick={handleClick}>
-                <ChatBubbleIcon fontSize='small' />
+              <IconButton color='secondary'>
+                <FavoriteIcon fontSize='small' />
               </IconButton>
             </div>
 
-            <IconButton>
-              <EmojiEmotionsIcon fontSize='smaill' />
+            <IconButton
+              onClick={() =>
+                addMessage({
+                  username: "username",
+                  text: lorem.generateSentences(4)
+                })
+              }
+            >
+              <EmojiEmotionsIcon fontSize='small' />
             </IconButton>
-            <IconButton>
-              <LoyaltyIcon fontSize='small' />
+            <IconButton onClick={handleClick}>
+              <ChatBubbleIcon fontSize='small' />
             </IconButton>
             <IconButton>
               <SettingsIcon fontSize='small' />
@@ -145,24 +190,17 @@ const Live = () => {
   //----------------------------------------------------------Effects
 
   useEffect(() => {
-    const lorem = new LoremIpsum({
-      sentencesPerParagraph: {
-        max: 8,
-        min: 4
-      },
-      wordsPerSentence: {
-        max: 16,
-        min: 1
-      }
-    });
-    const interval = setInterval(() => {
-      const message = {
-        username: "username",
-        text: lorem.generateSentences(Math.floor(Math.random() * 3))
-      };
-      addMessage(message);
-    }, 1000);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   if (chatMessages.length > 20) {
+    //     setShouldScroll(false);
+    //   }
+    //   const message = {
+    //     username: "username",
+    //     text: lorem.generateSentences(Math.floor(Math.random() * 3))
+    //   };
+    //   addMessage(message);
+    // }, 1000);
+    // return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -189,7 +227,7 @@ export default Live;
 
 //-----------------------------------------------------------CSS
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   chatWrapper: {
     position: "relative",
     height: "100%",
@@ -209,5 +247,14 @@ const useStyles = makeStyles({
     // padding: 5
     display: "flex",
     justifyContent: "flex-end"
+  },
+  shouldScroll: {
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    margin: "0 5px",
+    padding: 5,
+    display: "flex",
+    justifyContent: "center",
+    cursor: "pointer"
   }
-});
+}));
