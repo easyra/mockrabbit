@@ -96,12 +96,15 @@ const Live = () => {
               {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
               <div className='bottom'></div>
             </SimpleBar>
+            <Paper
+              className={`${classes.shouldScroll} ${
+                !shouldScroll ? classes.active : ""
+              }`}
+              onClick={scrollDown}
+            >
+              <Typography variant='body2'>Scroll Down</Typography>
+            </Paper>
             {renderChatBox()}
-            {!shouldScroll && (
-              <Paper className={classes.shouldScroll} onClick={scrollDown}>
-                <Typography variant='body2'>Scroll Down</Typography>
-              </Paper>
-            )}
           </div>
         </div>
       </Grid>
@@ -150,7 +153,7 @@ const Live = () => {
           </Menu>
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
-              <IconButton color='secondary'>
+              <IconButton>
                 <FavoriteIcon fontSize='small' />
               </IconButton>
             </div>
@@ -178,7 +181,7 @@ const Live = () => {
   };
   const renderChatMessage = ({ username, text }) => {
     return (
-      <Paper className={classes.message} elevation={3}>
+      <Paper className={classes.message} elevation={2}>
         <Typography variant='body2' style={{ opacity: 0.8 }}>
           <strong>{username}: </strong>
           {text}
@@ -235,7 +238,9 @@ const useStyles = makeStyles(theme => ({
   },
   message: {
     padding: 5,
-    margin: 5
+    margin: 5,
+    animation: "fadeIn 0.3s 1"
+    // transition: "all 0.2s"
   },
   chat2: {
     position: "absolute",
@@ -255,6 +260,11 @@ const useStyles = makeStyles(theme => ({
     padding: 5,
     display: "flex",
     justifyContent: "center",
+    opacity: 0,
+    transition: "opacity 0.2s"
+  },
+  active: {
+    opacity: 1,
     cursor: "pointer"
   }
 }));
