@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "./components/navbar.jsx";
 import Home from "./components/home/Home.jsx";
 import { Route, Switch } from "react-router-dom";
 import Live from "./components/live/Live.jsx";
+import { FirebaseContext } from "./components/FirebaseWrapper.js";
 
 function App() {
+  const { userStatus } = useContext(FirebaseContext);
+  const loaded = userStatus !== null;
   return (
-    <div className='App'>
-      <Route component={Navbar} path='/' />
-      <Switch>
-        <Route exact strict path='/' component={Home} />
-        <Route exact strict path='/live' component={Live} />
-      </Switch>
-    </div>
+    <>
+      {loaded && (
+        <div className='App'>
+          <Route component={Navbar} path='/' />
+          <Switch>
+            <Route exact strict path='/' component={Home} />
+            <Route exact strict path='/live' component={Live} />
+          </Switch>
+        </div>
+      )}
+    </>
   );
 }
 

@@ -18,7 +18,16 @@ const Navbar = ({ location }) => {
   const classes = useStyles();
   let homeButtonHidden = location.pathname === "/";
   const [loginNode, setLoginNode] = useState(null);
-  const { googleSignin } = useContext(FirebaseContext);
+  const [accountNode, setAccountNode] = useState(null);
+  const { googleSignin, userStatus, signOut } = useContext(FirebaseContext);
+  const handleGoogleSignIn = () => {
+    googleSignin().then(() => setLoginNode(null));
+  };
+  const handleSignOut = () => {
+    signOut().then(() => {
+      setAccountNode(null);
+    });
+  };
 
   return (
     <>
@@ -27,7 +36,17 @@ const Navbar = ({ location }) => {
         open={Boolean(loginNode)}
         onClose={() => setLoginNode(null)}
       >
-        <MenuItem onClick={googleSignin}>Google</MenuItem>
+        <MenuItem onClick={handleGoogleSignIn}>Google</MenuItem>
+      </Menu>
+      <Menu
+        anchorEl={accountNode}
+        open={Boolean(accountNode)}
+        onClose={() => setAccountNode(null)}
+      >
+        <MenuItem component={Link} to='/profile'>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
       </Menu>
       <AppBar
         className={classes.root}
@@ -56,12 +75,21 @@ const Navbar = ({ location }) => {
             </Button>
           </div>
 
-          <Button
-            onClick={({ currentTarget }) => setLoginNode(currentTarget)}
-            color='inherit'
-          >
-            Login
-          </Button>
+          {userStatus ? (
+            <Button
+              color='inherit'
+              onClick={({ currentTarget }) => setAccountNode(currentTarget)}
+            >
+              Account
+            </Button>
+          ) : (
+            <Button
+              onClick={({ currentTarget }) => setLoginNode(currentTarget)}
+              color='inherit'
+            >
+              Login
+            </Button>
+          )}
           <Button component={Link} to='/live' color='inherit'>
             Stream
           </Button>
