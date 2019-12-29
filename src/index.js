@@ -6,6 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { BrowserRouter } from "react-router-dom";
 import { blue, red } from "@material-ui/core/colors";
+import FirebaseWrapper from "./components/FirebaseWrapper";
 
 const theme = createMuiTheme({
   palette: {
@@ -18,7 +19,9 @@ const renderApp = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <FirebaseWrapper>
+          <App />
+        </FirebaseWrapper>
       </ThemeProvider>
     </BrowserRouter>
   );
