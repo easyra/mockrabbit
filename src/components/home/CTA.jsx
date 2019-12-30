@@ -14,6 +14,7 @@ import {
   ListItemText,
   ListSubheader
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
 import StarIcon from "@material-ui/icons/Star";
 import TwitterIcon from "@material-ui/icons/Twitter";
@@ -80,7 +81,12 @@ const CTA = () => {
           rhoncus.
         </Typography>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button variant='contained' color='secondary'>
+          <Button
+            variant='contained'
+            color='secondary'
+            component={Link}
+            to='/profile'
+          >
             <Icon>
               <StarIcon />
             </Icon>

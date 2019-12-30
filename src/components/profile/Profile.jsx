@@ -12,7 +12,7 @@ import { FirebaseContext } from "../FirebaseWrapper.js";
 
 const Profile = ({ history }) => {
   const [input, setInput] = useState({ username: "" });
-  const { userStatus } = useContext(FirebaseContext);
+  const { userStatus, googleSignin } = useContext(FirebaseContext);
   const needsUsername = !userStatus && auth.currentUser;
 
   const handleChange = e => {
@@ -62,11 +62,27 @@ const Profile = ({ history }) => {
           </Grid>
         </>
       );
+    } else {
+      return (
+        <Paper style={{ padding: 15 }} elevation={4}>
+          <Typography gutterBottom variant='h2'>
+            LOGIN HERE
+          </Typography>
+          <Button
+            onClick={googleSignin}
+            fullWidth
+            variant='contained'
+            color='secondary'
+          >
+            Google
+          </Button>
+        </Paper>
+      );
     }
   };
   return (
     <Grid style={{ marginTop: 50 }} justify='space-around' container>
-      {needsUsername && renderRegister()}
+      {renderRegister()}
     </Grid>
   );
 };
