@@ -55,7 +55,7 @@ const FirebaseWrapper = ({ children, history }) => {
 
   return (
     <FirebaseProvider
-      value={{ googleSignin, userStatus, signOut, getUserInfo }}
+      value={{ googleSignin, userInfo, userStatus, signOut, getUserInfo }}
     >
       {children}
     </FirebaseProvider>

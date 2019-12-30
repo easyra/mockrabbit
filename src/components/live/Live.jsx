@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   Grid,
   Paper,
@@ -20,12 +20,15 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
+import { FirebaseContext } from "../FirebaseWrapper";
 
 const Live = () => {
   const classes = useStyles();
   const chatScroll = useRef(null);
+  const { userStatus, userInfo } = useContext(FirebaseContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
+  const [textInput, setTextInput] = useState("");
   const [shouldScroll, setShouldScroll] = useState(true);
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
@@ -47,7 +50,20 @@ const Live = () => {
     setAnchorEl(null);
   };
 
-  const addMessage = async ({ username, text }) => {
+  const handleSubmit = async e => {
+    if (e.key === "Enter" && textInput.length > 0) {
+      await addMessage(userInfo.username, textInput);
+      setTextInput("");
+    }
+  };
+
+  const handleChange = e => {
+    if (e.target.value !== "\n") {
+      setTextInput(e.target.value);
+    }
+  };
+
+  const addMessage = async (username, text) => {
     await setChatMessages(prevState => [...prevState, { username, text }]);
 
     // chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
@@ -113,16 +129,21 @@ const Live = () => {
 
   const renderChatBox = () => {
     return (
-      <Paper elevation={4} style={{ margin: 5 }}>
+      <Paper elevation={6} style={{ margin: 5 }}>
         <TextField
           style={{ padding: 5 }}
+          onKeyPress={handleSubmit}
+          onChange={handleChange}
+          value={textInput}
           fullWidth
           multiline
-          rowsMax='3'
+          fontSize='small'
+          placeholder={userStatus ? "Type Here!" : "Login to Type Something"}
+          rowsMax='2'
           variant='outlined'
           size='small'
         />
-        <AppBar position='static' color='default' elevation={0}>
+        <AppBar position='static' color='primary' elevation={0}>
           <Menu
             id='simple-menu'
             anchorEl={anchorEl}
