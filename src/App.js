@@ -4,6 +4,7 @@ import Home from "./components/home/Home.jsx";
 import { Route, Switch } from "react-router-dom";
 import Live from "./components/live/Live.jsx";
 import { FirebaseContext } from "./components/FirebaseWrapper.js";
+import Profile from "./components/profile/Profile.jsx";
 
 function App() {
   const { userStatus } = useContext(FirebaseContext);
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route exact strict path='/' component={Home} />
             <Route exact strict path='/live' component={Live} />
+            <Route exact strict path='/profile' component={Profile} />
           </Switch>
         </div>
       )}

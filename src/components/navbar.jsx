@@ -13,15 +13,23 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { FirebaseContext } from "./FirebaseWrapper";
+import { auth } from "./firebase";
 
-const Navbar = ({ location }) => {
+const Navbar = ({ location, history }) => {
   const classes = useStyles();
   let homeButtonHidden = location.pathname === "/";
   const [loginNode, setLoginNode] = useState(null);
   const [accountNode, setAccountNode] = useState(null);
-  const { googleSignin, userStatus, signOut } = useContext(FirebaseContext);
+  const { googleSignin, userStatus, signOut, getUserInfo } = useContext(
+    FirebaseContext
+  );
   const handleGoogleSignIn = () => {
-    googleSignin().then(() => setLoginNode(null));
+    if (auth.currentUser) {
+      getUserInfo();
+    } else {
+      googleSignin().then(() => {});
+    }
+    setLoginNode(null);
   };
   const handleSignOut = () => {
     signOut().then(() => {
