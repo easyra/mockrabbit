@@ -25,11 +25,18 @@ import { FirebaseContext } from "../FirebaseWrapper";
 const Live = () => {
   const classes = useStyles();
   const chatScroll = useRef(null);
-  const { userStatus, userInfo } = useContext(FirebaseContext);
+  const {
+    userStatus,
+    userInfo,
+    chatTurnedOn,
+    chatTurnedOff,
+    chatMessages,
+    addMessage
+  } = useContext(FirebaseContext);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
   const [textInput, setTextInput] = useState("");
   const [shouldScroll, setShouldScroll] = useState(true);
+  const [chatLoaded, setChatLoaded] = useState(false);
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
@@ -44,15 +51,18 @@ const Live = () => {
   //------------------------------------------------------ Methods
 
   const handleClick = e => {
+    //--------Menu
     setAnchorEl(e.target);
   };
   const handleClose = () => {
+    //---------Menu
     setAnchorEl(null);
   };
 
   const handleSubmit = async e => {
+    //------Chat Box Text Submit
     if (e.key === "Enter" && textInput.length > 0) {
-      await addMessage(userInfo.username, textInput);
+      await handleNewMessage(userInfo.username, textInput);
       setTextInput("");
     }
   };
@@ -63,10 +73,8 @@ const Live = () => {
     }
   };
 
-  const addMessage = async (username, text) => {
-    await setChatMessages(prevState => [...prevState, { username, text }]);
-
-    // chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+  const handleNewMessage = async (username, text) => {
+    await addMessage(username, text);
     if (shouldScroll) {
       scrollDown();
     }
@@ -92,14 +100,14 @@ const Live = () => {
   //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
     return (
-      <Grid md={9} sm={10} xs={12}>
+      <Grid item md={9} sm={10} xs={12}>
         <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
       </Grid>
     );
   };
   const renderChatMenu = () => {
     return (
-      <Grid md={3} sm={10} xs={12}>
+      <Grid item md={3} sm={10} xs={12}>
         <div className={classes.chatWrapper}>
           <div className={classes.chat2}>
             <SimpleBar
@@ -179,14 +187,7 @@ const Live = () => {
               </IconButton>
             </div>
 
-            <IconButton
-              onClick={() =>
-                addMessage({
-                  username: "username",
-                  text: lorem.generateSentences(4)
-                })
-              }
-            >
+            <IconButton>
               <EmojiEmotionsIcon fontSize='small' />
             </IconButton>
             <IconButton onClick={handleClick}>
@@ -200,9 +201,9 @@ const Live = () => {
       </Paper>
     );
   };
-  const renderChatMessage = ({ username, text }) => {
+  const renderChatMessage = ({ username, text, key }) => {
     return (
-      <Paper className={classes.message} elevation={2}>
+      <Paper key={key} className={classes.message} elevation={2}>
         <Typography variant='body2' style={{ opacity: 0.8 }}>
           <strong>{username}: </strong>
           {text}
@@ -214,28 +215,22 @@ const Live = () => {
   //----------------------------------------------------------Effects
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   if (chatMessages.length > 20) {
-    //     setShouldScroll(false);
-    //   }
-    //   const message = {
-    //     username: "username",
-    //     text: lorem.generateSentences(Math.floor(Math.random() * 3))
-    //   };
-    //   addMessage(message);
-    // }, 1000);
-    // return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (chatMessages.length > 51) {
-      setChatMessages(prevState => {
-        prevState.shift();
-        return [...prevState];
-      });
+    if (!chatLoaded && chatMessages.length > 0) {
+      scrollDown();
+      setChatLoaded(true);
     }
   });
 
+  useEffect(() => {
+    try {
+      chatTurnedOn();
+    } catch {
+      console.log("error turning on chat");
+    } finally {
+      scrollDown();
+    }
+    return () => chatTurnedOff();
+  }, []);
   //----------------------------------------------Render
   return (
     <div>

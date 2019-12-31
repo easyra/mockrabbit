@@ -9040,6 +9040,11 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
+random-animal-name-generator@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/random-animal-name-generator/-/random-animal-name-generator-0.1.1.tgz#c42b58ae1a7c4b691b136843e0e84484a0cea8de"
+  integrity sha512-VggZMRUlhOcRlm0x+2BegT+QfzeFj82Q5BqykpMcsrDoHR+NUp2DEnrZmYWekFgN3qCGRX73GYRygHAv4+0pQQ==
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -10688,6 +10693,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
+
+txtgen@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/txtgen/-/txtgen-2.2.4.tgz#c61784c84bc9c000e1fb166e9b0dcbe16712795e"
+  integrity sha512-eVt2Luabn0BG6K3DfHkqEBkldVYpAKgneVteEljzM5a0gLoff6sZI9SQMCm0GSyYhQQiSgiJ4HZaV9iYR+gm4g==
 
 type-check@~0.3.2:
   version "0.3.2"

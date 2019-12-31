@@ -38,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "random-animal-name-generator": "^0.1.1",
+    "txtgen": "^2.2.4"
   }
 }

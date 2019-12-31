@@ -1,6 +1,8 @@
-import firebase, { firestore } from "./firebase";
+import firebase, { firestore, database } from "./firebase";
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import generateRandomAnimalName from "random-animal-name-generator";
+import txtgen from "txtgen";
 
 export const FirebaseContext = React.createContext({});
 export const FirebaseConsumer = FirebaseContext.Consumer;
@@ -11,8 +13,10 @@ const FirebaseWrapper = ({ children, history }) => {
   const GoogleProvider = new firebase.auth.GoogleAuthProvider();
   const [userStatus, setUserStatus] = useState(null);
   const [userInfo, setUserInfo] = useState({});
+  const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
+    setDummyMessages();
     auth.onAuthStateChanged(user => {
       if (user) {
         getUserInfo();
@@ -28,6 +32,22 @@ const FirebaseWrapper = ({ children, history }) => {
 
   const signOut = () => {
     return auth.signOut();
+  };
+
+  const addMessage = (username, text) => {
+    const key = database.ref("/chat").push().key;
+    database.ref("/chat").update({ [key]: { username, text, key } });
+  };
+
+  const chatTurnedOn = () => {
+    database.ref("/chat").on("value", snapshot => {
+      if (snapshot.exists()) {
+        setChatMessages(Object.values(snapshot.val()));
+      }
+    });
+  };
+  const chatTurnedOff = () => {
+    database.ref("/chat").off();
   };
 
   const getUserInfo = () => {
@@ -53,9 +73,33 @@ const FirebaseWrapper = ({ children, history }) => {
     }
   };
 
+  const setDummyMessages = () => {
+    database.ref("chat").set(null);
+    for (let i = 0; i < 51; i++) {
+      const username =
+        generateRandomAnimalName()
+          .split(" ")
+          .join("")
+          .slice(0, 12) + Math.floor(Math.random() * 500);
+      const text =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+      addMessage(username, text);
+    }
+  };
+
   return (
     <FirebaseProvider
-      value={{ googleSignin, userInfo, userStatus, signOut, getUserInfo }}
+      value={{
+        googleSignin,
+        userInfo,
+        userStatus,
+        signOut,
+        getUserInfo,
+        chatTurnedOn,
+        chatMessages,
+        addMessage,
+        chatTurnedOff
+      }}
     >
       {children}
     </FirebaseProvider>
