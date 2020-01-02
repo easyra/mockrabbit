@@ -96,7 +96,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
 
   const setDummyMessages = () => {
     database.ref("chat").set(null);
-    for (let i = 0; i < 51; i++) {
+    for (let i = 0; i < 101; i++) {
       const type = typeArray[Math.floor(Math.random() * typeArray.length)];
       const username =
         generateRandomAnimalName()
@@ -144,7 +144,7 @@ const typeArray = [
   "tier2",
   "tier3",
   "tier4",
-  "",
+  "moderator",
   "",
   "",
   "",

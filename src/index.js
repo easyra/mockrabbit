@@ -36,20 +36,27 @@ const theme = createMuiTheme({
     color: "#fff"
   },
   tier3: {
-    background: deepPurple["A700"],
-    color: "#fff"
-  },
-  tier4: {
     background: deepOrange["A400"],
     color: "#fff"
   },
-  tier5: {
+  tier4: {
     background: red["A700"],
+    color: "#fff"
+  },
+  tier5: {
+    backgroundColor: purple["A400"],
+    backgroundImage: `linear-gradient(315deg, ${purple["A700"]} 0%, ${purple["A200"]} 74%)`,
     color: "#fff"
   },
   admin: {
     background: grey["900"],
+
     color: "#fff"
+  },
+  moderator: {
+    backgroundColor: "#b8c6db",
+    backgroundImage: "linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%)",
+    color: "#000"
   }
 });
 

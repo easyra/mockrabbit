@@ -296,5 +296,6 @@ const useStyles = makeStyles(theme => ({
   tier3: { ...theme.tier3 },
   tier4: { ...theme.tier4 },
   tier5: { ...theme.tier5 },
-  admin: { ...theme.admin }
+  admin: { ...theme.admin },
+  moderator: { ...theme.moderator }
 }));
