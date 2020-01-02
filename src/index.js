@@ -5,13 +5,35 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { BrowserRouter } from "react-router-dom";
-import { blue, red } from "@material-ui/core/colors";
+import { red, grey, purple, pink, deepOrange } from "@material-ui/core/colors";
 import FirebaseWrapper from "./components/FirebaseWrapper";
 
 const theme = createMuiTheme({
   palette: {
-    // primary: blue,
-    // secondary: red
+    primary: {
+      main: grey[900]
+    },
+    secondary: { main: red["A700"] }
+  },
+  tier1: {
+    background: red["A700"],
+    color: "#fff"
+  },
+  tier2: {
+    background: deepOrange["A400"],
+    color: "#fff"
+  },
+  tier3: {
+    background: purple["A400"],
+    color: "#fff"
+  },
+  tier4: {
+    background: pink["A400"],
+    color: "#fff"
+  },
+  tier5: {
+    background: grey["900"],
+    color: "#fff"
   }
 });
 

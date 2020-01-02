@@ -5,9 +5,7 @@ import {
   Typography,
   makeStyles,
   AppBar,
-  Toolbar,
   TextField,
-  Icon,
   IconButton,
   Menu,
   MenuItem
@@ -62,7 +60,7 @@ const Live = () => {
   const handleSubmit = async e => {
     //------Chat Box Text Submit
     if (e.key === "Enter" && textInput.length > 0) {
-      await handleNewMessage(userInfo.username, textInput);
+      await handleNewMessage(userInfo.username, textInput, userInfo.type);
       setTextInput("");
     }
   };
@@ -126,7 +124,7 @@ const Live = () => {
               }`}
               onClick={scrollDown}
             >
-              <Typography variant='body2'>Scroll Down</Typography>
+              <Typography variant='button'>Scroll Down</Typography>
             </Paper>
             {renderChatBox()}
           </div>
@@ -151,7 +149,12 @@ const Live = () => {
           variant='outlined'
           size='small'
         />
-        <AppBar position='static' color='primary' elevation={0}>
+        <AppBar
+          position='static'
+          color='default'
+          style={{ background: "#fff" }}
+          elevation={0}
+        >
           <Menu
             id='simple-menu'
             anchorEl={anchorEl}
@@ -201,11 +204,15 @@ const Live = () => {
       </Paper>
     );
   };
-  const renderChatMessage = ({ username, text, key }) => {
+  const renderChatMessage = ({ username, text, type = "default", key }) => {
     return (
-      <Paper key={key} className={classes.message} elevation={2}>
-        <Typography variant='body2' style={{ opacity: 0.8 }}>
-          <strong>{username}: </strong>
+      <Paper
+        key={key}
+        className={`${classes.message} ${classes[type]}`}
+        elevation={2}
+      >
+        <Typography variant='body2'>
+          <strong className={""}>{username}: </strong>
           {text}
         </Typography>
       </Paper>
@@ -282,5 +289,11 @@ const useStyles = makeStyles(theme => ({
   active: {
     opacity: 1,
     cursor: "pointer"
-  }
+  },
+
+  tier1: { ...theme.tier1 },
+  tier2: { ...theme.tier2 },
+  tier3: { ...theme.tier3 },
+  tier4: { ...theme.tier4 },
+  tier5: { ...theme.tier5 }
 }));

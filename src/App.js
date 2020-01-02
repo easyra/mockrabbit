@@ -13,6 +13,15 @@ function App() {
     <>
       {loaded && (
         <div className='App'>
+          <div
+            style={{
+              position: "fixed",
+              width: "100%",
+              height: "100%",
+              background: "#eeeeee",
+              zIndex: "-10"
+            }}
+          ></div>
           <Route component={Navbar} path='/' />
           <Switch>
             <Route exact strict path='/' component={Home} />

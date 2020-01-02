@@ -7,7 +7,8 @@ import {
   Button,
   makeStyles,
   MenuItem,
-  Menu
+  Menu,
+  Hidden
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -63,20 +64,26 @@ const Navbar = ({ location, history }) => {
         color='primary'
       >
         <Toolbar>
-          <IconButton color='inherit'>
-            <MenuIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton color='inherit'>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
+
           <div className={classes.title}>
-            {!homeButtonHidden && (
-              <Button component={Link} to='/' color='inherit'>
-                Home
-              </Button>
-            )}
-            <Button color='inherit'>YouTube</Button>
-            <Button color='inherit'>Facebook</Button>
-            <Button color='inherit'>Discord</Button>
-            <Button color='inherit'>Twitch</Button>
-            <Button color='inherit'>Twitter</Button>
+            <Hidden smDown>
+              {!homeButtonHidden && (
+                <Button component={Link} to='/' color='inherit'>
+                  Home
+                </Button>
+              )}
+              <Button color='inherit'>YouTube</Button>
+              <Button color='inherit'>Facebook</Button>
+              <Button color='inherit'>Discord</Button>
+              <Button color='inherit'>Twitch</Button>
+              <Button color='inherit'>Twitter</Button>
+            </Hidden>
+
             <Button color='secondary' variant='contained'>
               <FavoriteIcon />
               Support The Stream
