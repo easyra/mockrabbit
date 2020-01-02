@@ -52,7 +52,11 @@ const Navbar = ({ location, history }) => {
         open={Boolean(accountNode)}
         onClose={() => setAccountNode(null)}
       >
-        <MenuItem component={Link} to='/profile'>
+        <MenuItem
+          component={Link}
+          onClick={() => setAccountNode(null)}
+          to='/profile'
+        >
           Profile
         </MenuItem>
         <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
@@ -84,8 +88,11 @@ const Navbar = ({ location, history }) => {
               <Button color='inherit'>Twitter</Button>
             </Hidden>
 
-            <Button color='secondary' variant='contained'>
-              <FavoriteIcon />
+            <Button
+              color='secondary'
+              variant='contained'
+              startIcon={<FavoriteIcon />}
+            >
               Support The Stream
             </Button>
           </div>

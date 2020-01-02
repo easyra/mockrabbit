@@ -85,11 +85,9 @@ const CTA = () => {
             variant='contained'
             color='secondary'
             component={Link}
+            startIcon={<StarIcon />}
             to='/profile'
           >
-            <Icon>
-              <StarIcon />
-            </Icon>
             Join the Community
           </Button>
         </div>
@@ -100,9 +98,6 @@ const CTA = () => {
   const renderSocialCards = name => {
     return (
       <List subheader={<ListSubheader>{name}</ListSubheader>}>
-        <ListItem button>
-          <ListItemText primary='hello?' />
-        </ListItem>
         <ListItem button>
           <ListItemText primary='hello?' />
         </ListItem>

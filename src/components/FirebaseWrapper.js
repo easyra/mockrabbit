@@ -49,6 +49,19 @@ const FirebaseWrapper = ({ children, history }) => {
     database.ref("/chat").off();
   };
 
+  const giveSubscription = (subTier, uid) => {
+    if (uid) {
+    } else {
+      if (auth.currentUser) {
+        firestore
+          .collection("users")
+          .doc(auth.currentUser.uid)
+          .update({ type: `tier${subTier}` });
+        getUserInfo();
+      }
+    }
+  };
+
   const getUserInfo = () => {
     if (auth.currentUser) {
       firebase
@@ -98,7 +111,8 @@ const FirebaseWrapper = ({ children, history }) => {
         chatTurnedOn,
         chatMessages,
         addMessage,
-        chatTurnedOff
+        chatTurnedOff,
+        giveSubscription
       }}
     >
       {children}

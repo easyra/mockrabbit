@@ -42,7 +42,6 @@ const Home = ({ history }) => {
         </Grid>
       </Grid>
       {renderVideoCards()}
-      {renderFooter()}
     </>
   );
 };

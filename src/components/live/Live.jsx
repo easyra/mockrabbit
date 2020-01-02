@@ -72,7 +72,7 @@ const Live = () => {
   };
 
   const handleNewMessage = async (username, text) => {
-    await addMessage(username, text);
+    await addMessage(username, text, userInfo.type);
     if (shouldScroll) {
       scrollDown();
     }
