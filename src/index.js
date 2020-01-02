@@ -18,6 +18,7 @@ import {
   indigo
 } from "@material-ui/core/colors";
 import FirebaseWrapper from "./components/FirebaseWrapper";
+import { SnackbarProvider } from "notistack";
 
 const theme = createMuiTheme({
   palette: {
@@ -55,11 +56,13 @@ const theme = createMuiTheme({
 const renderApp = () => {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <FirebaseWrapper>
-          <App />
-        </FirebaseWrapper>
-      </ThemeProvider>
+      <SnackbarProvider>
+        <ThemeProvider theme={theme}>
+          <FirebaseWrapper>
+            <App />
+          </FirebaseWrapper>
+        </ThemeProvider>
+      </SnackbarProvider>
     </BrowserRouter>
   );
 };

@@ -15,8 +15,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { FirebaseContext } from "./FirebaseWrapper";
 import { auth } from "./firebase";
+import { withSnackbar } from "notistack";
 
-const Navbar = ({ location, history }) => {
+const Navbar = ({ location, history, enqueueSnackbar }) => {
   const classes = useStyles();
   let homeButtonHidden = location.pathname === "/";
   const [loginNode, setLoginNode] = useState(null);
@@ -28,14 +29,11 @@ const Navbar = ({ location, history }) => {
     if (auth.currentUser) {
       getUserInfo();
     } else {
-      googleSignin().then(() => {});
+      googleSignin().then(() => {
+        enqueueSnackbar("Login Successful");
+      });
     }
     setLoginNode(null);
-  };
-  const handleSignOut = () => {
-    signOut().then(() => {
-      setAccountNode(null);
-    });
   };
 
   return (
@@ -46,20 +44,6 @@ const Navbar = ({ location, history }) => {
         onClose={() => setLoginNode(null)}
       >
         <MenuItem onClick={handleGoogleSignIn}>Google</MenuItem>
-      </Menu>
-      <Menu
-        anchorEl={accountNode}
-        open={Boolean(accountNode)}
-        onClose={() => setAccountNode(null)}
-      >
-        <MenuItem
-          component={Link}
-          onClick={() => setAccountNode(null)}
-          to='/profile'
-        >
-          Profile
-        </MenuItem>
-        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
       </Menu>
       <AppBar
         className={classes.root}
@@ -98,10 +82,7 @@ const Navbar = ({ location, history }) => {
           </div>
 
           {userStatus ? (
-            <Button
-              color='inherit'
-              onClick={({ currentTarget }) => setAccountNode(currentTarget)}
-            >
+            <Button color='inherit' component={Link} to='/profile'>
               Account
             </Button>
           ) : (
@@ -121,7 +102,7 @@ const Navbar = ({ location, history }) => {
   );
 };
 
-export default Navbar;
+export default withSnackbar(Navbar);
 
 const useStyles = makeStyles(theme => ({
   root: {

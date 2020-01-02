@@ -2,12 +2,13 @@ import firebase, { firestore, database } from "./firebase";
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import generateRandomAnimalName from "random-animal-name-generator";
+import { withSnackbar } from "notistack";
 
 export const FirebaseContext = React.createContext({});
 export const FirebaseConsumer = FirebaseContext.Consumer;
 export const FirebaseProvider = FirebaseContext.Provider;
 
-const FirebaseWrapper = ({ children, history }) => {
+const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const auth = firebase.auth();
   const GoogleProvider = new firebase.auth.GoogleAuthProvider();
   const [userStatus, setUserStatus] = useState(null);
@@ -15,7 +16,7 @@ const FirebaseWrapper = ({ children, history }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
-    setDummyMessages();
+    // setDummyMessages();
     auth.onAuthStateChanged(user => {
       if (user) {
         getUserInfo();
@@ -30,6 +31,7 @@ const FirebaseWrapper = ({ children, history }) => {
   };
 
   const signOut = () => {
+    history.push("/");
     return auth.signOut();
   };
 
@@ -62,6 +64,7 @@ const FirebaseWrapper = ({ children, history }) => {
           .doc(auth.currentUser.uid)
           .update({ sub: `tier${subTier}` });
         getUserInfo();
+        enqueueSnackbar(`You became a tier ${subTier} sub! Congratz!!`);
       }
     }
   };
@@ -80,12 +83,14 @@ const FirebaseWrapper = ({ children, history }) => {
             setUserInfo({ username, sub, role });
           } else {
             history.push("/profile");
-            alert("Must create a username for your account to continue");
+            enqueueSnackbar(
+              "Must create a username for your account to continue"
+            );
             setUserStatus(false);
           }
         });
     } else {
-      console.log("no user signed in");
+      enqueueSnackbar("no user signed in");
     }
   };
 
@@ -124,7 +129,7 @@ const FirebaseWrapper = ({ children, history }) => {
   );
 };
 
-export default withRouter(FirebaseWrapper);
+export default withSnackbar(withRouter(FirebaseWrapper));
 const typeArray = [
   "tier1",
   "tier1",

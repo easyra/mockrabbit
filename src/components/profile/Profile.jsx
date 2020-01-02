@@ -14,9 +14,13 @@ import { makeStyles } from "@material-ui/styles";
 const Profile = ({ history }) => {
   const classes = useStyles();
   const [input, setInput] = useState({ username: "" });
-  const { userStatus, googleSignin, userInfo, giveSubscription } = useContext(
-    FirebaseContext
-  );
+  const {
+    userStatus,
+    googleSignin,
+    userInfo,
+    giveSubscription,
+    signOut
+  } = useContext(FirebaseContext);
   const needsUsername = !userStatus && auth.currentUser;
 
   const handleChange = e => {
@@ -89,7 +93,12 @@ const Profile = ({ history }) => {
       <>
         <Grid item xs={3}>
           <Paper className={classes.paper} elevation={4}>
-            <Typography variant='h6'>{userInfo.username}</Typography>
+            <Typography gutterBottom variant='h6'>
+              {userInfo.username}
+            </Typography>
+            <Button onClick={signOut} color='secondary' variant='contained'>
+              Sign Out
+            </Button>
           </Paper>
         </Grid>
         <Grid item xs={3}>
