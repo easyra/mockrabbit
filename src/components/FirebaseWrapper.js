@@ -15,7 +15,7 @@ const FirebaseWrapper = ({ children, history }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
-    // setDummyMessages();
+    setDummyMessages();
     auth.onAuthStateChanged(user => {
       if (user) {
         getUserInfo();
@@ -33,7 +33,11 @@ const FirebaseWrapper = ({ children, history }) => {
     return auth.signOut();
   };
 
-  const addMessage = (username, text, type = "") => {
+  const addMessage = (
+    text,
+    username = userInfo.username,
+    type = userInfo.role || userInfo.sub
+  ) => {
     const key = database.ref("/chat").push().key;
     database.ref("/chat").update({ [key]: { username, text, key, type } });
   };
@@ -56,7 +60,7 @@ const FirebaseWrapper = ({ children, history }) => {
         firestore
           .collection("users")
           .doc(auth.currentUser.uid)
-          .update({ type: `tier${subTier}` });
+          .update({ sub: `tier${subTier}` });
         getUserInfo();
       }
     }
@@ -71,9 +75,9 @@ const FirebaseWrapper = ({ children, history }) => {
         .get()
         .then(doc => {
           if (doc.exists) {
-            const { username, type } = doc.data();
+            const { username, sub, role } = doc.data();
             setUserStatus(true);
-            setUserInfo({ username, type });
+            setUserInfo({ username, sub, role });
           } else {
             history.push("/profile");
             alert("Must create a username for your account to continue");
@@ -96,7 +100,7 @@ const FirebaseWrapper = ({ children, history }) => {
           .slice(0, 12) + Math.floor(Math.random() * 500);
       const text =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-      addMessage(username, text, type);
+      addMessage(text, username, type);
     }
   };
 

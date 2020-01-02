@@ -60,7 +60,7 @@ const Live = () => {
   const handleSubmit = async e => {
     //------Chat Box Text Submit
     if (e.key === "Enter" && textInput.length > 0) {
-      await handleNewMessage(userInfo.username, textInput, userInfo.type);
+      await handleNewMessage(textInput);
       setTextInput("");
     }
   };
@@ -71,8 +71,8 @@ const Live = () => {
     }
   };
 
-  const handleNewMessage = async (username, text) => {
-    await addMessage(username, text, userInfo.type);
+  const handleNewMessage = async text => {
+    await addMessage(text);
     if (shouldScroll) {
       scrollDown();
     }
@@ -295,5 +295,6 @@ const useStyles = makeStyles(theme => ({
   tier2: { ...theme.tier2 },
   tier3: { ...theme.tier3 },
   tier4: { ...theme.tier4 },
-  tier5: { ...theme.tier5 }
+  tier5: { ...theme.tier5 },
+  admin: { ...theme.admin }
 }));

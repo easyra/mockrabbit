@@ -5,7 +5,18 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { BrowserRouter } from "react-router-dom";
-import { red, grey, purple, pink, deepOrange } from "@material-ui/core/colors";
+import {
+  red,
+  grey,
+  purple,
+  pink,
+  deepOrange,
+  deepPurple,
+  lightBlue,
+  blue,
+  green,
+  indigo
+} from "@material-ui/core/colors";
 import FirebaseWrapper from "./components/FirebaseWrapper";
 
 const theme = createMuiTheme({
@@ -16,22 +27,26 @@ const theme = createMuiTheme({
     secondary: { main: red["A700"] }
   },
   tier1: {
-    background: red["A700"],
+    background: lightBlue["A700"],
     color: "#fff"
   },
   tier2: {
-    background: deepOrange["A400"],
+    background: indigo["A700"],
     color: "#fff"
   },
   tier3: {
-    background: purple["A400"],
+    background: deepPurple["A700"],
     color: "#fff"
   },
   tier4: {
-    background: pink["A400"],
+    background: deepOrange["A400"],
     color: "#fff"
   },
   tier5: {
+    background: red["A700"],
+    color: "#fff"
+  },
+  admin: {
     background: grey["900"],
     color: "#fff"
   }
