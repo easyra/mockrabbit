@@ -14,6 +14,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userStatus, setUserStatus] = useState(null);
   const [userInfo, setUserInfo] = useState({});
   const [chatMessages, setChatMessages] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     // setDummyMessages();
@@ -50,9 +51,47 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         setChatMessages(Object.values(snapshot.val()));
       }
     });
+    database.ref("/chatUserList").on("value", snapshot => {
+      if (snapshot.exists()) {
+        setUserList(Object.keys(snapshot.val()));
+      }
+    });
+    fetchUsername().then(username => {
+      database
+        .ref("/chatUserList")
+        .onDisconnect()
+        .update({ [username]: null });
+    });
   };
   const chatTurnedOff = () => {
     database.ref("/chat").off();
+    database.ref("/chatUserList").off();
+  };
+  const changedUserInUserList = val => {
+    //null for delete, true to add user
+    fetchUsername().then(username => {
+      if (username) {
+        database.ref("/chatUserList").update({ [userInfo.username]: val });
+      }
+    });
+  };
+
+  useEffect(() => {
+    // if (userStatus !== null && userInfo.username !== undefined) {
+    //   addUserToUserList();
+    // }
+  });
+
+  const fetchUsername = async () => {
+    if (userStatus) {
+      const doc = await firestore
+        .collection("users")
+        .doc(auth.currentUser.uid)
+        .get();
+      return doc.data().username;
+    } else {
+      return false;
+    }
   };
 
   const giveSubscription = (subTier, uid) => {
@@ -114,6 +153,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
       value={{
         googleSignin,
         userInfo,
+        userList,
         userStatus,
         signOut,
         getUserInfo,
@@ -121,7 +161,8 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         chatMessages,
         addMessage,
         chatTurnedOff,
-        giveSubscription
+        giveSubscription,
+        changedUserInUserList
       }}
     >
       {children}

@@ -13,6 +13,8 @@ import {
 import { Link } from "react-router-dom";
 import MenuIcon from "@material-ui/icons/Menu";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import LiveTvIcon from "@material-ui/icons/LiveTv";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { FirebaseContext } from "./FirebaseWrapper";
 import { auth } from "./firebase";
 import { withSnackbar } from "notistack";
@@ -80,7 +82,14 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               Support The Stream
             </Button>
           </div>
-
+          <Button
+            component={Link}
+            to='/live'
+            color='inherit'
+            startIcon={<LiveTvIcon />}
+          >
+            Stream
+          </Button>
           {userStatus ? (
             <Button color='inherit' component={Link} to='/profile'>
               Account
@@ -93,9 +102,6 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               Login
             </Button>
           )}
-          <Button component={Link} to='/live' color='inherit'>
-            Stream
-          </Button>
         </Toolbar>
       </AppBar>
     </>

@@ -29,12 +29,15 @@ const Live = () => {
     chatTurnedOn,
     chatTurnedOff,
     chatMessages,
-    addMessage
+    addMessage,
+    changedUserInUserList,
+    userList
   } = useContext(FirebaseContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [textInput, setTextInput] = useState("");
   const [shouldScroll, setShouldScroll] = useState(true);
   const [chatLoaded, setChatLoaded] = useState(false);
+  const [activeUser, setActiveUser] = useState(null);
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
@@ -164,24 +167,11 @@ const Live = () => {
             style={{ maxHeight: 500 }}
           >
             <Typography variant='h6' style={{ padding: 5 }}>
-              UserList(10)
+              UserList({userList.length})
             </Typography>
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>LogoutLogoutLogoutLogout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>{" "}
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>LogoutLogoutLogoutLogout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            {userList.map(name => {
+              return <MenuItem onClick={handleClose}>{name}</MenuItem>;
+            })}
           </Menu>
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
@@ -238,6 +228,17 @@ const Live = () => {
     }
     return () => chatTurnedOff();
   }, []);
+
+  useEffect(() => {
+    if (userInfo.username !== undefined && !activeUser) {
+      changedUserInUserList(true);
+      setActiveUser(true);
+    }
+
+    return function cleanup() {
+      changedUserInUserList(null);
+    };
+  }, [userInfo]);
   //----------------------------------------------Render
   return (
     <div>
