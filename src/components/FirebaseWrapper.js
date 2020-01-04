@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import generateRandomAnimalName from "random-animal-name-generator";
 import { withSnackbar } from "notistack";
+import { red } from "@material-ui/core/colors";
+import { Button } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 export const FirebaseContext = React.createContext({});
 export const FirebaseConsumer = FirebaseContext.Consumer;
@@ -15,6 +18,17 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userInfo, setUserInfo] = useState({});
   const [chatMessages, setChatMessages] = useState([]);
   const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    // setDummyMessages();
+
+    setInterval(() => {
+      const { text, action } = messageArr[
+        Math.floor(Math.random() * messageArr.length)
+      ];
+      enqueueSnackbar(text, { action });
+    }, 900000);
+  }, []);
 
   useEffect(() => {
     // setDummyMessages();
@@ -103,7 +117,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
           .doc(auth.currentUser.uid)
           .update({ sub: `tier${subTier}` });
         getUserInfo();
-        enqueueSnackbar(`You became a tier ${subTier} sub! Congratz!!`);
+        enqueueSnackbar(`You became a tier ${subTier} sub! Congratz!!`, {
+          variant: "success"
+        });
       }
     }
   };
@@ -213,4 +229,54 @@ const typeArray = [
   "",
   "",
   ""
+];
+const messageArr = [
+  {
+    text: "twitter.com/mockrabbit",
+    action: (
+      <Button variant='contained' color='primary'>
+        Follow Me
+      </Button>
+    )
+  },
+  {
+    text: "Join the Discord",
+    action: (
+      <Button variant='contained' color='primary'>
+        Join Here
+      </Button>
+    )
+  },
+  {
+    text: "twitch.tv/mockrabbit",
+    action: (
+      <Button variant='contained' color='primary'>
+        Follow Me
+      </Button>
+    )
+  },
+  {
+    text: "facebook.com/mockrabbit",
+    action: (
+      <Button variant='contained' color='primary'>
+        Follow Me
+      </Button>
+    )
+  },
+  {
+    text: "Support the Stream",
+    action: (
+      <Button variant='contained' startIcon={<FavoriteIcon />} color='primary'>
+        Subscribe
+      </Button>
+    )
+  },
+  {
+    text: "Support the Stream",
+    action: (
+      <Button variant='contained' startIcon={<FavoriteIcon />} color='primary'>
+        Donate
+      </Button>
+    )
+  }
 ];

@@ -63,13 +63,13 @@ const theme = createMuiTheme({
 const renderApp = () => {
   return (
     <BrowserRouter>
-      <SnackbarProvider>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider hideIconVariant>
           <FirebaseWrapper>
             <App />
           </FirebaseWrapper>
-        </ThemeProvider>
-      </SnackbarProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };

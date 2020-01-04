@@ -19,8 +19,9 @@ import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
+import { withSnackbar } from "notistack";
 
-const Live = () => {
+const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
   const chatScroll = useRef(null);
   const {
@@ -63,8 +64,13 @@ const Live = () => {
   const handleSubmit = async e => {
     //------Chat Box Text Submit
     if (e.key === "Enter" && textInput.length > 0) {
-      await handleNewMessage(textInput);
-      setTextInput("");
+      if (userStatus) {
+        await handleNewMessage(textInput);
+        setTextInput("");
+      } else {
+        enqueueSnackbar("Log in to send you message");
+        history.push("/profile");
+      }
     }
   };
 
@@ -97,6 +103,9 @@ const Live = () => {
       setShouldScroll(true);
     }
   };
+  //------------------------------------------------------ TextValidation
+
+  const textValidated = text => {};
 
   //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
@@ -250,7 +259,7 @@ const Live = () => {
   );
 };
 
-export default Live;
+export default withSnackbar(Live);
 
 //-----------------------------------------------------------CSS
 
