@@ -64,7 +64,13 @@ const renderApp = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <SnackbarProvider hideIconVariant>
+        <SnackbarProvider
+          hideIconVariant
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center"
+          }}
+        >
           <FirebaseWrapper>
             <App />
           </FirebaseWrapper>

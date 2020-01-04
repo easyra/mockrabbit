@@ -110,14 +110,18 @@ const Live = ({ history, enqueueSnackbar }) => {
   //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
     return (
-      <Grid item md={9} sm={10} xs={12}>
-        <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
-      </Grid>
+      <iframe
+        frameborder='0'
+        src='https://player.twitch.tv/?channel=mockrabbit'
+        allowfullscreen
+        style={{ position: "absolute", height: "calc(100vh - 64px)" }}
+        width='100%'
+      ></iframe>
     );
   };
   const renderChatMenu = () => {
     return (
-      <Grid item md={3} sm={10} xs={12}>
+      <>
         <div className={classes.chatWrapper}>
           <div className={classes.chat2}>
             <SimpleBar
@@ -141,7 +145,7 @@ const Live = ({ history, enqueueSnackbar }) => {
             {renderChatBox()}
           </div>
         </div>
-      </Grid>
+      </>
     );
   };
 
@@ -250,11 +254,18 @@ const Live = ({ history, enqueueSnackbar }) => {
   }, [userInfo]);
   //----------------------------------------------Render
   return (
-    <div>
-      <Grid container justify='center'>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center"
+      }}
+    >
+      <div style={{ width: "100%", position: "relative", flex: 1 }}>
         {renderVideoPlayer()}
+      </div>
+      <div style={{ width: "350px", height: "calc(100vh - 77px)" }}>
         {renderChatMenu()}
-      </Grid>
+      </div>
     </div>
   );
 };
@@ -277,8 +288,8 @@ const useStyles = makeStyles(theme => ({
   },
   chat2: {
     position: "absolute",
-    height: "80%",
-    minHeight: "300px",
+    height: "calc(100% - 144px);",
+    // minHeight: "300px",
     width: "100%"
   },
   chatBar: {
