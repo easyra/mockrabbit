@@ -96,7 +96,9 @@ const Live = ({ history, enqueueSnackbar }) => {
 
   const handleScroll = () => {
     // chatScroll.current.recalculate();
-
+    console.log("shouldScroll:", shouldScroll);
+    console.log("scrollTop", chatScroll.current.scrollTop);
+    console.log("scrollHeight", chatScroll.current.scrollHeight);
     if (
       chatScroll.current.scrollTop <=
       chatScroll.current.scrollHeight - 540 - 50
@@ -137,21 +139,21 @@ const Live = ({ history, enqueueSnackbar }) => {
       <>
         <div className={classes.chatWrapper}>
           <div className={classes.chat2}>
-            <div
+            <SimpleBar
               style={{
-                height: "100%",
-                overflowY: "scroll",
-                overflowX: "hidden"
+                height: "100%"
+                // overflowY: "scroll",
+                // overflowX: "hidden"
               }}
               forceVisible='y'
               autoHide={false}
               scrollableNodeProps={{ ref: chatScroll }}
-              ref={chatScroll}
+              // ref={chatScroll}
               onScroll={handleScroll}
             >
               {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
               <div className='bottom'></div>
-            </div>
+            </SimpleBar>
             <Paper
               className={`${classes.shouldScroll} ${
                 !shouldScroll ? classes.active : ""
@@ -348,7 +350,8 @@ const useStyles = makeStyles(theme => ({
     margin: 5,
     animation: "fadeIn 0.3s 1",
     color: "#fff",
-    background: "#212121"
+    background: "#212121",
+    width: "fit-content"
     // transition: "all 0.2s"
   },
   chat2: {
@@ -363,7 +366,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end"
   },
   shouldScroll: {
-    background: theme.palette.secondary.main,
+    background: theme.palette.primary.dark,
     color: theme.palette.primary.contrastText,
     margin: "0 5px",
     padding: 5,
