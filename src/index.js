@@ -15,7 +15,11 @@ import {
   lightBlue,
   blue,
   green,
-  indigo
+  indigo,
+  blueGrey,
+  amber,
+  lightGreen,
+  cyan
 } from "@material-ui/core/colors";
 import FirebaseWrapper from "./components/FirebaseWrapper";
 import { SnackbarProvider } from "notistack";
@@ -49,13 +53,18 @@ const theme = createMuiTheme({
     color: "#fff"
   },
   admin: {
-    background: grey["900"],
+    background: `linear-gradient(315deg, ${amber["A700"]} 0%, ${amber["A200"]} 74%)`,
 
-    color: "#fff"
+    color: "#000"
   },
   moderator: {
     backgroundColor: "#b8c6db",
-    backgroundImage: "linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%)",
+    backgroundImage: `linear-gradient(315deg, ${lightGreen["A700"]} 0%, ${lightGreen["A200"]} 74%)`,
+    color: "#000"
+  },
+  notable: {
+    background: `linear-gradient(315deg, ${cyan["A700"]} 0%, ${cyan["A200"]} 74%)`,
+
     color: "#000"
   }
 });

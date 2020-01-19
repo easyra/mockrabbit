@@ -8,7 +8,8 @@ import {
   TextField,
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
+  Chip
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
@@ -20,6 +21,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
+import { blueGrey } from "@material-ui/core/colors";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -105,7 +107,17 @@ const Live = ({ history, enqueueSnackbar }) => {
   };
   //------------------------------------------------------ TextValidation
 
-  const textValidated = text => {};
+  const textValidated = text => {
+    const textArr = text.split(" ");
+    for (let i = 0; i < textArr.length; i++) {
+      if (emotes[textArr[i]]) {
+        textArr[i] = emotes[textArr[i]];
+      } else {
+        textArr[i] += " "; // added spacing
+      }
+    }
+    return textArr;
+  };
 
   //------------------------------------------------------ Live Components
   const renderVideoPlayer = () => {
@@ -124,16 +136,21 @@ const Live = ({ history, enqueueSnackbar }) => {
       <>
         <div className={classes.chatWrapper}>
           <div className={classes.chat2}>
-            <SimpleBar
-              style={{ height: "100%" }}
+            <div
+              style={{
+                height: "100%",
+                overflowY: "scroll",
+                overflowX: "hidden"
+              }}
               forceVisible='y'
               autoHide={false}
               scrollableNodeProps={{ ref: chatScroll }}
+              ref={chatScroll}
               onScroll={handleScroll}
             >
               {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
               <div className='bottom'></div>
-            </SimpleBar>
+            </div>
             <Paper
               className={`${classes.shouldScroll} ${
                 !shouldScroll ? classes.active : ""
@@ -208,15 +225,18 @@ const Live = ({ history, enqueueSnackbar }) => {
     );
   };
   const renderChatMessage = ({ username, text, type = "default", key }) => {
+    const chipClass = type.length > 0 ? classes[type] : classes.defaultChip;
     return (
-      <Paper
-        key={key}
-        className={`${classes.message} ${classes[type]}`}
-        elevation={2}
-      >
-        <Typography variant='body2'>
-          <strong className={""}>{username}: </strong>
-          {text}
+      <Paper variant='' key={key} elevation={3} className={classes.message}>
+        <Typography variant='body2' style={{ wordBreak: "break-word" }}>
+          <Chip
+            size='small'
+            style={{ marginRight: 5 }}
+            className={chipClass}
+            label={username}
+          ></Chip>
+          {textValidated("OMEGALUL")}
+          {textValidated(text)}
         </Typography>
       </Paper>
     );
@@ -283,7 +303,9 @@ const useStyles = makeStyles(theme => ({
   message: {
     padding: 5,
     margin: 5,
-    animation: "fadeIn 0.3s 1"
+    animation: "fadeIn 0.3s 1",
+    color: "#fff",
+    background: "#212121"
     // transition: "all 0.2s"
   },
   chat2: {
@@ -298,7 +320,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end"
   },
   shouldScroll: {
-    background: theme.palette.primary.main,
+    background: theme.palette.secondary.main,
     color: theme.palette.primary.contrastText,
     margin: "0 5px",
     padding: 5,
@@ -311,6 +333,10 @@ const useStyles = makeStyles(theme => ({
     opacity: 1,
     cursor: "pointer"
   },
+  defaultChip: {
+    background: blueGrey[400],
+    color: "#fff"
+  },
 
   tier1: { ...theme.tier1 },
   tier2: { ...theme.tier2 },
@@ -320,3 +346,33 @@ const useStyles = makeStyles(theme => ({
   admin: { ...theme.admin },
   moderator: { ...theme.moderator }
 }));
+
+const emotes = {
+  monkaS: (
+    <img
+      style={{
+        margin: "0 5px -7px 0",
+        padding: "3px",
+        borderRadius: "50%",
+        background: "#fff"
+      }}
+      src='https://cdn.betterttv.net/emote/56e9f494fff3cc5c35e5287e/1x'
+    />
+  ),
+  PepeHands: (
+    <img
+      style={{
+        margin: "0 5px -7px 0"
+      }}
+      src='https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/1x'
+    />
+  ),
+  OMEGALUL: (
+    <img
+      style={{
+        margin: "0 5px -7px 0"
+      }}
+      src='https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/1x'
+    />
+  )
+};
