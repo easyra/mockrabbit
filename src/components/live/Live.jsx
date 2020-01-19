@@ -37,6 +37,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     userList
   } = useContext(FirebaseContext);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [emoteEl, setEmoteEl] = useState(null);
   const [textInput, setTextInput] = useState("");
   const [shouldScroll, setShouldScroll] = useState(true);
   const [chatLoaded, setChatLoaded] = useState(false);
@@ -188,21 +189,8 @@ const Live = ({ history, enqueueSnackbar }) => {
           style={{ background: "#fff" }}
           elevation={0}
         >
-          <Menu
-            id='simple-menu'
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            style={{ maxHeight: 500 }}
-          >
-            <Typography variant='h6' style={{ padding: 5 }}>
-              UserList({userList.length})
-            </Typography>
-            {userList.map(name => {
-              return <MenuItem onClick={handleClose}>{name}</MenuItem>;
-            })}
-          </Menu>
+          {renderUserListMenu()}
+          {renderEmoteListMenu()}
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
               <IconButton>
@@ -211,7 +199,10 @@ const Live = ({ history, enqueueSnackbar }) => {
             </div>
 
             <IconButton>
-              <EmojiEmotionsIcon fontSize='small' />
+              <EmojiEmotionsIcon
+                onClick={e => setEmoteEl(e.target)}
+                fontSize='small'
+              />
             </IconButton>
             <IconButton onClick={handleClick}>
               <ChatBubbleIcon fontSize='small' />
@@ -224,6 +215,53 @@ const Live = ({ history, enqueueSnackbar }) => {
       </Paper>
     );
   };
+
+  const renderUserListMenu = () => (
+    <Menu
+      id='simple-menu'
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleClose}
+      style={{ maxHeight: 500 }}
+    >
+      <Typography variant='h6' style={{ padding: 5 }}>
+        UserList({userList.length})
+      </Typography>
+      {userList.map(name => {
+        return <MenuItem onClick={handleClose}>{name}</MenuItem>;
+      })}
+    </Menu>
+  );
+
+  const renderEmoteListMenu = () => (
+    <Menu
+      id='simple-menu'
+      anchorEl={emoteEl}
+      keepMounted
+      open={Boolean(emoteEl)}
+      onClose={() => setEmoteEl(null)}
+      style={{ maxHeight: 500 }}
+    >
+      <Typography variant='h6' style={{ padding: 5 }}>
+        Emotes
+      </Typography>
+      {Object.keys(emotes).map(emote => {
+        return (
+          <span
+            title={emote}
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setTextInput(prevState => `${prevState} ${emote}`);
+              setEmoteEl(null);
+            }}
+          >
+            {emotes[emote]}
+          </span>
+        );
+      })}
+    </Menu>
+  );
   const renderChatMessage = ({ username, text, type = "default", key }) => {
     const chipClass = type.length > 0 ? classes[type] : classes.defaultChip;
     return (
@@ -235,7 +273,6 @@ const Live = ({ history, enqueueSnackbar }) => {
             className={chipClass}
             label={username}
           ></Chip>
-          {textValidated("OMEGALUL")}
           {textValidated(text)}
         </Typography>
       </Paper>
