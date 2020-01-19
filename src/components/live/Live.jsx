@@ -243,7 +243,7 @@ const Live = ({ history, enqueueSnackbar }) => {
       onClose={() => setEmoteEl(null)}
       style={{ maxHeight: 500 }}
     >
-      <Typography variant='h6' style={{ padding: 5 }}>
+      <Typography variant='h6' style={{ padding: 10 }}>
         Emotes
       </Typography>
       {Object.keys(emotes).map(emote => {
@@ -252,7 +252,13 @@ const Live = ({ history, enqueueSnackbar }) => {
             title={emote}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              setTextInput(prevState => `${prevState} ${emote}`);
+              setTextInput(prevState => {
+                if (prevState.length === 0) {
+                  return emote;
+                } else {
+                  return `${prevState} ${emote}`;
+                }
+              });
               setEmoteEl(null);
             }}
           >
