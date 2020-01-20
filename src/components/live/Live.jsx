@@ -108,7 +108,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   };
   //------------------------------------------------------ TextValidation
 
-  const textValidated = text => {
+  const textValidated = (text, username) => {
     const textArr = text.split(" ");
     for (let i = 0; i < textArr.length; i++) {
       const string = textArr[i];
@@ -124,11 +124,10 @@ const Live = ({ history, enqueueSnackbar }) => {
             className='mentioned'
             onClick={() =>
               setMentionedUsers(prevState => {
-                console.log(prevState);
-                if (prevState.includes(string)) {
+                if (prevState.includes(mentionedUser)) {
                   return prevState.filter(user => user !== mentionedUser);
                 } else {
-                  return [...prevState, mentionedUser];
+                  return [...prevState, mentionedUser, username];
                 }
               })
             }
@@ -156,7 +155,6 @@ const Live = ({ history, enqueueSnackbar }) => {
     );
   };
   const renderChatMenu = () => {
-    console.log(mentionedUsers);
     return (
       <>
         <div className={classes.chatWrapper}>
@@ -338,7 +336,7 @@ const Live = ({ history, enqueueSnackbar }) => {
               })
             }
           ></Chip>
-          {textValidated(text)}
+          {textValidated(text, username)}
         </Typography>
       </Paper>
     );
@@ -410,8 +408,8 @@ const useStyles = makeStyles(theme => ({
     animation: "fadeIn 0.3s 1",
     color: "#fff",
     background: "#212121",
-    width: "fit-content"
-    // transition: "all 0.2s"
+    width: "fit-content",
+    transition: "all 0.2s"
   },
   chat2: {
     position: "absolute",
