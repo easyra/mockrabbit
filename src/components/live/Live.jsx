@@ -42,6 +42,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   const [shouldScroll, setShouldScroll] = useState(true);
   const [chatLoaded, setChatLoaded] = useState(false);
   const [activeUser, setActiveUser] = useState(null);
+  const [mentionedUsers, setMentionedUsers] = useState([]);
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
@@ -96,9 +97,6 @@ const Live = ({ history, enqueueSnackbar }) => {
 
   const handleScroll = () => {
     // chatScroll.current.recalculate();
-    console.log("shouldScroll:", shouldScroll);
-    console.log("scrollTop", chatScroll.current.scrollTop);
-    console.log("scrollHeight", chatScroll.current.scrollHeight);
     if (
       chatScroll.current.scrollTop <=
       chatScroll.current.scrollHeight - 540 - 50
@@ -113,8 +111,31 @@ const Live = ({ history, enqueueSnackbar }) => {
   const textValidated = text => {
     const textArr = text.split(" ");
     for (let i = 0; i < textArr.length; i++) {
-      if (emotes[textArr[i]]) {
-        textArr[i] = emotes[textArr[i]];
+      const string = textArr[i];
+      const mentionedUser = userList.find(
+        element => string.toLowerCase() === element.toLowerCase()
+      );
+      if (emotes[string]) {
+        textArr[i] = emotes[string];
+      } else if (mentionedUser) {
+        textArr[i] = (
+          <a
+            style={{ cursor: "pointer", textDecoration: "underline" }}
+            className='mentioned'
+            onClick={() =>
+              setMentionedUsers(prevState => {
+                console.log(prevState);
+                if (prevState.includes(string)) {
+                  return prevState.filter(user => user !== mentionedUser);
+                } else {
+                  return [...prevState, mentionedUser];
+                }
+              })
+            }
+          >
+            {textArr[i]}{" "}
+          </a>
+        );
       } else {
         textArr[i] += " "; // added spacing
       }
@@ -135,20 +156,29 @@ const Live = ({ history, enqueueSnackbar }) => {
     );
   };
   const renderChatMenu = () => {
+    console.log(mentionedUsers);
     return (
       <>
         <div className={classes.chatWrapper}>
-          <div className={classes.chat2}>
+          <div
+            className={classes.chat2}
+            onClick={e => {
+              if (
+                !e.target.classList.contains("MuiChip-label") &&
+                !e.target.classList.contains("MuiChip-root") &&
+                !e.target.classList.contains("mentioned")
+              ) {
+                setMentionedUsers([]);
+              }
+            }}
+          >
             <SimpleBar
               style={{
                 height: "100%"
-                // overflowY: "scroll",
-                // overflowX: "hidden"
               }}
               forceVisible='y'
               autoHide={false}
               scrollableNodeProps={{ ref: chatScroll }}
-              // ref={chatScroll}
               onScroll={handleScroll}
             >
               {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
@@ -272,14 +302,41 @@ const Live = ({ history, enqueueSnackbar }) => {
   );
   const renderChatMessage = ({ username, text, type = "default", key }) => {
     const chipClass = type.length > 0 ? classes[type] : classes.defaultChip;
+    let opacity = null;
+
+    if (mentionedUsers.length > 0) {
+      if (mentionedUsers.includes(username)) {
+        opacity = "1";
+      } else {
+        opacity = "0.5";
+      }
+    } else {
+      opacity = 1;
+    }
     return (
-      <Paper variant='' key={key} elevation={3} className={classes.message}>
+      <Paper
+        style={{ opacity }}
+        variant=''
+        key={key}
+        elevation={3}
+        className={classes.message}
+      >
         <Typography variant='body2' style={{ wordBreak: "break-word" }}>
           <Chip
             size='small'
-            style={{ marginRight: 5 }}
+            style={{ marginRight: 5, cursor: "pointer" }}
             className={chipClass}
             label={username}
+            clickable={false}
+            onClick={() =>
+              setMentionedUsers(prevState => {
+                if (prevState.includes(username)) {
+                  return prevState.filter(user => user !== username);
+                } else {
+                  return [...prevState, username];
+                }
+              })
+            }
           ></Chip>
           {textValidated(text)}
         </Typography>
@@ -295,6 +352,8 @@ const Live = ({ history, enqueueSnackbar }) => {
       setChatLoaded(true);
     }
   });
+
+  useEffect(() => {}, [mentionedUsers]);
 
   useEffect(() => {
     try {
