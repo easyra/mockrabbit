@@ -36,13 +36,13 @@ const Live = ({ history, enqueueSnackbar }) => {
     changedUserInUserList,
     userList
   } = useContext(FirebaseContext);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [emoteEl, setEmoteEl] = useState(null);
-  const [textInput, setTextInput] = useState("");
-  const [shouldScroll, setShouldScroll] = useState(true);
-  const [chatLoaded, setChatLoaded] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null); // Element Node for ChatRoom Menu
+  const [emoteEl, setEmoteEl] = useState(null); // Element Node for Emote Menu
+  const [textInput, setTextInput] = useState(""); // String for sending messages in chat
+  const [shouldScroll, setShouldScroll] = useState(true); // Boolean that enables auto-scroll when true
+  const [chatLoaded, setChatLoaded] = useState(false); // Boolean that tells you when chat has finished loading
   const [activeUser, setActiveUser] = useState(null);
-  const [mentionedUsers, setMentionedUsers] = useState([]);
+  const [mentionedUsers, setMentionedUsers] = useState([]); // Array of usernames that should be highlighted in chat
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
@@ -188,8 +188,9 @@ const Live = ({ history, enqueueSnackbar }) => {
               }`}
               onClick={scrollDown}
             >
-              <Typography variant='button'>Scroll Down</Typography>
+              <Typography variant='button'>More Messages Below</Typography>
             </Paper>
+
             {renderChatBox()}
           </div>
         </div>
@@ -201,13 +202,13 @@ const Live = ({ history, enqueueSnackbar }) => {
     return (
       <Paper elevation={6} style={{ margin: 5 }}>
         <TextField
-          style={{ padding: 5 }}
+          style={{ padding: 5, fontSize: "0.875rem" }}
           onKeyPress={handleSubmit}
           onChange={handleChange}
           value={textInput}
           fullWidth
           multiline
-          fontSize='small'
+          fontSize='medium'
           placeholder={userStatus ? "Type Here!" : "Login to Type Something"}
           rowsMax='2'
           variant='outlined'
@@ -228,11 +229,8 @@ const Live = ({ history, enqueueSnackbar }) => {
               </IconButton>
             </div>
 
-            <IconButton>
-              <EmojiEmotionsIcon
-                onClick={e => setEmoteEl(e.target)}
-                fontSize='small'
-              />
+            <IconButton onClick={e => setEmoteEl(e.target)}>
+              <EmojiEmotionsIcon fontSize='small' />
             </IconButton>
             <IconButton onClick={handleClick}>
               <ChatBubbleIcon fontSize='small' />
@@ -413,19 +411,18 @@ const useStyles = makeStyles(theme => ({
   },
   chat2: {
     position: "absolute",
-    height: "calc(100% - 144px);",
-    // minHeight: "300px",
+    height: "calc(100% - 112px);",
     width: "100%"
   },
   chatBar: {
-    // padding: 5
     display: "flex",
     justifyContent: "flex-end"
   },
   shouldScroll: {
     background: theme.palette.primary.dark,
     color: theme.palette.primary.contrastText,
-    margin: "0 5px",
+    margin: "-32px 5px 0",
+    position: "relative",
     padding: 5,
     display: "flex",
     justifyContent: "center",

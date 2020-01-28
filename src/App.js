@@ -19,7 +19,7 @@ function App({ location }) {
               position: "fixed",
               width: "100%",
               height: "100%",
-              background: backgroundColor,
+              background: "#eeeeee",
               zIndex: "-10",
               transition: "all 1s ",
               transitionTimingFunction: "ease-in"
