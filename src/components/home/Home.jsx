@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Helmet } from "react-helmet";
 import { Paper, Grid, Typography, AppBar, Button } from "@material-ui/core";
 import ResponsiveEmbed from "react-responsive-embed";
 import CTA from "./CTA.jsx";
@@ -26,6 +26,9 @@ const Home = ({ history }) => {
   };
   return (
     <>
+      <Helmet>
+        <title>MockRabbit TV</title>
+      </Helmet>
       <Grid
         container
         justify='space-around'

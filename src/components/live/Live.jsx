@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { Helmet } from "react-helmet";
 import {
   Grid,
   Paper,
@@ -380,6 +381,9 @@ const Live = ({ history, enqueueSnackbar }) => {
         justifyContent: "center"
       }}
     >
+      <Helmet>
+        <title>MockRabbit Livestream</title>
+      </Helmet>
       <div style={{ width: "100%", position: "relative", flex: 1 }}>
         {renderVideoPlayer()}
       </div>
