@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Helmet } from "react-helmet";
 import {
   Paper,
   TextField,
@@ -155,6 +156,11 @@ const Profile = ({ history }) => {
   };
   return (
     <Grid style={{ marginTop: 50 }} justify='center' container>
+      <Helmet>
+        <title>
+          {userInfo.username ? `${userInfo.username} Account` : "Login!"}
+        </title>
+      </Helmet>
       {renderProfilePage()}
     </Grid>
   );
