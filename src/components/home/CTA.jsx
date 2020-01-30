@@ -76,9 +76,11 @@ const CTA = () => {
     return (
       <div style={{ padding: 15 }}>
         <Typography variant='h6'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-          sollicitudin in ipsum vel feugiat. Proin interdum nisi et sem egestas
-          rhoncus.
+          MockRabbit is a Twitch Streamer that provides{" "}
+          <span className={classes.highlight}>AWESOME GAMING CONTENT </span>
+          every single day at{" "}
+          <span className={classes.highlight}>twitch.tv/mockrabbit</span>. Join
+          the MockRabbit Community right now!
         </Typography>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
@@ -99,16 +101,16 @@ const CTA = () => {
     return (
       <List subheader={<ListSubheader>{name}</ListSubheader>}>
         <ListItem button>
-          <ListItemText primary='hello?' />
+          <ListItemText primary='coming soon...' />
         </ListItem>
         <ListItem button>
-          <ListItemText primary='hello?' />
+          <ListItemText primary='coming soon...' />
         </ListItem>
         <ListItem button>
-          <ListItemText primary='hello?' />
+          <ListItemText primary='coming soon...' />
         </ListItem>
         <ListItem button>
-          <ListItemText primary='hello?' />
+          <ListItemText primary='coming soon...' />
         </ListItem>
       </List>
     );
@@ -142,7 +144,7 @@ const CTA = () => {
 
 export default CTA;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   active: {
     opacity: 1,
     transition: "opacity 0.4s"
@@ -150,5 +152,8 @@ const useStyles = makeStyles({
   inactive: {
     opacity: "0.4",
     transition: "opacity 0.4s"
+  },
+  highlight: {
+    color: theme.palette.secondary.light
   }
-});
+}));
