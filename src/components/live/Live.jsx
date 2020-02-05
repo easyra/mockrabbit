@@ -209,7 +209,8 @@ const Live = ({ history, enqueueSnackbar }) => {
           value={textInput}
           fullWidth
           multiline
-          fontSize='medium'
+          fontSize='small'
+          inputProps={{ style: { height: 38, fontSize: "0.875rem" } }}
           placeholder={userStatus ? "Type Here!" : "Login to Type Something"}
           rowsMax='2'
           variant='outlined'
