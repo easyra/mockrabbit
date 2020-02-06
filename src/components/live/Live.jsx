@@ -22,7 +22,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
-import { blueGrey } from "@material-ui/core/colors";
+import { blueGrey, grey } from "@material-ui/core/colors";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -439,7 +439,7 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   },
   defaultChip: {
-    background: blueGrey[400],
+    background: grey[600],
     color: "#fff"
   },
 
