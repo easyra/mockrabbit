@@ -19,6 +19,7 @@ const Profile = ({ history }) => {
     userStatus,
     googleSignin,
     userInfo,
+    getUserInfo,
     giveSubscription,
     signOut
   } = useContext(FirebaseContext);
@@ -33,9 +34,10 @@ const Profile = ({ history }) => {
       firestore
         .collection("users")
         .doc(auth.currentUser.uid)
-        .set({ username: input.username })
+        .set({ username: input.username, role: null, sub: null })
         .then(() => {
           setInput({ username: "" });
+          getUserInfo();
           history.push("/live");
         });
     }
