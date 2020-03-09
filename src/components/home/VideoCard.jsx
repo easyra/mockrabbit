@@ -8,28 +8,30 @@ const VideoCard = () => {
     <Grid
       item
       md={2}
-      sm={7}
+      sm={6}
       xs={12}
+      container
+      justify='center'
       onMouseOver={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
     >
-      <Paper elevation={4}>
+      <Paper elevation={4} className={classes.paper}>
         {/* <AppBar position='static' color='primary' elevation={4}>
       <Typography style={{ padding: 5 }} variant='body1'>
         Title
       </Typography>
     </AppBar> */}
-        <div className={classes.root}>
+        <div className={classes.card}>
           <Typography
             variant='subtile1'
             className={`${classes.title} ${active ? classes.active : null}`}
           >
-            Title
+            Coming Soon...
           </Typography>
 
           <img
-            style={{ width: "100%" }}
-            src='https://images.pexels.com/photos/1191639/pexels-photo-1191639.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+            className={classes.img}
+            src='https://images.pexels.com/photos/3789885/pexels-photo-3789885.jpeg?cs=srgb&dl=stainless-steel-spoon-on-black-ceramic-bowl-3789885.jpg&fm=jpg'
             alt=''
           />
         </div>
@@ -40,13 +42,19 @@ const VideoCard = () => {
 
 export default VideoCard;
 
-const useStyles = makeStyles({
-  root: {
+const useStyles = makeStyles(theme => ({
+  card: {
     position: "relative",
-    width: "100%",
+    height: "100%",
     cursor: "pointer"
   },
+  img: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
+  },
   title: {
+    display: "flex",
     boxSizing: "border-box",
     background: "#000",
     color: "#fff",
@@ -59,5 +67,12 @@ const useStyles = makeStyles({
   },
   active: {
     opacity: 0.8
+  },
+  paper: {
+    background: theme.palette.secondary.main,
+    padding: 8,
+    margin: 15,
+    width: "225px",
+    height: "225px"
   }
-});
+}));

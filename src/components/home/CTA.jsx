@@ -109,9 +109,6 @@ const CTA = () => {
         <ListItem button>
           <ListItemText primary='coming soon...' />
         </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
       </List>
     );
   };
@@ -135,7 +132,7 @@ const CTA = () => {
   };
 
   return (
-    <Paper elevation={4}>
+    <Paper elevation={4} style={{ margin: 15 }}>
       {renderAppBar()}
       {renderCTAPage(activePage)}
     </Paper>
