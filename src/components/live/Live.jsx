@@ -433,7 +433,7 @@ const useStyles = makeStyles(theme => ({
   },
   chat2: {
     position: "absolute",
-    height: "calc(100% - 112px);",
+    height: "calc(100% - 119px);",
     width: "100%"
   },
   chatBar: {
