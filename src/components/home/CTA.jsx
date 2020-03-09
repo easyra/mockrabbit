@@ -77,7 +77,7 @@ const CTA = () => {
       <div style={{ padding: 15 }}>
         <Typography variant='h6'>
           MockRabbit is a Twitch Streamer that provides{" "}
-          <span className={classes.highlight}>AWESOME GAMING CONTENT </span>
+          <span className={classes.highlight}>AWESOME GAMING CONTENT</span>{" "}
           every single day at{" "}
           <span className={classes.highlight}>twitch.tv/mockrabbit</span>. Join
           the MockRabbit Community right now!
@@ -153,7 +153,8 @@ const useStyles = makeStyles(theme => ({
     opacity: "0.4",
     transition: "opacity 0.4s"
   },
-  highlight: {
-    color: theme.palette.secondary.light
+  highlight: {},
+  bg: {
+    background: theme.palette.secondary.light
   }
 }));

@@ -19,41 +19,41 @@ import {
   blueGrey,
   amber,
   lightGreen,
-  cyan
+  cyan,
+  yellow,
+  orange
 } from "@material-ui/core/colors";
 import FirebaseWrapper from "./components/FirebaseWrapper";
 import { SnackbarProvider } from "notistack";
 
 const theme = createMuiTheme({
   palette: {
-    primary: {
-      main: grey[900]
-    },
-    secondary: { main: red["A700"] }
+    primary: { main: yellow["400"] },
+    secondary: { main: orange["A200"] },
+    info: { main: orange["A400"] }
   },
   tier1: {
-    background: lightBlue["A700"],
-    color: "#fff"
+    background: lightBlue["A100"],
+    color: "#000"
   },
   tier2: {
-    background: indigo["A700"],
-    color: "#fff"
+    background: indigo["A100"],
+    color: "#000"
   },
   tier3: {
-    background: deepOrange["A400"],
-    color: "#fff"
+    background: yellow["A100"],
+    color: "#000"
   },
   tier4: {
-    background: red["A700"],
-    color: "#fff"
+    background: orange["A200"],
+    color: "#000"
   },
   tier5: {
-    backgroundColor: purple["A400"],
-    backgroundImage: `linear-gradient(315deg, ${purple["A700"]} 0%, ${purple["A200"]} 74%)`,
-    color: "#fff"
+    backgroundColor: orange["A400"],
+    color: "#000"
   },
   admin: {
-    background: `linear-gradient(315deg, ${amber["A700"]} 0%, ${amber["A200"]} 74%)`,
+    background: `linear-gradient(315deg, ${yellow["A700"]} 0%, ${yellow["A200"]} 74%)`,
 
     color: "#000"
   },

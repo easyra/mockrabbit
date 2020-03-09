@@ -424,7 +424,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "flex-end"
   },
   shouldScroll: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     margin: "-32px 5px 0",
     position: "relative",
@@ -439,8 +439,8 @@ const useStyles = makeStyles(theme => ({
     cursor: "pointer"
   },
   defaultChip: {
-    background: grey[600],
-    color: "#fff"
+    background: grey[300],
+    color: "#000"
   },
 
   tier1: { ...theme.tier1 },

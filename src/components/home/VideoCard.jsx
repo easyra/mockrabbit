@@ -33,10 +33,6 @@ const VideoCard = () => {
             alt=''
           />
         </div>
-
-        <Button fullWidth color='primary'>
-          Watch More
-        </Button>
       </Paper>
     </Grid>
   );

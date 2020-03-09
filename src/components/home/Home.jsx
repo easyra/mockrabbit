@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import { Paper, Grid, Typography, AppBar, Button } from "@material-ui/core";
+import {
+  Paper,
+  Grid,
+  Typography,
+  AppBar,
+  Button,
+  makeStyles
+} from "@material-ui/core";
 import ResponsiveEmbed from "react-responsive-embed";
 import CTA from "./CTA.jsx";
 import VideoCard from "./VideoCard.jsx";
 
 const Home = ({ history }) => {
+  const classes = useStyles();
   const renderVideoCard = () => {
     return <VideoCard />;
   };
@@ -50,3 +58,7 @@ const Home = ({ history }) => {
 };
 
 export default Home;
+
+const useStyles = makeStyles(theme => ({
+  bg: { background: theme.palette.secondary.light }
+}));

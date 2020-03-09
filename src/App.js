@@ -5,8 +5,10 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import Live from "./components/live/Live.jsx";
 import { FirebaseContext } from "./components/FirebaseWrapper.js";
 import Profile from "./components/profile/Profile.jsx";
+import { makeStyles } from "@material-ui/core";
 
 function App({ location }) {
+  const classes = useStyles();
   const { userStatus } = useContext(FirebaseContext);
   const loaded = userStatus !== null;
   let backgroundColor = location.pathname !== "/live" ? "#eeeeee" : "#424242";
@@ -14,17 +16,7 @@ function App({ location }) {
     <>
       {loaded && (
         <div className='App'>
-          <div
-            style={{
-              position: "fixed",
-              width: "100%",
-              height: "100%",
-              background: "#eeeeee",
-              zIndex: "-10",
-              transition: "all 1s ",
-              transitionTimingFunction: "ease-in"
-            }}
-          ></div>
+          <div className={classes.bg} style={{}}></div>
           <Route component={Navbar} path='/' />
           <Switch>
             <Route exact strict path='/' component={Home} />
@@ -38,3 +30,16 @@ function App({ location }) {
 }
 
 export default withRouter(App);
+
+const useStyles = makeStyles(theme => ({
+  bg: {
+    background: "#fff" || theme.palette.primary.light,
+    position: "fixed",
+    width: "100%",
+    height: "100%",
+
+    zIndex: "-10",
+    transition: "all 1s ",
+    transitionTimingFunction: "ease-in"
+  }
+}));
