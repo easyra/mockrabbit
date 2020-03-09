@@ -47,7 +47,7 @@ const Profile = ({ history }) => {
     if (needsUsername) {
       return (
         <>
-          <Grid item xs={3}>
+          <Grid item sm={6} xs={6}>
             <Paper className={classes.paper} elevation={4}>
               <Typography gutterBottom variant='h6'>
                 Create Username
@@ -94,7 +94,7 @@ const Profile = ({ history }) => {
   const renderProfileInfo = () => {
     return (
       <>
-        <Grid item xs={3}>
+        <Grid item sm={6} md={3}>
           <Paper className={classes.paper} elevation={4}>
             <Typography gutterBottom variant='h6'>
               {userInfo.username}
@@ -104,7 +104,7 @@ const Profile = ({ history }) => {
             </Button>
           </Paper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item sm={6} md={3}>
           <Paper className={classes.paper} elevation={4}>
             <Typography variant='h6'>subscription</Typography>
             <Typography gutterBottom variant='subtile1'>

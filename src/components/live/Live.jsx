@@ -10,7 +10,8 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Chip
+  Chip,
+  useMediaQuery
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
@@ -22,11 +23,14 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
+import { useTheme } from "@material-ui/core/styles";
 import { blueGrey, grey } from "@material-ui/core/colors";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
   const chatScroll = useRef(null);
+  const theme = useTheme();
+  const smUp = useMediaQuery(theme.breakpoints.up("sm"));
   const {
     userStatus,
     userInfo,
@@ -150,7 +154,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         frameborder='0'
         src='https://player.twitch.tv/?channel=mockrabbit'
         allowfullscreen
-        style={{ position: "absolute", height: "calc(100vh - 64px)" }}
+        className={smUp ? classes.iframe : classes.iframeSmUp}
         width='100%'
       ></iframe>
     );
@@ -171,6 +175,7 @@ const Live = ({ history, enqueueSnackbar }) => {
               }
             }}
           >
+            {/* Chat List */}
             <SimpleBar
               style={{
                 height: "100%"
@@ -376,19 +381,21 @@ const Live = ({ history, enqueueSnackbar }) => {
   }, [userInfo]);
   //----------------------------------------------Render
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center"
-      }}
-    >
+    <div className={smUp ? classes.liveWrapper : classes.liveWrapperSmUp}>
       <Helmet>
         <title>MockRabbit Livestream</title>
       </Helmet>
       <div style={{ width: "100%", position: "relative", flex: 1 }}>
         {renderVideoPlayer()}
       </div>
-      <div style={{ width: "350px", height: "calc(100vh - 77px)" }}>
+      <div
+        style={{
+          width: "350px",
+          height: "calc(100vh - 64px)",
+          maxHeight: !smUp && 250,
+          marginBottom: !smUp && 50
+        }}
+      >
         {renderChatMenu()}
       </div>
     </div>
@@ -400,6 +407,16 @@ export default withSnackbar(Live);
 //-----------------------------------------------------------CSS
 
 const useStyles = makeStyles(theme => ({
+  liveWrapper: {
+    display: "flex",
+    justifyContent: "center"
+  },
+  liveWrapperSmUp: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center"
+  },
   chatWrapper: {
     position: "relative",
     height: "100%",
@@ -441,6 +458,14 @@ const useStyles = makeStyles(theme => ({
   defaultChip: {
     background: grey[300],
     color: "#000"
+  },
+  iframe: {
+    position: "absolute",
+    height: "calc(100vh - 64px)"
+  },
+  iframeSmUp: {
+    height: "100%",
+    minHeight: 300
   },
 
   tier1: { ...theme.tier1 },
