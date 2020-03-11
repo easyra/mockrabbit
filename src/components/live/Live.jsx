@@ -24,7 +24,7 @@ import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
 import { useTheme } from "@material-ui/core/styles";
-import { blueGrey, grey } from "@material-ui/core/colors";
+import { blueGrey, grey, yellow } from "@material-ui/core/colors";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -104,7 +104,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     // chatScroll.current.recalculate();
     if (
       chatScroll.current.scrollTop <=
-      chatScroll.current.scrollHeight - 540 - 50
+      chatScroll.current.scrollHeight - 540 - 100
     ) {
       setShouldScroll(false);
     } else {
@@ -319,7 +319,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     return (
       <Paper
         style={{ opacity }}
-        variant=''
+        variant='outlined'
         key={key}
         elevation={3}
         className={classes.message}
@@ -424,10 +424,10 @@ const useStyles = makeStyles(theme => ({
   },
   message: {
     padding: 5,
-    margin: 5,
+    margin: "10px 5px",
     animation: "fadeIn 0.3s 1",
-    color: "#fff",
-    background: "#212121",
+    color: "#000",
+    background: "#fff",
     width: "fit-content",
     transition: "all 0.2s"
   },

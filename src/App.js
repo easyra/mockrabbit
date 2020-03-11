@@ -6,6 +6,7 @@ import Live from "./components/live/Live.jsx";
 import { FirebaseContext } from "./components/FirebaseWrapper.js";
 import Profile from "./components/profile/Profile.jsx";
 import { makeStyles } from "@material-ui/core";
+import { grey } from "@material-ui/core/colors";
 
 function App({ location }) {
   const classes = useStyles();
@@ -33,7 +34,7 @@ export default withRouter(App);
 
 const useStyles = makeStyles(theme => ({
   bg: {
-    background: "#fff" || theme.palette.primary.light,
+    background: grey[50] || theme.palette.primary.light,
     position: "fixed",
     width: "100%",
     height: "100%",

@@ -49,7 +49,7 @@ const theme = createMuiTheme({
     color: "#000"
   },
   tier5: {
-    backgroundColor: orange["A400"],
+    backgroundColor: green["A400"],
     color: "#000"
   },
   admin: {
