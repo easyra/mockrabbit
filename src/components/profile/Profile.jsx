@@ -21,7 +21,8 @@ const Profile = ({ history }) => {
     userInfo,
     getUserInfo,
     giveSubscription,
-    signOut
+    signOut,
+    registeredUser
   } = useContext(FirebaseContext);
   const needsUsername = !userStatus && auth.currentUser;
 
@@ -31,15 +32,9 @@ const Profile = ({ history }) => {
   };
   const handleSubmit = e => {
     if (auth.currentUser) {
-      firestore
-        .collection("users")
-        .doc(auth.currentUser.uid)
-        .set({ username: input.username, role: null, sub: null })
-        .then(() => {
-          setInput({ username: "" });
-          getUserInfo();
-          history.push("/live");
-        });
+      if (!registeredUser(input.username)) {
+        setInput({ username: "" });
+      }
     }
   };
 
