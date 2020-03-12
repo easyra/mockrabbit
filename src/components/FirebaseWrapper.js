@@ -108,6 +108,38 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     }
   };
 
+  const registeredUser = async username => {
+    let error = false;
+
+    const batch = firestore.batch();
+    const usersRef = firestore.collection("users").doc(auth.currentUser.uid);
+    const usernamesRef = firestore
+      .collection("usernames")
+      .doc(username.toLowerCase());
+    batch.set(usersRef, { username, role: null, sub: null });
+    batch.set(usernamesRef, { taken: true });
+
+    usernamesRef.get().then(doc => {
+      if (doc.exists) {
+        enqueueSnackbar("Username already taken");
+        error = true;
+      } else {
+        usersRef.get().then(doc => {
+          if (doc.exists) {
+            enqueueSnackbar("User is already registered");
+            error = true;
+          } else {
+            batch.commit().then(() => {
+              getUserInfo();
+              history.push("/live");
+            });
+          }
+        });
+      }
+    });
+    return error;
+  };
+
   const giveSubscription = (subTier, uid) => {
     if (uid) {
     } else {
@@ -178,7 +210,8 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         addMessage,
         chatTurnedOff,
         giveSubscription,
-        changedUserInUserList
+        changedUserInUserList,
+        registeredUser
       }}
     >
       {children}
