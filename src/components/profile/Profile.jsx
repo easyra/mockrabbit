@@ -11,15 +11,14 @@ import {
 import { firestore, auth } from "../firebase.js";
 import { FirebaseContext } from "../FirebaseWrapper.js";
 import { makeStyles } from "@material-ui/styles";
+import LoginPage from "./LoginPage.jsx";
 
 const Profile = ({ history }) => {
   const classes = useStyles();
   const [input, setInput] = useState({ username: "" });
   const {
     userStatus,
-    googleSignin,
     userInfo,
-    getUserInfo,
     giveSubscription,
     signOut,
     registeredUser
@@ -69,21 +68,7 @@ const Profile = ({ history }) => {
         </>
       );
     } else if (!userStatus) {
-      return (
-        <Paper className={classes.paper} elevation={4}>
-          <Typography gutterBottom variant='h2'>
-            LOGIN HERE
-          </Typography>
-          <Button
-            onClick={googleSignin}
-            fullWidth
-            variant='contained'
-            color='secondary'
-          >
-            Google
-          </Button>
-        </Paper>
-      );
+      return <LoginPage />;
     } else return renderProfileInfo();
   };
   const renderProfileInfo = () => {

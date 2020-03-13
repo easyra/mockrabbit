@@ -15,7 +15,8 @@ import {
   ListItemText,
   Divider,
   ListItemIcon,
-  Icon
+  Icon,
+  Modal
 } from "@material-ui/core";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import CloseIcon from "@material-ui/icons/Close";
@@ -31,11 +32,12 @@ import YouTubeIcon from "@material-ui/icons/YouTube";
 import { FirebaseContext } from "./FirebaseWrapper";
 import { auth } from "./firebase";
 import { withSnackbar } from "notistack";
+import LoginPage from "./profile/LoginPage";
 
 const Navbar = ({ location, history, enqueueSnackbar }) => {
   const classes = useStyles();
   let homeButtonHidden = location.pathname === "/";
-  const [loginNode, setLoginNode] = useState(null);
+  const [loginModalOpen, setLoginModal] = useState(false);
   const [accountNode, setAccountNode] = useState(null);
   const [sideBarOn, setSideBarOn] = useState(false);
   const { googleSignin, userStatus, signOut, getUserInfo } = useContext(
@@ -49,7 +51,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
         enqueueSnackbar("Login Successful");
       });
     }
-    setLoginNode(null);
+    setLoginModal(false);
   };
 
   return (
@@ -128,15 +130,19 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
           </List>
         </Drawer>
       </Hidden>
-
-      {/* AppBar Menus */}
-      <Menu
-        anchorEl={loginNode}
-        open={Boolean(loginNode)}
-        onClose={() => setLoginNode(null)}
+      {/* Modals*/}
+      <Modal
+        open={loginModalOpen}
+        onClose={() => setLoginModal(false)}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "baseline"
+        }}
       >
-        <MenuItem onClick={handleGoogleSignIn}>Google</MenuItem>
-      </Menu>
+        <LoginPage handleClose={() => setLoginModal(false)} />
+      </Modal>
+
       {/* AppBar */}
       <AppBar
         className={classes.root}
@@ -188,7 +194,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
             </Button>
           ) : (
             <Button
-              onClick={({ currentTarget }) => setLoginNode(currentTarget)}
+              onClick={({ currentTarget }) => setLoginModal(true)}
               color='inherit'
             >
               Login
