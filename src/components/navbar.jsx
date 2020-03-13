@@ -66,7 +66,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
             style: { maxWidth: "250px", width: "100%" }
           }}
         >
-          <IconButton>
+          <IconButton onClick={() => setSideBarOn(false)}>
             <CloseIcon></CloseIcon>
           </IconButton>
           <List onClick={() => setSideBarOn(false)}>
