@@ -193,6 +193,7 @@ const Live = ({ history, enqueueSnackbar }) => {
                 !shouldScroll ? classes.active : ""
               }`}
               onClick={scrollDown}
+              style={{ zIndex: shouldScroll ? -1 : 1 }}
             >
               <Typography variant='button'>More Messages Below</Typography>
             </Paper>
