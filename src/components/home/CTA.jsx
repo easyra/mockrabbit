@@ -99,7 +99,11 @@ const CTA = () => {
 
   const renderSocialCards = name => {
     return (
-      <List subheader={<ListSubheader>{name}</ListSubheader>}>
+      <List
+        subheader={
+          <ListSubheader className={classes.subheader}>{name}</ListSubheader>
+        }
+      >
         <ListItem button>
           <ListItemText primary='coming soon...' />
         </ListItem>
@@ -132,7 +136,7 @@ const CTA = () => {
   };
 
   return (
-    <Paper elevation={4} style={{ margin: 15 }}>
+    <Paper className={classes.paper} elevation={4}>
       {renderAppBar()}
       {renderCTAPage(activePage)}
     </Paper>
@@ -142,9 +146,13 @@ const CTA = () => {
 export default CTA;
 
 const useStyles = makeStyles(theme => ({
+  paper: { ...theme.card, margin: 15 },
   active: {
     opacity: 1,
     transition: "opacity 0.4s"
+  },
+  subheader: {
+    ...theme.card
   },
   inactive: {
     opacity: "0.4",

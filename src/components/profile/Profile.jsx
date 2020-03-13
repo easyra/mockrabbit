@@ -12,6 +12,7 @@ import { firestore, auth } from "../firebase.js";
 import { FirebaseContext } from "../FirebaseWrapper.js";
 import { makeStyles } from "@material-ui/styles";
 import LoginPage from "./LoginPage.jsx";
+import { SiteContext } from "../SiteWrapper.js";
 
 const Profile = ({ history }) => {
   const classes = useStyles();
@@ -23,6 +24,7 @@ const Profile = ({ history }) => {
     signOut,
     registeredUser
   } = useContext(FirebaseContext);
+  const { changeTheme, themeOptions } = useContext(SiteContext);
   const needsUsername = !userStatus && auth.currentUser;
 
   const handleChange = e => {
@@ -82,6 +84,18 @@ const Profile = ({ history }) => {
             <Button onClick={signOut} color='secondary' variant='contained'>
               Sign Out
             </Button>
+            <Typography gutterBottom variant='h6'>
+              Change Theme
+            </Typography>
+            {themeOptions.map(({ theme, name }) => (
+              <Button
+                variant={"contained"}
+                style={{ margin: 5 }}
+                onClick={() => changeTheme(theme)}
+              >
+                {name}
+              </Button>
+            ))}
           </Paper>
         </Grid>
         <Grid item sm={6} md={3}>
@@ -151,7 +165,7 @@ const Profile = ({ history }) => {
 export default Profile;
 
 const useStyles = makeStyles(theme => ({
-  paper: { padding: 15, margin: 15 },
+  paper: { padding: 15, margin: 15, ...theme.card },
   tier1: {
     ...theme.tier1,
     transition: "opacity 0.3s",

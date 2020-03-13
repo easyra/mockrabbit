@@ -43,19 +43,9 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
   const { googleSignin, userStatus, signOut, getUserInfo } = useContext(
     FirebaseContext
   );
-  const handleGoogleSignIn = () => {
-    if (auth.currentUser) {
-      getUserInfo();
-    } else {
-      googleSignin().then(() => {
-        enqueueSnackbar("Login Successful");
-      });
-    }
-    setLoginModal(false);
-  };
-
   return (
     <>
+      <div className={classes.bg}></div>
       {/* SideBar */}
       <Hidden mdUp>
         <Drawer
@@ -214,5 +204,14 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  bg: {
+    ...theme.background,
+    position: "fixed",
+    width: "100%",
+    height: "100%",
+
+    zIndex: "-10",
+    transition: "all 0.4s "
   }
 }));

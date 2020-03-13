@@ -104,7 +104,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     // chatScroll.current.recalculate();
     if (
       chatScroll.current.scrollTop <=
-      chatScroll.current.scrollHeight - 540 - 100
+      chatScroll.current.scrollHeight - 540 - 70
     ) {
       setShouldScroll(false);
     } else {
@@ -430,7 +430,8 @@ const useStyles = makeStyles(theme => ({
     color: "#000",
     background: "#fff",
     width: "fit-content",
-    transition: "all 0.2s"
+    transition: "all 0.2s",
+    ...theme.card
   },
   chat2: {
     position: "absolute",
