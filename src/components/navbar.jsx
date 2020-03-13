@@ -193,10 +193,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               Account
             </Button>
           ) : (
-            <Button
-              onClick={({ currentTarget }) => setLoginModal(true)}
-              color='inherit'
-            >
+            <Button onClick={() => setLoginModal(true)} color='inherit'>
               Login
             </Button>
           )}

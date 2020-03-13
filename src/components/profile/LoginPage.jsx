@@ -7,12 +7,13 @@ import { withRouter } from "react-router";
 const LoginPage = ({ handleClose, enqueueSnackbar, history }) => {
   const { googleSignin } = useContext(FirebaseContext);
 
-  const handleGoogleSignIn = googleSignin().then(() => {
-    if (handleClose) {
-      handleClose();
-    }
-    enqueueSnackbar("Login Successful!");
-  });
+  const handleGoogleSignIn = () =>
+    googleSignin().then(() => {
+      if (handleClose) {
+        handleClose();
+      }
+      enqueueSnackbar("Login Successful!");
+    });
 
   return (
     <Paper
