@@ -212,6 +212,6 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
 
     zIndex: "-10",
-    transition: "all 0.4s "
+    transition: "all 250ms "
   }
 }));

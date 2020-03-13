@@ -6,14 +6,16 @@ import { withSnackbar } from "notistack";
 import { red } from "@material-ui/core/colors";
 import { Button, ThemeProvider } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import themes from "../themes";
+import themes, { lightTheme } from "../themes";
 
 export const SiteContext = React.createContext({});
 export const SiteConsumer = SiteContext.Consumer;
 export const SiteProvider = SiteContext.Provider;
 
 const SiteWrapper = ({ children }) => {
-  const [activeTheme, setActiveTheme] = useState("lightTheme");
+  const [activeTheme, setActiveTheme] = useState(
+    localStorage.getItem("theme") || "lightTheme"
+  );
   const themeOptions = [
     { theme: "lightTheme", name: "Light Theme" },
     { theme: "darkTheme", name: "Dark Theme" },
@@ -21,6 +23,7 @@ const SiteWrapper = ({ children }) => {
   ];
 
   const changeTheme = theme => {
+    localStorage.setItem("theme", theme);
     setActiveTheme(theme);
   };
 
