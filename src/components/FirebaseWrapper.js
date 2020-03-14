@@ -21,17 +21,6 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
 
   useEffect(() => {
     // setDummyMessages();
-
-    setInterval(() => {
-      const { text, action } = messageArr[
-        Math.floor(Math.random() * messageArr.length)
-      ];
-      enqueueSnackbar(text, { action });
-    }, 900000);
-  }, []);
-
-  useEffect(() => {
-    // setDummyMessages();
     auth.onAuthStateChanged(user => {
       if (user) {
         getUserInfo();
@@ -262,54 +251,4 @@ const typeArray = [
   "",
   "",
   ""
-];
-const messageArr = [
-  {
-    text: "twitter.com/mockrabbit",
-    action: (
-      <Button variant='contained' color='primary'>
-        Follow Me
-      </Button>
-    )
-  },
-  {
-    text: "Join the Discord",
-    action: (
-      <Button variant='contained' color='primary'>
-        Join Here
-      </Button>
-    )
-  },
-  {
-    text: "twitch.tv/mockrabbit",
-    action: (
-      <Button variant='contained' color='primary'>
-        Follow Me
-      </Button>
-    )
-  },
-  {
-    text: "facebook.com/mockrabbit",
-    action: (
-      <Button variant='contained' color='primary'>
-        Follow Me
-      </Button>
-    )
-  },
-  {
-    text: "Support the Stream",
-    action: (
-      <Button variant='contained' startIcon={<FavoriteIcon />} color='primary'>
-        Subscribe
-      </Button>
-    )
-  },
-  {
-    text: "Support the Stream",
-    action: (
-      <Button variant='contained' startIcon={<FavoriteIcon />} color='primary'>
-        Donate
-      </Button>
-    )
-  }
 ];

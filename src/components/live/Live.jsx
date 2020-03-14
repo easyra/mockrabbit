@@ -25,6 +25,7 @@ import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
 import { useTheme } from "@material-ui/core/styles";
 import { blueGrey, grey, yellow } from "@material-ui/core/colors";
+import { SiteContext } from "../SiteWrapper";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -41,6 +42,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     changedUserInUserList,
     userList
   } = useContext(FirebaseContext);
+  const { socials } = useContext(SiteContext);
   const [anchorEl, setAnchorEl] = useState(null); // Element Node for ChatRoom Menu
   const [emoteEl, setEmoteEl] = useState(null); // Element Node for Emote Menu
   const [textInput, setTextInput] = useState(""); // String for sending messages in chat

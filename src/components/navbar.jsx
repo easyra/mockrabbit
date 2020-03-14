@@ -33,6 +33,7 @@ import { FirebaseContext } from "./FirebaseWrapper";
 import { auth } from "./firebase";
 import { withSnackbar } from "notistack";
 import LoginPage from "./profile/LoginPage";
+import { SiteContext } from "./SiteWrapper";
 
 const Navbar = ({ location, history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -43,6 +44,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
   const { googleSignin, userStatus, signOut, getUserInfo } = useContext(
     FirebaseContext
   );
+  const { socials } = useContext(SiteContext);
   return (
     <>
       <div className={classes.bg}></div>
@@ -67,35 +69,60 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               <ListItemText primary={"Home"} />
             </ListItem>
 
-            <ListItem button>
+            <ListItem
+              button
+              component={"a"}
+              target='__blank'
+              href={`https://www.youtube.com/${socials.youtubeID}`}
+            >
               <ListItemIcon>
                 <YouTubeIcon />
               </ListItemIcon>
               <ListItemText primary={"YouTube"} />
             </ListItem>
 
-            <ListItem button>
+            <ListItem
+              button
+              component={"a"}
+              target='__blank'
+              href={`https://www.facebook.com/${socials.facebookID}`}
+            >
               <ListItemIcon>
                 <FacebookIcon />
               </ListItemIcon>
               <ListItemText primary={"FaceBook"} />
             </ListItem>
 
-            <ListItem button>
+            <ListItem
+              button
+              component={"a"}
+              target='__blank'
+              href={`https://www.discord.app/${socials.discordID}`}
+            >
               <ListItemIcon>
                 <Icon className='fab fa-discord' />
               </ListItemIcon>
               <ListItemText primary={"Discord"} />
             </ListItem>
 
-            <ListItem button>
+            <ListItem
+              button
+              component={"a"}
+              target='__blank'
+              href={`https://www.twitch.tv/${socials.twitchID}`}
+            >
               <ListItemIcon>
                 <Icon className='fab fa-twitch' />
               </ListItemIcon>
               <ListItemText primary={"Twitch"} />
             </ListItem>
 
-            <ListItem button>
+            <ListItem
+              button
+              component={"a"}
+              target='__blank'
+              href={`https://www.twitter.com/${socials.twitterID}`}
+            >
               <ListItemIcon>
                 <TwitterIcon />
               </ListItemIcon>
@@ -154,11 +181,41 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
                   Home
                 </Button>
               )}
-              <Button color='inherit'>YouTube</Button>
-              <Button color='inherit'>Facebook</Button>
-              <Button color='inherit'>Discord</Button>
-              <Button color='inherit'>Twitch</Button>
-              <Button color='inherit'>Twitter</Button>
+              <Button
+                color='inherit'
+                target='__blank'
+                href={`https://www.youtube.com/${socials.youtubeID}`}
+              >
+                YouTube
+              </Button>
+              <Button
+                color='inherit'
+                target='__blank'
+                href={`https://www.facebook.com/${socials.facebookID}`}
+              >
+                Facebook
+              </Button>
+              <Button
+                color='inherit'
+                target='__blank'
+                href={`https://www.discord.app/${socials.discordID}`}
+              >
+                Discord
+              </Button>
+              <Button
+                color='inherit'
+                target='__blank'
+                href={`https://www.twitch.tv/${socials.twitchID}`}
+              >
+                Twitch
+              </Button>
+              <Button
+                color='inherit'
+                target='__blank'
+                href={`https://www.twitter.com/${socials.twitterID}`}
+              >
+                Twitter
+              </Button>
             </Hidden>
             <Hidden xsDown>
               <Button

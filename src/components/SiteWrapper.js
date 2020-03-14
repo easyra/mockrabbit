@@ -1,21 +1,17 @@
-import firebase, { firestore, database } from "./firebase";
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import generateRandomAnimalName from "random-animal-name-generator";
-import { withSnackbar } from "notistack";
-import { red } from "@material-ui/core/colors";
-import { Button, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, Button } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import themes, { lightTheme } from "../themes";
+
+import themes from "../themes";
+import { withSnackbar } from "notistack";
 
 export const SiteContext = React.createContext({});
 export const SiteConsumer = SiteContext.Consumer;
 export const SiteProvider = SiteContext.Provider;
 
-const SiteWrapper = ({ children }) => {
-  const [activeTheme, setActiveTheme] = useState(
-    localStorage.getItem("theme") || "lightTheme"
-  );
+const SiteWrapper = ({ children, enqueueSnackbar }) => {
+  const savedTheme = localStorage.getItem("theme");
+  const [activeTheme, setActiveTheme] = useState(savedTheme || "lightTheme");
   const themeOptions = [
     { theme: "lightTheme", name: "Light Theme" },
     { theme: "darkTheme", name: "Dark Theme" },
@@ -26,12 +22,109 @@ const SiteWrapper = ({ children }) => {
     localStorage.setItem("theme", theme);
     setActiveTheme(theme);
   };
+  const socials = {
+    twitchID: "mockrabbit",
+    youtubeID: "mockrabbit",
+    facebookID: "mockrabbit",
+    discordID: "",
+    twitterID: "mockrabbit",
+    name: "MockRabbit"
+  };
+  useEffect(() => {
+    // setDummyMessages();
+
+    setInterval(() => {
+      const { text, action } = messageArr[
+        Math.floor(Math.random() * messageArr.length)
+      ];
+      enqueueSnackbar(text, { action });
+    }, 900000);
+  }, []);
+
+  const messageArr = [
+    {
+      text: "twitter.com/" + socials.twitterID,
+      action: (
+        <Button
+          target='__blank'
+          href={"https://www.twitter.com/" + socials.twitterID}
+          variant='contained'
+          color='primary'
+        >
+          Follow Me
+        </Button>
+      )
+    },
+    {
+      text: "Join the Discord",
+      action: (
+        <Button
+          target='__blank'
+          href={"https://www.discord.com/" + socials.discordID}
+          variant='contained'
+          color='primary'
+        >
+          Join Here
+        </Button>
+      )
+    },
+    {
+      text: "twitch.tv/" + socials.twitchID,
+      action: (
+        <Button
+          target='__blank'
+          href={"https://www.twitch.tv/" + socials.twitchID}
+          variant='contained'
+          color='primary'
+        >
+          Follow Me
+        </Button>
+      )
+    },
+    {
+      text: "facebook.com/" + socials.facebookID,
+      action: (
+        <Button
+          target='__blank'
+          href={"https://www.facebook.com/" + socials.facebookID}
+          variant='contained'
+          color='primary'
+        >
+          Follow Me
+        </Button>
+      )
+    },
+    {
+      text: "Support the Stream",
+      action: (
+        <Button
+          variant='contained'
+          startIcon={<FavoriteIcon />}
+          color='primary'
+        >
+          Subscribe
+        </Button>
+      )
+    },
+    {
+      text: "Support the Stream",
+      action: (
+        <Button
+          variant='contained'
+          startIcon={<FavoriteIcon />}
+          color='primary'
+        >
+          Donate
+        </Button>
+      )
+    }
+  ];
 
   return (
-    <SiteProvider value={{ themeOptions, changeTheme }}>
+    <SiteProvider value={{ themeOptions, changeTheme, socials }}>
       <ThemeProvider theme={themes[activeTheme]}>{children}</ThemeProvider>
     </SiteProvider>
   );
 };
 
-export default SiteWrapper;
+export default withSnackbar(SiteWrapper);

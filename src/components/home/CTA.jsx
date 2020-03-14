@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Paper,
   Typography,
@@ -20,9 +20,12 @@ import StarIcon from "@material-ui/icons/Star";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import { SiteContext } from "../SiteWrapper";
 
 const CTA = () => {
   const [activePage, setActivePage] = useState(0);
+  const { socials } = useContext(SiteContext);
+
   const classes = useStyles();
 
   const renderAppBar = () => {
@@ -122,13 +125,13 @@ const CTA = () => {
       return renderSignUpPage();
     }
     if (activePage === 1) {
-      return renderSocialCards("facebook.com/mockRabbit");
+      return renderSocialCards(`facebook.com/${socials.facebookID}`);
     }
     if (activePage === 2) {
-      return renderSocialCards("twitter.com/mockRabbit");
+      return renderSocialCards(`twitter.com/${socials.twitterID}`);
     }
     if (activePage === 3) {
-      return renderSocialCards("youtube.com/mockRabbit");
+      return renderSocialCards(`youtube.com/${socials.youtubeID}`);
     }
     if (activePage === 4) {
       return renderSocialCards("subscriber feed");
