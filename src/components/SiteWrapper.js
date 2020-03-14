@@ -10,8 +10,13 @@ export const SiteConsumer = SiteContext.Consumer;
 export const SiteProvider = SiteContext.Provider;
 
 const SiteWrapper = ({ children, enqueueSnackbar }) => {
-  const savedTheme = localStorage.getItem("theme");
-  const [activeTheme, setActiveTheme] = useState(savedTheme || "lightTheme");
+  const [activeTheme, setActiveTheme] = useState("lightTheme");
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setActiveTheme(savedTheme);
+    }
+  }, []);
   const themeOptions = [
     { theme: "lightTheme", name: "Light Theme" },
     { theme: "darkTheme", name: "Dark Theme" },
@@ -121,9 +126,11 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   ];
 
   return (
-    <SiteProvider value={{ themeOptions, changeTheme, socials }}>
-      <ThemeProvider theme={themes[activeTheme]}>{children}</ThemeProvider>
-    </SiteProvider>
+    <ThemeProvider theme={themes[activeTheme]}>
+      <SiteProvider value={{ themeOptions, changeTheme, socials }}>
+        {children}
+      </SiteProvider>
+    </ThemeProvider>
   );
 };
 
