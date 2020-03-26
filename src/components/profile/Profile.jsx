@@ -6,13 +6,17 @@ import {
   Container,
   Grid,
   Typography,
-  Button
+  Button,
+  InputAdornment
 } from "@material-ui/core";
 import { firestore, auth } from "../firebase.js";
 import { FirebaseContext } from "../FirebaseWrapper.js";
 import { makeStyles } from "@material-ui/styles";
 import LoginPage from "./LoginPage.jsx";
 import { SiteContext } from "../SiteWrapper.js";
+import { green, lightGreen } from "@material-ui/core/colors";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import PayPigPage from "./PayPigPage.jsx";
 
 const Profile = ({ history }) => {
   const classes = useStyles();
@@ -99,53 +103,7 @@ const Profile = ({ history }) => {
           </Paper>
         </Grid>
         <Grid item sm={6} md={3}>
-          <Paper className={classes.paper} elevation={4}>
-            <Typography variant='h6'>subscription</Typography>
-            <Typography gutterBottom variant='subtile1'>
-              no tier
-            </Typography>
-            <Button
-              onClick={() => giveSubscription(1)}
-              disableRipple
-              className={classes.tier1}
-              variant='contained'
-              fullWidth
-            >
-              Tier 1 $5
-            </Button>
-            <Button
-              onClick={() => giveSubscription(2)}
-              className={classes.tier2}
-              variant='contained'
-              fullWidth
-            >
-              Tier 2 $10
-            </Button>
-            <Button
-              onClick={() => giveSubscription(3)}
-              className={classes.tier3}
-              variant='contained'
-              fullWidth
-            >
-              Tier 3 $15
-            </Button>
-            <Button
-              onClick={() => giveSubscription(4)}
-              className={classes.tier4}
-              variant='contained'
-              fullWidth
-            >
-              Tier 4 $25
-            </Button>
-            <Button
-              onClick={() => giveSubscription(5)}
-              className={classes.tier5}
-              variant='contained'
-              fullWidth
-            >
-              Tier 5 $50
-            </Button>
-          </Paper>
+          <PayPigPage />
         </Grid>
       </>
     );
@@ -195,5 +153,12 @@ const useStyles = makeStyles(theme => ({
     transition: "opacity 0.3s",
     margin: "7.5px 0",
     "&:hover": { ...theme.tier5, opacity: 0.8 }
+  },
+  donate: {
+    color: "#000",
+    background: green["A400"],
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { color: "#000", background: green["A400"], opacity: 0.8 }
   }
 }));

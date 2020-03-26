@@ -11,7 +11,8 @@ import {
   Menu,
   MenuItem,
   Chip,
-  useMediaQuery
+  useMediaQuery,
+  Modal
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
@@ -26,6 +27,7 @@ import { withSnackbar } from "notistack";
 import { useTheme } from "@material-ui/core/styles";
 import { blueGrey, grey, yellow } from "@material-ui/core/colors";
 import { SiteContext } from "../SiteWrapper";
+import PayPigPage from "../profile/PayPigPage";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -49,6 +51,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   const [shouldScroll, setShouldScroll] = useState(true); // Boolean that enables auto-scroll when true
   const [chatLoaded, setChatLoaded] = useState(false); // Boolean that tells you when chat has finished loading
   const [activeUser, setActiveUser] = useState(null);
+  const [payPigModal, setPayPigModal] = useState(false);
   const [mentionedUsers, setMentionedUsers] = useState([]); // Array of usernames that should be highlighted in chat
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
@@ -234,7 +237,7 @@ const Live = ({ history, enqueueSnackbar }) => {
           {renderEmoteListMenu()}
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
-              <IconButton>
+              <IconButton onClick={() => setPayPigModal(true)}>
                 <FavoriteIcon fontSize='small' />
               </IconButton>
             </div>
@@ -384,24 +387,37 @@ const Live = ({ history, enqueueSnackbar }) => {
   }, [userInfo]);
   //----------------------------------------------Render
   return (
-    <div className={smUp ? classes.liveWrapper : classes.liveWrapperSmUp}>
-      <Helmet>
-        <title>MockRabbit Livestream</title>
-      </Helmet>
-      <div style={{ width: "100%", position: "relative", flex: 1 }}>
-        {renderVideoPlayer()}
-      </div>
-      <div
+    <>
+      <Modal
+        open={payPigModal}
+        onClose={() => setPayPigModal(false)}
         style={{
-          width: "350px",
-          height: "calc(100vh - 64px)",
-          maxHeight: !smUp && 250,
-          marginBottom: !smUp && 50
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "baseline"
         }}
       >
-        {renderChatMenu()}
+        <PayPigPage />
+      </Modal>
+      <div className={smUp ? classes.liveWrapper : classes.liveWrapperSmUp}>
+        <Helmet>
+          <title>MockRabbit Livestream</title>
+        </Helmet>
+        <div style={{ width: "100%", position: "relative", flex: 1 }}>
+          {renderVideoPlayer()}
+        </div>
+        <div
+          style={{
+            width: "350px",
+            height: "calc(100vh - 64px)",
+            maxHeight: !smUp && 250,
+            marginBottom: !smUp && 50
+          }}
+        >
+          {renderChatMenu()}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
