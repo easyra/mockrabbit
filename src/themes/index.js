@@ -20,8 +20,8 @@ import {
 
 export const lightTheme = createMuiTheme({
   palette: {
-    primary: { main: yellow["400"] },
-    secondary: { main: orange["A200"] },
+    primary: { main: grey["900"] },
+    secondary: { main: lightBlue["A100"] },
     info: { main: orange["A400"] }
   },
   tier1: {

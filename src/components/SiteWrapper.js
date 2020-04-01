@@ -126,7 +126,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   ];
 
   return (
-    <ThemeProvider theme={themes[activeTheme]}>
+    <ThemeProvider theme={themes[activeTheme] || themes["lightTheme"]}>
       <SiteProvider value={{ themeOptions, changeTheme, socials }}>
         {children}
       </SiteProvider>
