@@ -6,16 +6,33 @@ import {
   Typography,
   AppBar,
   Button,
-  makeStyles
+  makeStyles,
+  Toolbar,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  ListItemSecondaryAction
 } from "@material-ui/core";
 import ResponsiveEmbed from "react-responsive-embed";
 import CTA from "./CTA.jsx";
 import VideoCard from "./VideoCard.jsx";
+import SubLeaderboard from "../shared/SubLeaderboard.jsx";
 
 const Home = ({ history }) => {
   const classes = useStyles();
   const renderVideoCard = () => {
     return <VideoCard />;
+  };
+  const renderIntroVideo = () => {
+    return (
+      <Paper elevation={4}>
+        <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
+      </Paper>
+    );
+  };
+  const renderLeaderboard = () => {
+    return <SubLeaderboard />;
   };
   const renderVideoCards = () => {
     return (
@@ -47,9 +64,8 @@ const Home = ({ history }) => {
           <CTA />
         </Grid>
         <Grid item md={4} sm={8} xs={10}>
-          <Paper elevation={4}>
-            <ResponsiveEmbed src='https://www.youtube.com/embed/x5-JVvCrGC8' />
-          </Paper>
+          {renderLeaderboard()}
+          {/* {renderIntroVideo()} */}
         </Grid>
       </Grid>
       {renderVideoCards()}
