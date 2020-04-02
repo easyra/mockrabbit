@@ -49,8 +49,9 @@ const SubLeaderboard = () => {
   const renderAppButtons = () => {
     return pageOptions.map(page => (
       <Button
-        variant={page.toLowerCase() === activePage ? "contained" : "outlined"}
-        color='primary'
+        variant='contained'
+        disableElevation={page.toLowerCase() !== activePage}
+        color={page.toLowerCase() === activePage ? "primary" : "secondary"}
         onClick={() => setActivePage(page.toLowerCase())}
         className={classes.button}
       >
