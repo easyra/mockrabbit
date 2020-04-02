@@ -17,13 +17,14 @@ import {
   Modal
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import CancelIcon from "@material-ui/icons/Cancel";
 import PayPigPage from "../profile/PayPigPage";
 
 const SubLeaderboard = () => {
   const [activePage, setActivePage] = useState("donations");
   const [payPigModalOpen, setPayPigModal] = useState(false);
-  const pageOptions = ["Donations", "Subs", "Gifts"];
+  const pageOptions = ["Donations", "Subs"];
   const classes = useStyles();
 
   const renderAppBar = () => {
@@ -48,8 +49,8 @@ const SubLeaderboard = () => {
   const renderAppButtons = () => {
     return pageOptions.map(page => (
       <Button
-        variant='contained'
-        color={page.toLowerCase() === activePage ? "primary" : "secondary"}
+        variant={page.toLowerCase() === activePage ? "contained" : "outlined"}
+        color='primary'
         onClick={() => setActivePage(page.toLowerCase())}
         className={classes.button}
       >
@@ -64,30 +65,25 @@ const SubLeaderboard = () => {
       return renderItem(item, count++);
     });
     for (let i = count; i <= 5; i++) {
-      list.push(renderEmptyItem());
+      list.push(renderEmptyItem(i));
     }
 
     return list;
   };
 
-  const renderEmptyItem = () => {
+  const renderEmptyItem = count => {
     const messages = {
-      donations: "No more donations",
+      donations: "No Donation",
       gifts: "No more gifters",
-      subs: "No more subs"
+      subs: "No Sub"
     };
     return (
       <ListItem>
-        <ListItemIcon>
-          <CancelIcon />
-        </ListItemIcon>
+        <ListItemIcon>{count}</ListItemIcon>
         <ListItemText
           primary={messages[activePage]}
-          secondary={messages[activePage]}
+          secondary={"N/A"}
         ></ListItemText>
-        <ListItemSecondaryAction style={{ opacity: 0.5 }}>
-          N/A
-        </ListItemSecondaryAction>
       </ListItem>
     );
   };
