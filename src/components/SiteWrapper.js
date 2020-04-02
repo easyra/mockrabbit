@@ -37,13 +37,12 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   };
   useEffect(() => {
     // setDummyMessages();
-
-    setInterval(() => {
-      const { text, action } = messageArr[
-        Math.floor(Math.random() * messageArr.length)
-      ];
-      enqueueSnackbar(text, { action });
-    }, 900000);
+    // setInterval(() => {
+    //   const { text, action } = messageArr[
+    //     Math.floor(Math.random() * messageArr.length)
+    //   ];
+    //   enqueueSnackbar(text, { action });
+    // }, 900000);
   }, []);
 
   const messageArr = [
