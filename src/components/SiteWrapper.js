@@ -20,7 +20,8 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   const themeOptions = [
     { theme: "lightTheme", name: "Light Theme" },
     { theme: "darkTheme", name: "Dark Theme" },
-    { theme: "transTheme", name: "Trans Right Theme" }
+    { theme: "transTheme", name: "BubbbleGum Theme" }
+    // { theme: "omniTheme", name: "Omni Theme" }
   ];
 
   const changeTheme = theme => {
@@ -126,7 +127,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
 
   return (
     <ThemeProvider theme={themes[activeTheme] || themes["lightTheme"]}>
-      <SiteProvider value={{ themeOptions, changeTheme, socials }}>
+      <SiteProvider value={{ themeOptions, changeTheme, socials, activeTheme }}>
         {children}
       </SiteProvider>
     </ThemeProvider>

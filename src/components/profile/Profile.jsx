@@ -28,7 +28,7 @@ const Profile = ({ history }) => {
     signOut,
     registeredUser
   } = useContext(FirebaseContext);
-  const { changeTheme, themeOptions } = useContext(SiteContext);
+  const { changeTheme, themeOptions, activeTheme } = useContext(SiteContext);
   const needsUsername = !userStatus && auth.currentUser;
 
   const handleChange = e => {
@@ -94,6 +94,7 @@ const Profile = ({ history }) => {
             {themeOptions.map(({ theme, name }) => (
               <Button
                 variant={"contained"}
+                color={activeTheme === theme ? "secondary" : "default"}
                 style={{ margin: 5 }}
                 onClick={() => changeTheme(theme)}
               >
