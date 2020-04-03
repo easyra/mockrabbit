@@ -25,7 +25,7 @@ const lightSettings = {
     color: "#000"
   },
   tier2: {
-    background: lightBlue["A400"],
+    background: cyan["A200"],
     color: "#000"
   },
   tier3: {
@@ -33,25 +33,26 @@ const lightSettings = {
     color: "#000"
   },
   tier4: {
-    background: lightGreen["A400"],
+    background: green["A400"],
     color: "#000"
   },
   tier5: {
-    backgroundColor: cyan["A400"],
-    color: "#000"
+    backgroundColor: pink["A200"],
+    color: "#fff",
+    fontWeight: "bold"
   },
   admin: {
-    background: `linear-gradient(to bottom, ${lightBlue["A100"]} 0%,${indigo["A100"]} 15%,${yellow["A100"]} 22%,${orange["A200"]} 100%);`,
-
-    color: "#000"
+    background: deepPurple["A400"],
+    fontWeight: "bold",
+    color: "#fff"
   },
   moderator: {
-    backgroundColor: "#b8c6db",
-    backgroundImage: `linear-gradient(315deg, ${lightGreen["A700"]} 0%, ${lightGreen["A200"]} 74%)`,
-    color: "#000"
+    backgroundColor: purple["A400"],
+    fontWeight: "bold",
+    color: "#fff"
   },
   notable: {
-    background: `linear-gradient(315deg, ${cyan["A700"]} 0%, ${cyan["A200"]} 74%)`,
+    background: amber["A400"],
 
     color: "#000"
   },
