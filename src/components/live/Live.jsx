@@ -12,7 +12,7 @@ import {
   MenuItem,
   Chip,
   useMediaQuery,
-  Modal
+  Modal,
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
@@ -25,7 +25,7 @@ import "simplebar/dist/simplebar.min.css";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { withSnackbar } from "notistack";
 import { useTheme } from "@material-ui/core/styles";
-import { blueGrey, grey, yellow } from "@material-ui/core/colors";
+import { blueGrey, grey, yellow, green } from "@material-ui/core/colors";
 import { SiteContext } from "../SiteWrapper";
 import PayPigPage from "../profile/PayPigPage";
 
@@ -42,7 +42,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     chatMessages,
     addMessage,
     changedUserInUserList,
-    userList
+    userList,
   } = useContext(FirebaseContext);
   const { socials } = useContext(SiteContext);
   const [anchorEl, setAnchorEl] = useState(null); // Element Node for ChatRoom Menu
@@ -52,21 +52,21 @@ const Live = ({ history, enqueueSnackbar }) => {
   const [chatLoaded, setChatLoaded] = useState(false); // Boolean that tells you when chat has finished loading
   const [activeUser, setActiveUser] = useState(null);
   const [payPigModal, setPayPigModal] = useState(false);
-  const [mentionedUsers, setMentionedUsers] = useState([]); // Array of usernames that should be highlighted in chat
+  const [mentionedUsers, setMentionedUsers] = useState([]); // Array of strings of usernames that should be underlined if they are mentioned
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
-      min: 4
+      min: 4,
     },
     wordsPerSentence: {
       max: 16,
-      min: 1
-    }
+      min: 1,
+    },
   });
 
   //------------------------------------------------------ Methods
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     //--------Menu
     setAnchorEl(e.target);
   };
@@ -75,7 +75,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     setAnchorEl(null);
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     //------Chat Box Text Submit
     if (e.key === "Enter" && textInput.length > 0) {
       if (userStatus) {
@@ -88,13 +88,13 @@ const Live = ({ history, enqueueSnackbar }) => {
     }
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     if (e.target.value !== "\n") {
       setTextInput(e.target.value);
     }
   };
 
-  const handleNewMessage = async text => {
+  const handleNewMessage = async (text) => {
     await addMessage(text);
     if (shouldScroll) {
       scrollDown();
@@ -120,22 +120,28 @@ const Live = ({ history, enqueueSnackbar }) => {
 
   const textValidated = (text, username) => {
     const textArr = text.split(" ");
+    const highlight = text[0] === ">";
+    let mentionedCurrentUser = false; //  checks if current user is being mentioned in message
     for (let i = 0; i < textArr.length; i++) {
       const string = textArr[i];
+
       const mentionedUser = userList.find(
-        element => string.toLowerCase() === element.toLowerCase()
+        // Checks if a string mentioned a User currently in chat room
+        (element) => string.toLowerCase() === element.toLowerCase()
       );
       if (emotes[string]) {
         textArr[i] = emotes[string];
       } else if (mentionedUser) {
+        mentionedCurrentUser =
+          mentionedUser === userInfo.username.toLowerCase();
         textArr[i] = (
           <a
             style={{ cursor: "pointer", textDecoration: "underline" }}
             className='mentioned'
             onClick={() =>
-              setMentionedUsers(prevState => {
+              setMentionedUsers((prevState) => {
                 if (prevState.includes(mentionedUser)) {
-                  return prevState.filter(user => user !== mentionedUser);
+                  return prevState.filter((user) => user !== mentionedUser);
                 } else {
                   return [...prevState, mentionedUser, username];
                 }
@@ -149,7 +155,10 @@ const Live = ({ history, enqueueSnackbar }) => {
         textArr[i] += " "; // added spacing
       }
     }
-    return textArr;
+    return [
+      <span className={highlight ? classes.highlight : ""}>{textArr}</span>,
+      mentionedCurrentUser,
+    ];
   };
 
   //------------------------------------------------------ Live Components
@@ -170,7 +179,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         <div className={classes.chatWrapper}>
           <div
             className={classes.chat2}
-            onClick={e => {
+            onClick={(e) => {
               if (
                 !e.target.classList.contains("MuiChip-label") &&
                 !e.target.classList.contains("MuiChip-root") &&
@@ -183,14 +192,16 @@ const Live = ({ history, enqueueSnackbar }) => {
             {/* Chat List */}
             <SimpleBar
               style={{
-                height: "100%"
+                height: "100%",
               }}
               forceVisible='y'
               autoHide={false}
               scrollableNodeProps={{ ref: chatScroll }}
               onScroll={handleScroll}
             >
-              {chatMessages.map(chatMessage => renderChatMessage(chatMessage))}
+              {chatMessages.map((chatMessage) =>
+                renderChatMessage(chatMessage)
+              )}
               <div className='bottom'></div>
             </SimpleBar>
             <Paper
@@ -214,6 +225,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     return (
       <Paper elevation={6} style={{ margin: 5 }}>
         <TextField
+          className={classes.chatbox}
           style={{ padding: 5, fontSize: "0.875rem" }}
           onKeyPress={handleSubmit}
           onChange={handleChange}
@@ -237,12 +249,15 @@ const Live = ({ history, enqueueSnackbar }) => {
           {renderEmoteListMenu()}
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
-              <IconButton onClick={() => setPayPigModal(true)}>
+              <IconButton
+                style={{ color: green["A700"] }}
+                onClick={() => setPayPigModal(true)}
+              >
                 <FavoriteIcon fontSize='small' />
               </IconButton>
             </div>
 
-            <IconButton onClick={e => setEmoteEl(e.target)}>
+            <IconButton onClick={(e) => setEmoteEl(e.target)}>
               <EmojiEmotionsIcon fontSize='small' />
             </IconButton>
             <IconButton onClick={handleClick}>
@@ -269,7 +284,7 @@ const Live = ({ history, enqueueSnackbar }) => {
       <Typography variant='h6' style={{ padding: 5 }}>
         UserList({userList.length})
       </Typography>
-      {userList.map(name => {
+      {userList.map((name) => {
         return <MenuItem onClick={handleClose}>{name}</MenuItem>;
       })}
     </Menu>
@@ -287,13 +302,13 @@ const Live = ({ history, enqueueSnackbar }) => {
       <Typography variant='h6' style={{ padding: 10 }}>
         Emotes
       </Typography>
-      {Object.keys(emotes).map(emote => {
+      {Object.keys(emotes).map((emote) => {
         return (
           <span
             title={emote}
             style={{ cursor: "pointer" }}
             onClick={() => {
-              setTextInput(prevState => {
+              setTextInput((prevState) => {
                 if (prevState.length === 0) {
                   return emote;
                 } else {
@@ -310,8 +325,14 @@ const Live = ({ history, enqueueSnackbar }) => {
     </Menu>
   );
   const renderChatMessage = ({ username, text, type = "default", key }) => {
+    // username: specific user who is sending message
+    // text: text of the message
+    // type: checks type of message. usually used to tell if message is from sub or not
+
     const chipClass = type.length > 0 ? classes[type] : classes.defaultChip;
+
     let opacity = null;
+    const [validatedText, mentionedCurrentUser] = textValidated(text, username);
 
     if (mentionedUsers.length > 0) {
       if (mentionedUsers.includes(username)) {
@@ -327,8 +348,10 @@ const Live = ({ history, enqueueSnackbar }) => {
         style={{ opacity }}
         variant='outlined'
         key={key}
-        elevation={3}
-        className={classes.message}
+        elevation={mentionedCurrentUser ? 10 : 3}
+        className={`${classes.message} ${
+          mentionedCurrentUser ? classes.highlightMsg : ""
+        }`}
       >
         <Typography variant='body2' style={{ wordBreak: "break-word" }}>
           <Chip
@@ -338,16 +361,16 @@ const Live = ({ history, enqueueSnackbar }) => {
             label={username}
             clickable={false}
             onClick={() =>
-              setMentionedUsers(prevState => {
+              setMentionedUsers((prevState) => {
                 if (prevState.includes(username)) {
-                  return prevState.filter(user => user !== username);
+                  return prevState.filter((user) => user !== username);
                 } else {
                   return [...prevState, username];
                 }
               })
             }
           ></Chip>
-          {textValidated(text, username)}
+          {validatedText}
         </Typography>
       </Paper>
     );
@@ -394,7 +417,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "baseline"
+          alignItems: "baseline",
         }}
       >
         <PayPigPage />
@@ -411,7 +434,7 @@ const Live = ({ history, enqueueSnackbar }) => {
             width: "350px",
             height: "calc(100vh - 64px)",
             maxHeight: !smUp && 250,
-            marginBottom: !smUp && 50
+            marginBottom: !smUp && 50,
           }}
         >
           {renderChatMenu()}
@@ -425,21 +448,21 @@ export default withSnackbar(Live);
 
 //-----------------------------------------------------------CSS
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   liveWrapper: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   liveWrapperSmUp: {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   chatWrapper: {
     position: "relative",
     height: "100%",
-    width: "100%"
+    width: "100%",
   },
   message: {
     padding: 5,
@@ -449,16 +472,16 @@ const useStyles = makeStyles(theme => ({
     background: "#fff",
     width: "fit-content",
     transition: "all 0.2s",
-    ...theme.card
+    ...theme.card,
   },
   chat2: {
     position: "absolute",
-    height: "calc(100% - 119px);",
-    width: "100%"
+    height: "calc(100% - 129px);",
+    width: "100%",
   },
   chatBar: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   shouldScroll: {
     background: theme.palette.primary.main,
@@ -469,23 +492,31 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     opacity: 0,
-    transition: "opacity 0.2s"
+    transition: "opacity 0.2s",
   },
   active: {
     opacity: 1,
-    cursor: "pointer"
+    cursor: "pointer",
   },
   defaultChip: {
     background: grey[300],
-    color: "#000"
+    color: "#000",
   },
   iframe: {
     position: "absolute",
-    height: "calc(100vh - 64px)"
+    height: "calc(100vh - 64px)",
   },
   iframeSmUp: {
     height: "100%",
-    minHeight: 300
+    minHeight: 300,
+  },
+  highlight: {
+    color: theme.highlight.color,
+    // fontWeight: 500,
+  },
+
+  highlightMsg: {
+    background: theme.highlight.background,
   },
 
   tier1: { ...theme.tier1 },
@@ -494,7 +525,7 @@ const useStyles = makeStyles(theme => ({
   tier4: { ...theme.tier4 },
   tier5: { ...theme.tier5 },
   admin: { ...theme.admin },
-  moderator: { ...theme.moderator }
+  moderator: { ...theme.moderator },
 }));
 
 const emotes = {
@@ -504,7 +535,7 @@ const emotes = {
         margin: "0 5px -7px 0",
         padding: "3px",
         borderRadius: "50%",
-        background: "#fff"
+        background: "#fff",
       }}
       src='https://cdn.betterttv.net/emote/56e9f494fff3cc5c35e5287e/1x'
     />
@@ -512,7 +543,7 @@ const emotes = {
   PepeHands: (
     <img
       style={{
-        margin: "0 5px -7px 0"
+        margin: "0 5px -7px 0",
       }}
       src='https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/1x'
     />
@@ -520,9 +551,9 @@ const emotes = {
   OMEGALUL: (
     <img
       style={{
-        margin: "0 5px -7px 0"
+        margin: "0 5px -7px 0",
       }}
       src='https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/1x'
     />
-  )
+  ),
 };

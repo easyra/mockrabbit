@@ -12,7 +12,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListSubheader
+  ListSubheader,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
@@ -88,7 +88,7 @@ const CTA = () => {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             variant='contained'
-            color='secondary'
+            color=''
             component={Link}
             startIcon={<StarIcon />}
             to='/profile'
@@ -100,7 +100,7 @@ const CTA = () => {
     );
   };
 
-  const renderSocialCards = name => {
+  const renderSocialCards = (name) => {
     return (
       <List
         subheader={
@@ -120,7 +120,7 @@ const CTA = () => {
     );
   };
 
-  const renderCTAPage = activePage => {
+  const renderCTAPage = (activePage) => {
     if (activePage === 0) {
       return renderSignUpPage();
     }
@@ -148,21 +148,21 @@ const CTA = () => {
 
 export default CTA;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: { ...theme.card, margin: 15 },
   active: {
     opacity: 1,
-    transition: "opacity 0.4s"
+    transition: "opacity 0.4s",
   },
   subheader: {
-    ...theme.card
+    ...theme.card,
   },
   inactive: {
     opacity: "0.4",
-    transition: "opacity 0.4s"
+    transition: "opacity 0.4s",
   },
   highlight: {},
   bg: {
-    background: theme.palette.secondary.light
-  }
+    background: theme.palette.secondary.light,
+  },
 }));

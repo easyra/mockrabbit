@@ -17,7 +17,7 @@ import {
   ListItemIcon,
   Icon,
   Modal,
-  Grid
+  Grid,
 } from "@material-ui/core";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import CloseIcon from "@material-ui/icons/Close";
@@ -36,6 +36,7 @@ import { withSnackbar } from "notistack";
 import LoginPage from "./profile/LoginPage";
 import { SiteContext } from "./SiteWrapper";
 import PayPigPage from "./profile/PayPigPage";
+import { red } from "@material-ui/core/colors";
 
 const Navbar = ({ location, history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -58,7 +59,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
           anchor='left'
           open={sideBarOn}
           PaperProps={{
-            style: { maxWidth: "250px", width: "100%" }
+            style: { maxWidth: "250px", width: "100%" },
           }}
         >
           <IconButton onClick={() => setSideBarOn(false)}>
@@ -157,7 +158,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "baseline"
+          alignItems: "baseline",
         }}
       >
         <LoginPage handleClose={() => setLoginModal(false)} />
@@ -169,7 +170,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "baseline"
+          alignItems: "baseline",
         }}
       >
         <PayPigPage />
@@ -232,16 +233,16 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
                 Twitter
               </Button>
             </Hidden>
-            <Hidden xsDown>
-              <Button
-                color='secondary'
-                variant='contained'
-                startIcon={<FavoriteIcon />}
-                onClick={() => setPayPigModal(true)}
-              >
-                Support The Stream
-              </Button>
-            </Hidden>
+
+            <Button
+              color=''
+              className={classes.cta}
+              variant='contained'
+              startIcon={<FavoriteIcon />}
+              onClick={() => setPayPigModal(true)}
+            >
+              <Hidden xsDown>Subscribe</Hidden>
+            </Button>
           </div>
           <Button
             component={Link}
@@ -256,7 +257,11 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               Account
             </Button>
           ) : (
-            <Button onClick={() => setLoginModal(true)} color='inherit'>
+            <Button
+              variant='outlined'
+              onClick={() => setLoginModal(true)}
+              color='inherit'
+            >
               Login
             </Button>
           )}
@@ -268,15 +273,15 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
 
 export default withSnackbar(Navbar);
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   bg: {
     ...theme.background,
@@ -285,6 +290,9 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
 
     zIndex: "-10",
-    transition: "all 250ms "
-  }
+    transition: "all 250ms ",
+  },
+  cta: {
+    ...theme.cta,
+  },
 }));
