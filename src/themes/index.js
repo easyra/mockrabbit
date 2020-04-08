@@ -62,6 +62,19 @@ const darkSettings = {
     background: grey[800],
     color: "#fff",
   },
+
+  highlight: {
+    color: purple["A700"],
+    background: purple["50"],
+  },
+  cta: {
+    background: green["A700"],
+    color: "#fff",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: green["A700"], opacity: 0.8 },
+    ctaText: green["A700"],
+  },
 };
 
 const lightSettings = {
@@ -114,6 +127,7 @@ const lightSettings = {
     transition: "opacity 0.3s",
     margin: "7.5px 0",
     "&:hover": { background: green["A700"], opacity: 0.8 },
+    ctaText: green["A700"],
   },
 };
 export const lightTheme = createMuiTheme({

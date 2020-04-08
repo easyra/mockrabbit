@@ -13,6 +13,9 @@ import {
   Chip,
   useMediaQuery,
   Modal,
+  Slider,
+  Button,
+  Select,
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
 import ResponsiveEmbed from "react-responsive-embed";
@@ -44,15 +47,24 @@ const Live = ({ history, enqueueSnackbar }) => {
     changedUserInUserList,
     userList,
   } = useContext(FirebaseContext);
-  const { socials } = useContext(SiteContext);
+  const { socials, changeTheme, themeOptions, activeTheme } = useContext(
+    SiteContext
+  );
   const [anchorEl, setAnchorEl] = useState(null); // Element Node for ChatRoom Menu
   const [emoteEl, setEmoteEl] = useState(null); // Element Node for Emote Menu
+  const [settingsModalOpen, setSettingsModal] = useState(false);
   const [textInput, setTextInput] = useState(""); // String for sending messages in chat
   const [shouldScroll, setShouldScroll] = useState(true); // Boolean that enables auto-scroll when true
   const [chatLoaded, setChatLoaded] = useState(false); // Boolean that tells you when chat has finished loading
   const [activeUser, setActiveUser] = useState(null);
   const [payPigModal, setPayPigModal] = useState(false);
   const [mentionedUsers, setMentionedUsers] = useState([]); // Array of strings of usernames that should be underlined if they are mentioned
+  /// Chat Setting Options
+  // const
+  const [chatSize, setChatSize] = useState(
+    localStorage.getItem("chatSize") || 80
+  );
+
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 8,
@@ -116,6 +128,12 @@ const Live = ({ history, enqueueSnackbar }) => {
       setShouldScroll(true);
     }
   };
+
+  const resetSettings = () => {
+    setChatSize(80);
+    localStorage.removeItem("chatSize");
+  };
+
   //------------------------------------------------------ TextValidation
 
   const textValidated = (text, username) => {
@@ -131,7 +149,7 @@ const Live = ({ history, enqueueSnackbar }) => {
       );
       if (emotes[string]) {
         textArr[i] = emotes[string];
-      } else if (mentionedUser) {
+      } else if (mentionedUser || userInfo) {
         mentionedCurrentUser =
           mentionedUser === userInfo.username.toLowerCase();
         textArr[i] = (
@@ -180,12 +198,14 @@ const Live = ({ history, enqueueSnackbar }) => {
           <div
             className={classes.chat2}
             onClick={(e) => {
-              if (
-                !e.target.classList.contains("MuiChip-label") &&
-                !e.target.classList.contains("MuiChip-root") &&
-                !e.target.classList.contains("mentioned")
-              ) {
-                setMentionedUsers([]);
+              if (e.target.classList) {
+                if (
+                  !e.target.classList.contains("MuiChip-label") &&
+                  !e.target.classList.contains("MuiChip-root") &&
+                  !e.target.classList.contains("mentioned")
+                ) {
+                  setMentionedUsers([]);
+                }
               }
             }}
           >
@@ -247,23 +267,30 @@ const Live = ({ history, enqueueSnackbar }) => {
         >
           {renderUserListMenu()}
           {renderEmoteListMenu()}
+          {renderSettingsModal()}
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
               <IconButton
-                style={{ color: green["A700"] }}
+                className={classes.cta}
                 onClick={() => setPayPigModal(true)}
               >
                 <FavoriteIcon fontSize='small' />
               </IconButton>
             </div>
 
-            <IconButton onClick={(e) => setEmoteEl(e.target)}>
+            <IconButton
+              className={classes.icon}
+              onClick={(e) => setEmoteEl(e.target)}
+            >
               <EmojiEmotionsIcon fontSize='small' />
             </IconButton>
-            <IconButton onClick={handleClick}>
+            <IconButton className={classes.icon} onClick={handleClick}>
               <ChatBubbleIcon fontSize='small' />
             </IconButton>
-            <IconButton>
+            <IconButton
+              onClick={() => setSettingsModal(true)}
+              className={classes.icon}
+            >
               <SettingsIcon fontSize='small' />
             </IconButton>
           </div>
@@ -288,6 +315,70 @@ const Live = ({ history, enqueueSnackbar }) => {
         return <MenuItem onClick={handleClose}>{name}</MenuItem>;
       })}
     </Menu>
+  );
+
+  const renderSettingsModal = () => (
+    <Modal
+      open={settingsModalOpen}
+      onClose={() => setSettingsModal(false)}
+      style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        margin: 15,
+      }}
+    >
+      <Paper style={{ padding: 15, width: 500 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+          }}
+        >
+          <Typography gutterBottom variant='h6'>
+            Settings
+          </Typography>
+          <IconButton onClick={() => setSettingsModal(false)}>x</IconButton>
+        </div>
+
+        <Typography variant='subtitle2'>Chat Size</Typography>
+        <Slider
+          defaultValue={chatSize}
+          value={chatSize}
+          track='inverted'
+          // style={{ transform: "rotate(180deg) scaleX(-1)" }}
+          onChange={(e, newValue) => {
+            setChatSize(newValue);
+            localStorage.setItem("chatSize", newValue);
+          }}
+          color='primary'
+          step={1}
+          min={0}
+          max={85}
+        />
+        <Grid container style={{ margin: 15, marginBottom: 50 }}>
+          <Grid xs={4} item>
+            <Typography variant='subtitle2'>Themes</Typography>
+            <Select
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              fullWidth
+              value={activeTheme}
+              onChange={({ target }) => changeTheme(target.value)}
+            >
+              {themeOptions.map(({ theme, name }) => (
+                <MenuItem value={theme}>{name}</MenuItem>
+              ))}
+            </Select>
+          </Grid>
+        </Grid>
+
+        <Button variant='contained' onClick={() => resetSettings()}>
+          Reset Settings
+        </Button>
+      </Paper>
+    </Modal>
   );
 
   const renderEmoteListMenu = () => (
@@ -431,7 +522,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         </div>
         <div
           style={{
-            width: "350px",
+            width: smUp ? 100 - chatSize + "%" : "350px",
             height: "calc(100vh - 64px)",
             maxHeight: !smUp && 250,
             marginBottom: !smUp && 50,
@@ -518,6 +609,10 @@ const useStyles = makeStyles((theme) => ({
   highlightMsg: {
     background: theme.highlight.background,
   },
+  cta: {
+    color: theme.cta.ctaText,
+  },
+  icon: {},
 
   tier1: { ...theme.tier1 },
   tier2: { ...theme.tier2 },
