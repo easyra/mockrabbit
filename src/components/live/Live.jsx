@@ -149,9 +149,12 @@ const Live = ({ history, enqueueSnackbar }) => {
       );
       if (emotes[string]) {
         textArr[i] = emotes[string];
-      } else if (mentionedUser || userInfo) {
-        mentionedCurrentUser =
-          mentionedUser === userInfo.username.toLowerCase();
+      } else if (mentionedUser && userStatus) {
+        if (userStatus) {
+          mentionedCurrentUser =
+            mentionedUser === userInfo.username.toLowerCase(); //checks if string matches current user's username
+        }
+
         textArr[i] = (
           <a
             style={{ cursor: "pointer", textDecoration: "underline" }}
@@ -355,7 +358,7 @@ const Live = ({ history, enqueueSnackbar }) => {
           color='primary'
           step={1}
           min={0}
-          max={85}
+          max={80}
         />
         <Grid container style={{ margin: 15, marginBottom: 50 }}>
           <Grid xs={4} item>
@@ -523,6 +526,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         <div
           style={{
             width: smUp ? 100 - chatSize + "%" : "350px",
+            minWidth: 250,
             height: "calc(100vh - 64px)",
             maxHeight: !smUp && 250,
             marginBottom: !smUp && 50,
