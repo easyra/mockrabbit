@@ -12,8 +12,10 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
 } from "@material-ui/core";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+
 import ResponsiveEmbed from "react-responsive-embed";
 import CTA from "./CTA.jsx";
 import VideoCard from "./VideoCard.jsx";
@@ -51,6 +53,29 @@ const Home = ({ history }) => {
   };
   return (
     <>
+      <Button
+        startIcon={<PlayArrowIcon />}
+        variant='contained'
+        component='span'
+        className={classes.cta}
+        disabled={true}
+        style={{ float: "right" }}
+      >
+        Live Soon
+      </Button>
+      {/* <span style={{ justifyContent: "flex-end", display: "flex" }}>
+        <Button
+          startIcon={<PlayArrowIcon />}
+          variant='contained'
+          component='span'
+          className={classes.cta}
+          disabled={true}
+          // style={{ float: "right" }}
+        >
+          Live Soon
+        </Button>
+      </span> */}
+
       <Helmet>
         <title>MockRabbit TV</title>
       </Helmet>
@@ -75,6 +100,10 @@ const Home = ({ history }) => {
 
 export default Home;
 
-const useStyles = makeStyles(theme => ({
-  bg: { background: theme.palette.secondary.light }
+const useStyles = makeStyles((theme) => ({
+  bg: { background: theme.palette.secondary.light },
+  cta: {
+    ...theme.cta,
+    margin: "10px 15px",
+  },
 }));

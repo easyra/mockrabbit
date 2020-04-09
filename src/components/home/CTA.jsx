@@ -30,48 +30,50 @@ const CTA = () => {
 
   const renderAppBar = () => {
     return (
-      <AppBar position='static' elevation={0}>
-        <Toolbar>
-          <div style={{ flexGrow: 1 }}>
+      <>
+        <AppBar position='static' elevation={0} color='primary'>
+          <Toolbar>
+            <div style={{ flexGrow: 1 }}>
+              <IconButton
+                color='inherit'
+                className={activePage === 0 ? classes.active : classes.inactive}
+                onClick={() => setActivePage(0)}
+              >
+                <HomeIcon />
+              </IconButton>
+            </div>
+
             <IconButton
               color='inherit'
-              className={activePage === 0 ? classes.active : classes.inactive}
-              onClick={() => setActivePage(0)}
+              className={activePage === 1 ? classes.active : classes.inactive}
+              onClick={() => setActivePage(1)}
             >
-              <HomeIcon />
+              <FacebookIcon />
             </IconButton>
-          </div>
-
-          <IconButton
-            color='inherit'
-            className={activePage === 1 ? classes.active : classes.inactive}
-            onClick={() => setActivePage(1)}
-          >
-            <FacebookIcon />
-          </IconButton>
-          <IconButton
-            color='inherit'
-            className={activePage === 2 ? classes.active : classes.inactive}
-            onClick={() => setActivePage(2)}
-          >
-            <TwitterIcon />
-          </IconButton>
-          <IconButton
-            color='inherit'
-            className={activePage === 3 ? classes.active : classes.inactive}
-            onClick={() => setActivePage(3)}
-          >
-            <YouTubeIcon />
-          </IconButton>
-          <IconButton
-            color='inherit'
-            className={activePage === 4 ? classes.active : classes.inactive}
-            onClick={() => setActivePage(4)}
-          >
-            <StarIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            <IconButton
+              color='inherit'
+              className={activePage === 2 ? classes.active : classes.inactive}
+              onClick={() => setActivePage(2)}
+            >
+              <TwitterIcon />
+            </IconButton>
+            <IconButton
+              color='inherit'
+              className={activePage === 3 ? classes.active : classes.inactive}
+              onClick={() => setActivePage(3)}
+            >
+              <YouTubeIcon />
+            </IconButton>
+            <IconButton
+              color='inherit'
+              className={activePage === 4 ? classes.active : classes.inactive}
+              onClick={() => setActivePage(4)}
+            >
+              <StarIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </>
     );
   };
 
@@ -87,7 +89,7 @@ const CTA = () => {
         </Typography>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
-            variant='contained'
+            variant='outlined'
             color=''
             component={Link}
             startIcon={<StarIcon />}
@@ -139,10 +141,12 @@ const CTA = () => {
   };
 
   return (
-    <Paper className={classes.paper} elevation={4}>
-      {renderAppBar()}
-      {renderCTAPage(activePage)}
-    </Paper>
+    <>
+      <Paper className={classes.paper} elevation={4}>
+        {renderAppBar()}
+        {renderCTAPage(activePage)}
+      </Paper>
+    </>
   );
 };
 
@@ -150,6 +154,11 @@ export default CTA;
 
 const useStyles = makeStyles((theme) => ({
   paper: { ...theme.card, margin: 15 },
+  cta: {
+    ...theme.cta,
+    margin: "15px",
+    boxSizing: "border-box",
+  },
   active: {
     opacity: 1,
     transition: "opacity 0.4s",
@@ -164,5 +173,8 @@ const useStyles = makeStyles((theme) => ({
   highlight: {},
   bg: {
     background: theme.palette.secondary.light,
+  },
+  paper: {
+    width: "100%",
   },
 }));
