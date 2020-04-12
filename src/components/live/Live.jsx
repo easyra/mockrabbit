@@ -510,8 +510,8 @@ const Live = ({ history, enqueueSnackbar }) => {
         onClose={() => setPayPigModal(false)}
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "baseline",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
         }}
       >
         <PayPigPage />
