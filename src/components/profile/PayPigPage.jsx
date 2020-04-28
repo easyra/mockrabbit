@@ -6,7 +6,7 @@ import {
   Button,
   InputAdornment,
   makeStyles,
-  Modal
+  Modal,
 } from "@material-ui/core";
 import { useContext } from "react";
 import { FirebaseContext } from "../FirebaseWrapper";
@@ -20,7 +20,7 @@ const PayPigPage = () => {
   const [loginModalOpen, setLoginModal] = useState(false);
 
   const [input, setInput] = useState("");
-  const renderSubPage = loggedin => {
+  const renderSubPage = (loggedin) => {
     if (loggedin) {
       return (
         <>
@@ -104,7 +104,7 @@ const PayPigPage = () => {
         value={input}
         onChange={({ target }) => setInput(target.value)}
         InputProps={{
-          startAdornment: <InputAdornment position='start'>$</InputAdornment>
+          startAdornment: <InputAdornment position='start'>$</InputAdornment>,
         }}
       />
       <Button
@@ -123,45 +123,45 @@ const PayPigPage = () => {
 
 export default PayPigPage;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     padding: 15,
     margin: 15,
-    ...theme.card,
+    // ...theme.card,
     maxWidth: 450,
-    width: "100%"
+    width: "100%",
   },
   tier1: {
     ...theme.tier1,
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { ...theme.tier1, opacity: 0.8 }
+    "&:hover": { ...theme.tier1, opacity: 0.8 },
   },
   tier2: {
     ...theme.tier2,
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { ...theme.tier2, opacity: 0.8 }
+    "&:hover": { ...theme.tier2, opacity: 0.8 },
   },
   tier3: {
     ...theme.tier3,
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { ...theme.tier3, opacity: 0.8 }
+    "&:hover": { ...theme.tier3, opacity: 0.8 },
   },
   tier4: {
     ...theme.tier4,
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { ...theme.tier4, opacity: 0.8 }
+    "&:hover": { ...theme.tier4, opacity: 0.8 },
   },
   tier5: {
     ...theme.tier5,
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { ...theme.tier5, opacity: 0.8 }
+    "&:hover": { ...theme.tier5, opacity: 0.8 },
   },
   donate: {
-    margin: "7.5px 0"
-  }
+    margin: "7.5px 0",
+  },
 }));

@@ -42,16 +42,16 @@ const VideoCard = () => {
 
 export default VideoCard;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     position: "relative",
     height: "100%",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   img: {
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
   },
   title: {
     display: "flex",
@@ -63,16 +63,16 @@ const useStyles = makeStyles(theme => ({
     padding: 5,
     width: "100%",
     opacity: 0,
-    transition: "0.2s opacity"
+    transition: "0.2s opacity",
   },
   active: {
-    opacity: 0.8
+    opacity: 0.8,
   },
   paper: {
-    background: theme.palette.secondary.main,
+    background: theme.cta.ctaText,
     padding: 8,
     margin: 15,
     width: "225px",
-    height: "225px"
-  }
+    height: "225px",
+  },
 }));

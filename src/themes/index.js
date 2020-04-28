@@ -19,75 +19,17 @@ import {
   orange,
 } from "@material-ui/core/colors";
 
-const darkSettings = {
-  tier1: {
-    background: lightBlue["A100"],
-    color: "#000",
-  },
-  tier2: {
-    background: indigo["A100"],
-    color: "#000",
-  },
-  tier3: {
-    background: yellow["A100"],
-    color: "#000",
-  },
-  tier4: {
-    background: orange["A200"],
-    color: "#000",
-  },
-  tier5: {
-    backgroundColor: pink["A100"],
-    color: "#000",
-  },
-  admin: {
-    background: `linear-gradient(315deg, ${yellow["A700"]} 0%, ${yellow["A200"]} 74%)`,
-
-    color: "#000",
-  },
-  moderator: {
-    backgroundColor: "#b8c6db",
-    backgroundImage: `linear-gradient(315deg, ${lightGreen["A700"]} 0%, ${lightGreen["A200"]} 74%)`,
-    color: "#000",
-  },
-  notable: {
-    background: `linear-gradient(315deg, ${cyan["A700"]} 0%, ${cyan["A200"]} 74%)`,
-
-    color: "#000",
-  },
-  background: {
-    background: grey[900],
-  },
-  card: {
-    background: grey[800],
-    color: "#fff",
-  },
-
-  highlight: {
-    color: purple["A700"],
-    background: purple["50"],
-  },
-  cta: {
-    background: green["A700"],
-    color: "#fff",
-    transition: "opacity 0.3s",
-    margin: "7.5px 0",
-    "&:hover": { background: green["A700"], opacity: 0.8 },
-    ctaText: green["A700"],
-  },
-};
-
-const lightSettings = {
+const subColors = {
   tier1: {
     background: lightBlue["A200"],
     color: "#000",
   },
   tier2: {
-    background: cyan["A400"],
+    background: lightBlue["A400"],
     color: "#000",
   },
   tier3: {
-    background: green["A400"],
+    background: orange["A400"],
     color: "#000",
   },
   tier4: {
@@ -114,12 +56,21 @@ const lightSettings = {
 
     color: "#000",
   },
+};
+
+const darkSettings = {
+  ...subColors,
   background: {
-    background: grey[50],
+    background: grey[900],
   },
+  card: {
+    background: grey[800],
+    color: "#fff",
+  },
+
   highlight: {
     color: purple["A700"],
-    background: purple["50"],
+    background: blueGrey["900"],
   },
   cta: {
     background: green["A700"],
@@ -130,15 +81,39 @@ const lightSettings = {
     ctaText: green["A700"],
   },
 };
+
+const lightSettings = {
+  ...subColors,
+
+  background: {
+    background: grey[50],
+  },
+  highlight: {
+    color: green["A700"],
+    background: blueGrey["900"],
+  },
+  cta: {
+    background: red["A400"],
+    color: "#fff",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: red["A400"], opacity: 0.8 },
+    ctaText: red["A400"],
+  },
+};
 export const lightTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: purple["A700"] },
+    secondary: { main: grey["50"] },
     info: { main: orange["A400"] },
   },
   background: {
-    background: grey[50],
+    background: grey[800],
+  },
+  card: {
+    background: grey[900],
+    color: "#fff",
   },
 });
 

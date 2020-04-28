@@ -124,7 +124,7 @@ const Profile = ({ history }) => {
 export default Profile;
 
 const useStyles = makeStyles((theme) => ({
-  paper: { padding: 15, margin: 15, ...theme.card },
+  paper: { padding: 15, margin: 15 },
   tier1: {
     ...theme.tier1,
     transition: "opacity 0.3s",

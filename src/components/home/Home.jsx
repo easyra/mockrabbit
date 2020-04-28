@@ -38,7 +38,7 @@ const Home = ({ history }) => {
   };
   const renderVideoCards = () => {
     return (
-      <Grid container justify='space-around'>
+      <Grid container justify='space-around' className={classes.bg}>
         {renderVideoCard()}
         {renderVideoCard()}
         {renderVideoCard()}
@@ -53,29 +53,6 @@ const Home = ({ history }) => {
   };
   return (
     <>
-      <Button
-        startIcon={<PlayArrowIcon />}
-        variant='contained'
-        component='span'
-        className={classes.cta}
-        disabled={true}
-        style={{ float: "right" }}
-      >
-        Live Soon
-      </Button>
-      {/* <span style={{ justifyContent: "flex-end", display: "flex" }}>
-        <Button
-          startIcon={<PlayArrowIcon />}
-          variant='contained'
-          component='span'
-          className={classes.cta}
-          disabled={true}
-          // style={{ float: "right" }}
-        >
-          Live Soon
-        </Button>
-      </span> */}
-
       <Helmet>
         <title>MockRabbit TV</title>
       </Helmet>
@@ -101,7 +78,7 @@ const Home = ({ history }) => {
 export default Home;
 
 const useStyles = makeStyles((theme) => ({
-  bg: { background: theme.palette.secondary.light },
+  // bg: { background: theme.palette.primary.main },
   cta: {
     ...theme.cta,
     margin: "10px 15px",

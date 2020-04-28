@@ -90,7 +90,8 @@ const CTA = () => {
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             variant='outlined'
-            color=''
+            // className={classes.cta}
+            color='default'
             component={Link}
             startIcon={<StarIcon />}
             to='/profile'

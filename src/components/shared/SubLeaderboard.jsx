@@ -14,7 +14,7 @@ import {
   ListItemSecondaryAction,
   IconButton,
   ListSubheader,
-  Modal
+  Modal,
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
@@ -29,11 +29,11 @@ const SubLeaderboard = () => {
 
   const renderAppBar = () => {
     return (
-      <AppBar position='static' elevation={0} color='secondary'>
+      <AppBar position='static' elevation={0} color='primary'>
         <Toolbar>
           <Grid container alignItems='center'>
             <div className={classes.iconButton}>
-              <IconButton onClick={() => setPayPigModal(true)}>
+              <IconButton color='inherit' onClick={() => setPayPigModal(true)}>
                 <FavoriteIcon />
               </IconButton>
             </div>
@@ -47,11 +47,11 @@ const SubLeaderboard = () => {
   };
 
   const renderAppButtons = () => {
-    return pageOptions.map(page => (
+    return pageOptions.map((page) => (
       <Button
         variant='contained'
         disableElevation={page.toLowerCase() !== activePage}
-        color={page.toLowerCase() === activePage ? "primary" : "secondary"}
+        color={page.toLowerCase() === activePage ? "secondary" : "primary"}
         onClick={() => setActivePage(page.toLowerCase())}
         className={classes.button}
       >
@@ -62,7 +62,7 @@ const SubLeaderboard = () => {
 
   const renderItems = () => {
     let count = 1;
-    const list = items[activePage].map(item => {
+    const list = items[activePage].map((item) => {
       return renderItem(item, count++);
     });
     for (let i = count; i <= 5; i++) {
@@ -72,11 +72,11 @@ const SubLeaderboard = () => {
     return list;
   };
 
-  const renderEmptyItem = count => {
+  const renderEmptyItem = (count) => {
     const messages = {
       donations: "No Donation",
       gifts: "No more gifters",
-      subs: "No Sub"
+      subs: "No Sub",
     };
     return (
       <ListItem>
@@ -102,7 +102,7 @@ const SubLeaderboard = () => {
     const messages = {
       donations: "Highest Donations",
       subs: "Longest Subs",
-      gifts: "Most Gifted Subs"
+      gifts: "Most Gifted Subs",
     };
     return <ListSubheader>Top 5 {messages[activePage]}</ListSubheader>;
   };
@@ -115,7 +115,7 @@ const SubLeaderboard = () => {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "baseline"
+          alignItems: "baseline",
         }}
       >
         <PayPigPage />
@@ -137,32 +137,32 @@ const donations = [
     type: "donation",
     name: "Manny",
     date: "4/1/20",
-    text: "$4.14"
+    text: "$4.14",
   },
   {
     type: "donation",
     name: "Manny",
     date: "4/1/20",
-    text: "$4.14"
+    text: "$4.14",
   },
   {
     type: "donation",
     name: "Manny",
     date: "4/1/20",
-    text: "$4.14"
+    text: "$4.14",
   },
   {
     type: "donation",
     name: "Manny",
     date: "4/1/20",
-    text: "$4.14"
+    text: "$4.14",
   },
   {
     type: "donation",
     name: "Manny",
     date: "4/1/20",
-    text: "$4.14"
-  }
+    text: "$4.14",
+  },
 ];
 
 const subs = [{ name: "Subber29", text: "11 months", date: "4/1/20" }];
@@ -171,7 +171,7 @@ const gifts = [{ name: "Subber29", text: "10", date: "4/1/20" }];
 
 const items = { donations, gifts, subs };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   button: { margin: "0 15px 0 0" },
-  iconButton: { flexGrow: 1 }
+  iconButton: { flexGrow: 1, color: theme.cta.ctaText },
 }));

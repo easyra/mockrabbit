@@ -249,23 +249,26 @@ const Live = ({ history, enqueueSnackbar }) => {
       <Paper elevation={6} style={{ margin: 5 }}>
         <TextField
           className={classes.chatbox}
-          style={{ padding: 5, fontSize: "0.875rem" }}
+          color='primary'
+          style={{ padding: 5, fontSize: "0.875rem", color: "#fff" }}
           onKeyPress={handleSubmit}
           onChange={handleChange}
           value={textInput}
           fullWidth
           multiline
           fontSize='small'
-          inputProps={{ style: { height: 38, fontSize: "0.875rem" } }}
+          inputProps={{
+            className: classes.chatboxInput,
+          }}
           placeholder={userStatus ? "Type Here!" : "Login to Type Something"}
           rowsMax='2'
-          variant='outlined'
+          // variant='outlined'
           size='small'
         />
         <AppBar
           position='static'
-          color='default'
-          style={{ background: "#fff" }}
+          color='primary'
+          // style={{ background: "#fff" }}
           elevation={0}
         >
           {renderUserListMenu()}
@@ -617,6 +620,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.cta.ctaText,
   },
   icon: {},
+  chatbox: {
+    background: theme.palette.primary.main,
+  },
+  chatboxInput: {
+    height: 38,
+    fontSize: "0.875rem",
+    color: theme.palette.primary.contrastText,
+    padding: 5,
+    background: theme.palette.primary.light,
+  },
 
   tier1: { ...theme.tier1 },
   tier2: { ...theme.tier2 },
