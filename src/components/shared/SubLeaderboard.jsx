@@ -15,6 +15,7 @@ import {
   IconButton,
   ListSubheader,
   Modal,
+  Hidden,
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
@@ -121,15 +122,11 @@ const SubLeaderboard = () => {
         <PayPigPage />
       </Modal>
       <Paper elevation='4'>
-        <AppBar position='static' color='primary'>
-          <Toolbar>
-            <Typography variant='h6'>Fan Leaderboard</Typography>
-          </Toolbar>
-        </AppBar>
+        <Hidden smDown>{renderAppBar()}</Hidden>
         <List dense subheader={renderListSubheader()}>
           {renderItems()}
         </List>
-        {renderAppBar()}
+        <Hidden mdUp>{renderAppBar()}</Hidden>
       </Paper>
     </>
   );
