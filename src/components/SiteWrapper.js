@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ThemeProvider, Button } from "@material-ui/core";
+import { ThemeProvider, Button, Chip } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import themes from "../themes";
@@ -34,98 +34,20 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     twitterID: "mockrabbit",
     name: "MockRabbit",
   };
-  useEffect(() => {
-    // setDummyMessages();
-    // setInterval(() => {
-    //   const { text, action } = messageArr[
-    //     Math.floor(Math.random() * messageArr.length)
-    //   ];
-    //   enqueueSnackbar(text, { action });
-    // }, 900000);
-  }, []);
 
-  const messageArr = [
-    {
-      text: "twitter.com/" + socials.twitterID,
-      action: (
-        <Button
-          target='__blank'
-          href={"https://www.twitter.com/" + socials.twitterID}
-          variant='contained'
-          color='primary'
-        >
-          Follow Me
-        </Button>
-      ),
-    },
-    {
-      text: "Join the Discord",
-      action: (
-        <Button
-          target='__blank'
-          href={"https://www.discord.com/" + socials.discordID}
-          variant='contained'
-          color='primary'
-        >
-          Join Here
-        </Button>
-      ),
-    },
-    {
-      text: "twitch.tv/" + socials.twitchID,
-      action: (
-        <Button
-          target='__blank'
-          href={"https://www.twitch.tv/" + socials.twitchID}
-          variant='contained'
-          color='primary'
-        >
-          Follow Me
-        </Button>
-      ),
-    },
-    {
-      text: "facebook.com/" + socials.facebookID,
-      action: (
-        <Button
-          target='__blank'
-          href={"https://www.facebook.com/" + socials.facebookID}
-          variant='contained'
-          color='primary'
-        >
-          Follow Me
-        </Button>
-      ),
-    },
-    {
-      text: "Support the Stream",
-      action: (
-        <Button
-          variant='contained'
-          startIcon={<FavoriteIcon />}
-          color='primary'
-        >
-          Subscribe
-        </Button>
-      ),
-    },
-    {
-      text: "Support the Stream",
-      action: (
-        <Button
-          variant='contained'
-          startIcon={<FavoriteIcon />}
-          color='primary'
-        >
-          Donate
-        </Button>
-      ),
-    },
-  ];
+  const socialLinks = {
+    twitch: "https://www.twitch.tv/" + socials.twitchID,
+    youtube: "https://www.youtube.com/" + socials.youtubeID,
+    facebook: "https://www.facebook.com/" + socials.facebookID,
+    discord: "https://www.discord.com/" + socials.discordID,
+    twitter: "https://www.twitter.com/" + socials.twitterID,
+  };
 
   return (
     <ThemeProvider theme={themes[activeTheme] || themes["defaultTheme"]}>
-      <SiteProvider value={{ themeOptions, changeTheme, socials, activeTheme }}>
+      <SiteProvider
+        value={{ themeOptions, changeTheme, socials, socialLinks, activeTheme }}
+      >
         {children}
       </SiteProvider>
     </ThemeProvider>
