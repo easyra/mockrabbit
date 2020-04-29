@@ -60,12 +60,12 @@ const Home = ({ history }) => {
         container
         justify='space-around'
         // alignItems='center'
-        style={{ margin: "75px 0" }}
+        style={{ marginTop: "calc(4% + 64px) " }}
       >
-        <Grid item md={6} sm={8} xs={10}>
+        <Grid item md={6} sm={8} xs={12}>
           <CTA />
         </Grid>
-        <Grid item md={4} sm={8} xs={10}>
+        <Grid item md={4} sm={8} xs={12}>
           {renderLeaderboard()}
           {/* {renderIntroVideo()} */}
         </Grid>

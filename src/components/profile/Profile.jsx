@@ -110,7 +110,7 @@ const Profile = ({ history }) => {
     );
   };
   return (
-    <Grid style={{ marginTop: 50 }} justify='center' container>
+    <Grid style={{ marginTop: 64 }} justify='center' container>
       <Helmet>
         <title>
           {userInfo.username ? `Account | ${userInfo.username}` : "Login!"}

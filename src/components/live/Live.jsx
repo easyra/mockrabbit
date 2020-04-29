@@ -18,7 +18,7 @@ import {
   Select,
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
-import ResponsiveEmbed from "react-responsive-embed";
+
 import SimpleBar from "simplebar-react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -548,10 +548,12 @@ export default withSnackbar(Live);
 
 const useStyles = makeStyles((theme) => ({
   liveWrapper: {
+    marginTop: 64,
     display: "flex",
     justifyContent: "center",
   },
   liveWrapperSmUp: {
+    marginTop: 64,
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",

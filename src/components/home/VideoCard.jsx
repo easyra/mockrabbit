@@ -16,11 +16,6 @@ const VideoCard = () => {
       onMouseLeave={() => setActive(false)}
     >
       <Paper elevation={4} className={classes.paper}>
-        {/* <AppBar position='static' color='primary' elevation={4}>
-      <Typography style={{ padding: 5 }} variant='body1'>
-        Title
-      </Typography>
-    </AppBar> */}
         <div className={classes.card}>
           <Typography
             variant='subtile1'
@@ -31,7 +26,7 @@ const VideoCard = () => {
 
           <img
             className={classes.img}
-            src='https://images.pexels.com/photos/3789885/pexels-photo-3789885.jpeg?cs=srgb&dl=stainless-steel-spoon-on-black-ceramic-bowl-3789885.jpg&fm=jpg'
+            src='https://www.coderepublics.com/tools/Images/youtube-thumbnail-size.png'
             alt=''
           />
         </div>
@@ -72,7 +67,5 @@ const useStyles = makeStyles((theme) => ({
     background: theme.cta.ctaText,
     padding: 8,
     margin: 15,
-    width: "225px",
-    height: "225px",
   },
 }));

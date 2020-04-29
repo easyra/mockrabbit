@@ -120,11 +120,16 @@ const SubLeaderboard = () => {
       >
         <PayPigPage />
       </Modal>
-      <Paper>
-        {renderAppBar()}
+      <Paper elevation='4'>
+        <AppBar position='static' color='primary'>
+          <Toolbar>
+            <Typography variant='h6'>Fan Leaderboard</Typography>
+          </Toolbar>
+        </AppBar>
         <List dense subheader={renderListSubheader()}>
           {renderItems()}
         </List>
+        {renderAppBar()}
       </Paper>
     </>
   );

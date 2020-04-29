@@ -179,7 +179,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
       {/* AppBar */}
       <AppBar
         className={classes.root}
-        position='static'
+        position='fixed'
         elevation={4}
         color='primary'
       >
@@ -241,7 +241,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               startIcon={<FavoriteIcon />}
               onClick={() => setPayPigModal(true)}
             >
-              <Hidden xsDown>Subscribe</Hidden>
+              Sub<Hidden xsDown>scribe</Hidden>
             </Button>
           </div>
           <Button

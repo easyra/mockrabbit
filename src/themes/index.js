@@ -101,7 +101,7 @@ const lightSettings = {
     ctaText: red["A400"],
   },
 };
-export const lightTheme = createMuiTheme({
+export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
@@ -146,4 +146,4 @@ export const transTheme = createMuiTheme({
     background: grey[50],
   },
 });
-export default { lightTheme, darkTheme, transTheme, omniTheme };
+export default { defaultTheme, darkTheme, transTheme, omniTheme };

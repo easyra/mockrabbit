@@ -21,6 +21,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { SiteContext } from "../SiteWrapper";
+import ResponsiveEmbed from "react-responsive-embed";
 
 const CTA = () => {
   const [activePage, setActivePage] = useState(0);
@@ -103,6 +104,45 @@ const CTA = () => {
     );
   };
 
+  const renderVideoCTA = () => {
+    return (
+      <Grid container className={classes.card}>
+        <Grid item xs={12} md={8}>
+          <ResponsiveEmbed
+            src={`https://player.twitch.tv/?channel=${socials.twitterID}`}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          container
+          alignItems='center'
+          direction='column'
+        >
+          <Typography align='center' variant='h6' style={{ marginTop: 5 }}>
+            {socials.name} Live Soon!
+          </Typography>
+          <Typography align='center' variant='overline'>
+            Mon-Fri
+          </Typography>
+          <Typography align='center' variant='overline' gutterBottom>
+            10AM-12AM
+          </Typography>
+          <Button
+            style={{ marginBottom: 15 }}
+            className={classes.cta}
+            component={Link}
+            to='/live'
+            variant='contained'
+          >
+            Watch Now
+          </Button>
+        </Grid>
+      </Grid>
+    );
+  };
+
   const renderSocialCards = (name) => {
     return (
       <List
@@ -119,13 +159,19 @@ const CTA = () => {
         <ListItem button>
           <ListItemText primary='coming soon...' />
         </ListItem>
+        <ListItem button>
+          <ListItemText primary='coming soon...' />
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary='coming soon...' />
+        </ListItem>
       </List>
     );
   };
 
   const renderCTAPage = (activePage) => {
     if (activePage === 0) {
-      return renderSignUpPage();
+      return renderVideoCTA();
     }
     if (activePage === 1) {
       return renderSocialCards(`facebook.com/${socials.facebookID}`);
@@ -143,7 +189,11 @@ const CTA = () => {
 
   return (
     <>
-      <Paper className={classes.paper} elevation={4}>
+      <Paper
+        className={classes.paper}
+        style={{ marginBottom: 0 }}
+        elevation={4}
+      >
         {renderAppBar()}
         {renderCTAPage(activePage)}
       </Paper>
@@ -154,10 +204,13 @@ const CTA = () => {
 export default CTA;
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
   paper: { ...theme.card, margin: 15 },
   cta: {
     ...theme.cta,
-    margin: "15px",
     boxSizing: "border-box",
   },
   active: {
@@ -166,6 +219,7 @@ const useStyles = makeStyles((theme) => ({
   },
   subheader: {
     ...theme.card,
+    // color: theme.cta.ctaText,
   },
   inactive: {
     opacity: "0.4",

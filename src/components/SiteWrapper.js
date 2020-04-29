@@ -10,7 +10,7 @@ export const SiteConsumer = SiteContext.Consumer;
 export const SiteProvider = SiteContext.Provider;
 
 const SiteWrapper = ({ children, enqueueSnackbar }) => {
-  const [activeTheme, setActiveTheme] = useState("lightTheme");
+  const [activeTheme, setActiveTheme] = useState("defaultTheme");
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -18,13 +18,11 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     }
   }, []);
   const themeOptions = [
-    { theme: "lightTheme", name: "Light Theme" },
-    { theme: "darkTheme", name: "Dark Theme" },
-    { theme: "transTheme", name: "BubbbleGum Theme" }
-    // { theme: "omniTheme", name: "Omni Theme" }
+    { theme: "defaultTheme", name: "Default Theme" },
+    { theme: "transTheme", name: "BubbbleGum Theme" },
   ];
 
-  const changeTheme = theme => {
+  const changeTheme = (theme) => {
     localStorage.setItem("theme", theme);
     setActiveTheme(theme);
   };
@@ -34,7 +32,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     facebookID: "mockrabbit",
     discordID: "",
     twitterID: "mockrabbit",
-    name: "MockRabbit"
+    name: "MockRabbit",
   };
   useEffect(() => {
     // setDummyMessages();
@@ -58,7 +56,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Follow Me
         </Button>
-      )
+      ),
     },
     {
       text: "Join the Discord",
@@ -71,7 +69,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Join Here
         </Button>
-      )
+      ),
     },
     {
       text: "twitch.tv/" + socials.twitchID,
@@ -84,7 +82,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Follow Me
         </Button>
-      )
+      ),
     },
     {
       text: "facebook.com/" + socials.facebookID,
@@ -97,7 +95,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Follow Me
         </Button>
-      )
+      ),
     },
     {
       text: "Support the Stream",
@@ -109,7 +107,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Subscribe
         </Button>
-      )
+      ),
     },
     {
       text: "Support the Stream",
@@ -121,12 +119,12 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
         >
           Donate
         </Button>
-      )
-    }
+      ),
+    },
   ];
 
   return (
-    <ThemeProvider theme={themes[activeTheme] || themes["lightTheme"]}>
+    <ThemeProvider theme={themes[activeTheme] || themes["defaultTheme"]}>
       <SiteProvider value={{ themeOptions, changeTheme, socials, activeTheme }}>
         {children}
       </SiteProvider>
