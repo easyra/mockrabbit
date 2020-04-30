@@ -121,7 +121,9 @@ const Live = ({ history, enqueueSnackbar }) => {
     // chatScroll.current.recalculate();
     if (
       chatScroll.current.scrollTop <=
-      chatScroll.current.scrollHeight - 540 - 70
+      chatScroll.current.scrollHeight -
+        540 -
+        chatScroll.current.scrollHeight / 11
     ) {
       setShouldScroll(false);
     } else {
