@@ -78,7 +78,8 @@ const PayPigPage = () => {
             variant='contained'
             onClick={() => setLoginModal(true)}
             fullWidth
-            color='secondary'
+            // color='secondary'
+            className={classes.cta}
             style={{ marginBottom: 5 }}
           >
             Login
@@ -131,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 450,
     width: "100%",
   },
+  cta: { ...theme.cta },
   tier1: {
     ...theme.tier1,
     transition: "opacity 0.3s",

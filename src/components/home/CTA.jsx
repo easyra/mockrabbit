@@ -22,6 +22,7 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { SiteContext } from "../SiteWrapper";
 import ResponsiveEmbed from "react-responsive-embed";
+import SocialCard from "../shared/SocialCard";
 
 const CTA = () => {
   const [activePage, setActivePage] = useState(0);
@@ -143,47 +144,27 @@ const CTA = () => {
     );
   };
 
-  const renderSocialCards = (name) => {
-    return (
-      <List
-        subheader={
-          <ListSubheader className={classes.subheader}>{name}</ListSubheader>
-        }
-      >
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-      </List>
-    );
-  };
-
   const renderCTAPage = (activePage) => {
     if (activePage === 0) {
       return renderVideoCTA();
     }
     if (activePage === 1) {
-      return renderSocialCards(`facebook.com/${socials.facebookID}`);
+      return (
+        <SocialCard elevation={0} name={`facebook.com/${socials.facebookID}`} />
+      );
     }
     if (activePage === 2) {
-      return renderSocialCards(`twitter.com/${socials.twitterID}`);
+      return (
+        <SocialCard elevation={0} name={`twitter.com/${socials.twitterID}`} />
+      );
     }
     if (activePage === 3) {
-      return renderSocialCards(`youtube.com/${socials.youtubeID}`);
+      return (
+        <SocialCard elevation={0} name={`youtube.com/${socials.youtubeID}`} />
+      );
     }
     if (activePage === 4) {
-      return renderSocialCards("subscriber feed");
+      return <SocialCard elevation={0} name={"subscriber feed"} />;
     }
   };
 

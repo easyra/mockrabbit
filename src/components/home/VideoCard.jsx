@@ -64,8 +64,11 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.8,
   },
   paper: {
-    background: theme.cta.ctaText,
+    background: theme.palette.secondary.main,
+    // ...theme.card,
     padding: 8,
     margin: 15,
+    transition: "background 0.4s",
+    "&:hover": { background: theme.cta.ctaText },
   },
 }));

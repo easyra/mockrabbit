@@ -17,6 +17,7 @@ import {
   cyan,
   yellow,
   orange,
+  brown,
 } from "@material-ui/core/colors";
 
 const subColors = {
@@ -93,27 +94,71 @@ const lightSettings = {
     background: blueGrey["900"],
   },
   cta: {
-    background: red["A400"],
-    color: "#fff",
+    background: yellow["A400"],
+    color: "#000",
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { background: red["A400"], opacity: 0.8 },
-    ctaText: red["A400"],
+    "&:hover": { background: yellow["A400"], opacity: 0.8 },
+    ctaText: yellow["A700"],
   },
 };
+export const theme2 = createMuiTheme({
+  ...lightSettings,
+  palette: {
+    primary: { main: deepPurple["900"] },
+    secondary: { main: cyan["A400"] },
+    info: { main: orange["A400"] },
+  },
+  background: {
+    background: deepPurple[50],
+  },
+  card: {
+    background: deepPurple[900],
+    color: "#fff",
+  },
+});
+
 export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: grey["50"] },
-    info: { main: orange["A400"] },
+    secondary: { main: cyan["A400"] },
   },
+  cta: {
+    background: yellow["A400"],
+    color: "#000",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: yellow["A700"], opacity: 0.8 },
+    ctaText: yellow["A400"],
+  },
+
   background: {
-    background: grey[800],
+    background: grey["200"],
   },
   card: {
     background: grey[900],
     color: "#fff",
+  },
+});
+
+export const transTheme = createMuiTheme({
+  palette: {
+    primary: { main: lightBlue["A100"] },
+    secondary: { main: pink["50"] },
+    info: { main: orange["A400"] },
+  },
+  ...lightSettings,
+  background: {
+    background: pink[50],
+  },
+  cta: {
+    background: grey["50"],
+    color: "#000",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: orange["50"], opacity: 0.8 },
+    ctaText: orange["50"],
   },
 });
 
@@ -134,16 +179,4 @@ export const darkTheme = createMuiTheme({
   },
   ...darkSettings,
 });
-
-export const transTheme = createMuiTheme({
-  palette: {
-    primary: { main: lightBlue["A100"] },
-    secondary: { main: pink["50"] },
-    info: { main: orange["A400"] },
-  },
-  ...lightSettings,
-  background: {
-    background: grey[50],
-  },
-});
-export default { defaultTheme, darkTheme, transTheme, omniTheme };
+export default { defaultTheme, darkTheme, transTheme, theme2 };

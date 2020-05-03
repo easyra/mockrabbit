@@ -20,6 +20,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   const themeOptions = [
     { theme: "defaultTheme", name: "Default Theme" },
     { theme: "transTheme", name: "BubbbleGum Theme" },
+    { theme: "theme2", name: "Theme2" },
   ];
 
   const changeTheme = (theme) => {
@@ -32,6 +33,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     facebookID: "mockrabbit",
     discordID: "",
     twitterID: "mockrabbit",
+    email: "mockrabbit7@gmail.com",
     name: "MockRabbit",
   };
 
