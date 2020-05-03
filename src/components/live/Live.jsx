@@ -35,6 +35,7 @@ import PayPigPage from "../profile/PayPigPage";
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
   const chatScroll = useRef(null);
+  const lastMessage = useRef(null);
   const theme = useTheme();
   const smUp = useMediaQuery(theme.breakpoints.up("sm"));
   const {
@@ -118,18 +119,19 @@ const Live = ({ history, enqueueSnackbar }) => {
   };
 
   const handleScroll = () => {
-    // chatScroll.current.recalculate();
-    if (
-      chatScroll.current.scrollTop <=
-      chatScroll.current.scrollHeight -
-        540 -
-        chatScroll.current.scrollHeight / 11
-    ) {
-      setShouldScroll(false);
-    } else {
-      setShouldScroll(true);
-    }
+    setShouldScroll(isScrolledIntoView(lastMessage));
   };
+
+  function isScrolledIntoView(elem) {
+    if (!elem) {
+      return false;
+    }
+    var docViewTop = chatScroll.current.scrollTop;
+    var docViewBottom = docViewTop + chatScroll.current.clientHeight;
+    var elemTop = elem.current.offsetTop;
+    var elemBottom = elemTop + elem.current.clientHeight;
+    return elemBottom <= docViewBottom && elemTop >= docViewTop;
+  }
 
   const resetSettings = () => {
     setChatSize(80);
@@ -224,9 +226,12 @@ const Live = ({ history, enqueueSnackbar }) => {
               scrollableNodeProps={{ ref: chatScroll }}
               onScroll={handleScroll}
             >
-              {chatMessages.map((chatMessage) =>
-                renderChatMessage(chatMessage)
-              )}
+              {chatMessages.map((chatMessage, i) => {
+                return renderChatMessage(
+                  chatMessage,
+                  chatMessages.length - 1 === i
+                );
+              })}
               <div className='bottom'></div>
             </SimpleBar>
             <Paper
@@ -423,7 +428,11 @@ const Live = ({ history, enqueueSnackbar }) => {
       })}
     </Menu>
   );
-  const renderChatMessage = ({ username, text, type = "default", key }) => {
+  const renderChatMessage = (
+    { username, text, type = "default", key },
+
+    last
+  ) => {
     // username: specific user who is sending message
     // text: text of the message
     // type: checks type of message. usually used to tell if message is from sub or not
@@ -444,6 +453,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     }
     return (
       <Paper
+        ref={last ? lastMessage : null}
         style={{ opacity }}
         variant='outlined'
         key={key}
