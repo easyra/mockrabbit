@@ -142,6 +142,31 @@ export const defaultTheme = createMuiTheme({
   },
 });
 
+export const theme3 = createMuiTheme({
+  ...lightSettings,
+  palette: {
+    primary: { main: grey["900"] },
+    secondary: { main: deepPurple["A400"] },
+  },
+  cta: {
+    background: yellow["A400"],
+    color: "#000",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: yellow["A700"], opacity: 0.8 },
+    ctaText: yellow["A400"],
+  },
+
+  background: {
+    backgroundColor: yellow["A700"],
+    background:
+      "url(https://images.pexels.com/photos/2964916/pexels-photo-2964916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940)",
+  },
+  card: {
+    background: grey[50],
+    color: "#000",
+  },
+});
 export const transTheme = createMuiTheme({
   palette: {
     primary: { main: lightBlue["A100"] },
@@ -179,4 +204,4 @@ export const darkTheme = createMuiTheme({
   },
   ...darkSettings,
 });
-export default { defaultTheme, darkTheme, transTheme, theme2 };
+export default { defaultTheme, darkTheme, transTheme, theme2, theme3 };

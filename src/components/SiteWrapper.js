@@ -19,8 +19,9 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
   }, []);
   const themeOptions = [
     { theme: "defaultTheme", name: "Default Theme" },
-    { theme: "transTheme", name: "BubbbleGum Theme" },
-    { theme: "theme2", name: "Theme2" },
+    // { theme: "transTheme", name: "BubbbleGum Theme" },
+    { theme: "theme2", name: "100% More Purple" },
+    { theme: "theme3", name: "Bannana Party" },
   ];
 
   const changeTheme = (theme) => {

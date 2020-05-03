@@ -17,8 +17,13 @@ const SocialCard = ({ name, elevation = 4 }) => {
       <AppBar elevation={0} position='static' color='primary'>
         <Toolbar style={{ justifyContent: "space-between" }}>
           {name}
-          <Button className={classes.cta} variant='contained'>
-            More
+          <Button
+            href=''
+            className={classes.cta}
+            size='small'
+            variant='contained'
+          >
+            GO
           </Button>
         </Toolbar>
       </AppBar>
