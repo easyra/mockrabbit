@@ -8,23 +8,47 @@ import {
   List,
   ListItem,
   ListItemText,
+  IconButton,
 } from "@material-ui/core";
+import { useContext } from "react";
+import { SiteContext } from "../SiteWrapper";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
-const SocialCard = ({ name, elevation = 4 }) => {
+const SocialCard = ({ type, elevation = 4 }) => {
   const classes = useStyles();
+  const { socialLinks } = useContext(SiteContext);
+  const subscriberFeed = type !== "subscribe";
+
+  const names = {
+    facebook: "Facebook",
+    youtube: "YouTube",
+    twitter: "Twitter",
+    subscribe: "Subscriber Feed",
+  };
   return (
     <Paper elevation={elevation} className={classes.paper}>
       <AppBar elevation={0} position='static' color='primary'>
         <Toolbar style={{ justifyContent: "space-between" }}>
-          {name}
-          <Button
-            href=''
-            className={classes.cta}
-            size='small'
-            variant='contained'
-          >
-            GO
-          </Button>
+          {names[type]}
+          {subscriberFeed ? (
+            <Button
+              href={socialLinks[type]}
+              target='_blank'
+              className={classes.ctaText}
+              size=''
+              variant='outlined'
+            >
+              MORE
+            </Button>
+          ) : (
+            <Button
+              className={classes.ctaText}
+              variant='outlined'
+              startIcon={<FavoriteIcon />}
+            >
+              Subscribe
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <List>
@@ -78,5 +102,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: "100%",
+  },
+  ctaText: {
+    color: theme.cta.ctaText,
+    borderColor: theme.cta.ctaText,
   },
 }));

@@ -237,7 +237,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
             <Button
               // color='secondary'
               className={classes.cta}
-              variant='outlined'
+              variant='contained'
               startIcon={<FavoriteIcon />}
               onClick={() => setPayPigModal(true)}
             >
@@ -293,7 +293,6 @@ const useStyles = makeStyles((theme) => ({
     transition: "all 250ms ",
   },
   cta: {
-    color: theme.cta.ctaText,
-    borderColor: theme.cta.ctaText,
+    ...theme.cta,
   },
 }));

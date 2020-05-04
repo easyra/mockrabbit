@@ -20,6 +20,7 @@ import StarIcon from "@material-ui/icons/Star";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import YouTubeIcon from "@material-ui/icons/YouTube";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { SiteContext } from "../SiteWrapper";
 import ResponsiveEmbed from "react-responsive-embed";
 import SocialCard from "../shared/SocialCard";
@@ -134,8 +135,9 @@ const CTA = () => {
             style={{ marginBottom: 15 }}
             className={classes.cta}
             component={Link}
+            startIcon={<PlayArrowIcon />}
             to='/live'
-            variant='contained'
+            variant='outlined'
           >
             Watch Now
           </Button>
@@ -149,22 +151,16 @@ const CTA = () => {
       return renderVideoCTA();
     }
     if (activePage === 1) {
-      return (
-        <SocialCard elevation={0} name={`facebook.com/${socials.facebookID}`} />
-      );
+      return <SocialCard elevation={0} type={`facebook`} />;
     }
     if (activePage === 2) {
-      return (
-        <SocialCard elevation={0} name={`twitter.com/${socials.twitterID}`} />
-      );
+      return <SocialCard elevation={0} type={`twitter`} />;
     }
     if (activePage === 3) {
-      return (
-        <SocialCard elevation={0} name={`youtube.com/${socials.youtubeID}`} />
-      );
+      return <SocialCard elevation={0} type={`youtube`} />;
     }
     if (activePage === 4) {
-      return <SocialCard elevation={0} name={"subscriber feed"} />;
+      return <SocialCard elevation={0} type={"subscribe"} />;
     }
   };
 
@@ -191,7 +187,8 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: { ...theme.card, margin: 15 },
   cta: {
-    ...theme.cta,
+    color: theme.cta.ctaText,
+    borderColor: theme.cta.ctaText,
     boxSizing: "border-box",
   },
   active: {

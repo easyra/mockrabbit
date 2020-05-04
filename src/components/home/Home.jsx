@@ -74,16 +74,16 @@ const Home = ({ history }) => {
         </Typography>
         <Grid container justify={"center"}>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
-            <SocialCard name={"Facebook"} />
+            <SocialCard type={"facebook"} />
           </Grid>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
-            <SocialCard name={"Facebook"} />
+            <SocialCard type={"subscribe"} />
           </Grid>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
-            <SocialCard name={"Facebook"} />
+            <SocialCard type={"twitter"} />
           </Grid>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
-            <SocialCard name={"Facebook"} />
+            <SocialCard type={"youtube"} />
           </Grid>
         </Grid>
       </div>
