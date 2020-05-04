@@ -7,16 +7,22 @@ import {
   InputAdornment,
   makeStyles,
   Modal,
+  AppBar,
+  Toolbar,
+  Grid,
 } from "@material-ui/core";
 import { useContext } from "react";
 import { FirebaseContext } from "../FirebaseWrapper";
 import { green } from "@material-ui/core/colors";
 import { useState } from "react";
 import LoginPage from "./LoginPage";
+import { SiteContext } from "../SiteWrapper";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const PayPigPage = () => {
   const classes = useStyles();
   const { giveSubscription, userStatus } = useContext(FirebaseContext);
+  const { socials } = useContext(SiteContext);
   const [loginModalOpen, setLoginModal] = useState(false);
 
   const [input, setInput] = useState("");
@@ -97,28 +103,45 @@ const PayPigPage = () => {
   };
 
   return (
-    <Paper className={classes.paper} elevation={4}>
-      <Typography variant='h6'>Donate</Typography>
-      <TextField
-        placeholder='Ex: $15.00'
-        fullWidth
-        value={input}
-        onChange={({ target }) => setInput(target.value)}
-        InputProps={{
-          startAdornment: <InputAdornment position='start'>$</InputAdornment>,
-        }}
-      />
-      <Button
-        disabled={!input}
-        className={classes.donate}
-        color='primary'
-        variant='contained'
-        fullWidth
-      >
-        Donate
-      </Button>
-      {renderSubPage(userStatus)}
-    </Paper>
+    <>
+      <Paper elevation={4} className={classes.paper}>
+        <div className={classes.content}>
+          <Grid container justify='flex-end' alignItems='baseline'>
+            {/* <FavoriteIcon /> */}
+            <Typography
+              // align='center'
+              // style={{ display: "block" }}
+              variant='overline'
+            >
+              Help Support {socials.name} {"<3"}
+            </Typography>
+          </Grid>
+
+          <Typography variant='h6'>Donate</Typography>
+          <TextField
+            placeholder='Ex: $15.00'
+            fullWidth
+            value={input}
+            onChange={({ target }) => setInput(target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>$</InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            disabled={!input}
+            className={classes.donate}
+            color='primary'
+            variant='contained'
+            fullWidth
+          >
+            Donate
+          </Button>
+          {renderSubPage(userStatus)}
+        </div>
+      </Paper>
+    </>
   );
 };
 
@@ -126,11 +149,14 @@ export default PayPigPage;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: 15,
     margin: 15,
     // ...theme.card,
     maxWidth: 450,
     width: "100%",
+    // border: `10px solid ${theme.palette.primary.main}`,
+  },
+  content: {
+    padding: 15,
   },
   cta: { ...theme.cta },
   tier1: {
@@ -165,5 +191,6 @@ const useStyles = makeStyles((theme) => ({
   },
   donate: {
     margin: "7.5px 0",
+    ...theme.cta,
   },
 }));

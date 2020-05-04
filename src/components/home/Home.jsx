@@ -13,6 +13,7 @@ import {
   ListItemText,
   ListItemIcon,
   ListItemSecondaryAction,
+  Hidden,
 } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 
@@ -47,7 +48,7 @@ const Home = ({ history }) => {
           variant={"h4"}
           align='right'
         >
-          VIDEOS
+          MY VIDEOS
         </Typography>
         <Grid container justify={"space-around"}>
           {renderVideoCard()}
@@ -70,7 +71,7 @@ const Home = ({ history }) => {
           align='right'
           gutterBottom
         >
-          MY MEDIA
+          MY SOCIAL MEDIA
         </Typography>
         <Grid container justify={"center"}>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
@@ -89,27 +90,29 @@ const Home = ({ history }) => {
       </div>
     );
   };
-
-  const renderFooter = () => {
-    return <footer className={classes.footer}></footer>;
-  };
   return (
     <>
       <Helmet>
         <title>MockRabbit TV</title>
       </Helmet>
-      <Grid
-        container
-        justify='space-around'
-        // alignItems='center'
-        style={{ margin: "calc(4% + 64px) 0 11%" }}
-      >
-        <Grid item md={6} sm={8} xs={12}>
+      <Grid container justify='space-around' className={classes.homeContainer}>
+        <Grid item md={6} sm={12} xs={12}>
           <CTA />
         </Grid>
-        <Grid item md={4} sm={8} xs={12}>
-          {renderLeaderboard()}
-        </Grid>
+        <Hidden smDown>
+          <Grid item md={4} sm={8} xs={12}>
+            {renderLeaderboard()}
+            {/* <img
+              style={{
+                width: "100%",
+                maxWidth: 400,
+                height: "100%",
+                margin: "auto",
+              }}
+              src='https://svgsilh.com/svg_v2/305389.svg'
+              alt='' />*/}
+          </Grid>
+        </Hidden>
       </Grid>
       {renderVideoCards()}
       {renderSocialCard()}
@@ -139,5 +142,11 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     background: theme.palette.primary.main,
     padding: 100,
+  },
+  homeContainer: {
+    margin: "calc(4% + 64px) 0 11%",
+    [theme.breakpoints.down("sm")]: {
+      margin: "56px 0 0%",
+    },
   },
 }));

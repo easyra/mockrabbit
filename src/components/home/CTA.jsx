@@ -185,7 +185,14 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
   },
-  paper: { ...theme.card, margin: 15 },
+  paper: {
+    ...theme.card,
+    marginBottom: 0,
+    [theme.breakpoints.down("sm")]: {
+      boxShadow: "none",
+      // borderBottom: `50px solid ${theme.palette.secondary.main}`,
+    },
+  },
   cta: {
     color: theme.cta.ctaText,
     borderColor: theme.cta.ctaText,
@@ -206,8 +213,5 @@ const useStyles = makeStyles((theme) => ({
   highlight: {},
   bg: {
     background: theme.palette.secondary.light,
-  },
-  paper: {
-    width: "100%",
   },
 }));

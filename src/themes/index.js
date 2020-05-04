@@ -22,23 +22,25 @@ import {
 
 const subColors = {
   tier1: {
-    background: lightBlue["A200"],
+    background: cyan["A400"],
     color: "#000",
   },
   tier2: {
-    background: lightBlue["A400"],
+    background: green["A400"],
     color: "#000",
   },
   tier3: {
-    background: orange["A400"],
-    color: "#000",
+    background: red["A400"],
+    color: "#fff",
+    fontWeight: "500",
   },
   tier4: {
-    background: yellow["A400"],
-    color: "#000",
+    background: purple["A400"],
+    color: "#fff",
+    fontWeight: "500",
   },
   tier5: {
-    backgroundColor: pink["A400"],
+    backgroundColor: deepPurple["A400"],
     color: "#fff",
     fontWeight: "500",
   },
@@ -194,6 +196,21 @@ export const omniTheme = createMuiTheme({
     info: { main: orange["A400"] },
   },
   ...lightSettings,
+  cta: {
+    background: red["A700"],
+    color: "#fff",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: red["A700"], opacity: 0.8 },
+    ctaText: "#4EA0DC",
+  },
+  background: {
+    background: grey[800],
+  },
+  card: {
+    background: grey[900],
+    color: "#fff",
+  },
 });
 
 export const darkTheme = createMuiTheme({
@@ -204,4 +221,11 @@ export const darkTheme = createMuiTheme({
   },
   ...darkSettings,
 });
-export default { defaultTheme, darkTheme, transTheme, theme2, theme3 };
+export default {
+  defaultTheme,
+  darkTheme,
+  transTheme,
+  theme2,
+  theme3,
+  omniTheme,
+};

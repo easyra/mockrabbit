@@ -48,17 +48,27 @@ const SubLeaderboard = () => {
   };
 
   const renderAppButtons = () => {
-    return pageOptions.map((page) => (
-      <Button
-        variant='contained'
-        disableElevation={page.toLowerCase() !== activePage}
-        color={page.toLowerCase() === activePage ? "secondary" : "primary"}
-        onClick={() => setActivePage(page.toLowerCase())}
-        className={classes.button}
-      >
-        {page}
-      </Button>
-    ));
+    return pageOptions.map((page) => {
+      const active = page.toLowerCase() === activePage;
+
+      return (
+        <Button
+          variant='outlined'
+          disableElevation={active}
+          color={active ? "secondary" : "primary"}
+          onClick={() => {
+            if (active) {
+              setPayPigModal(true);
+            } else {
+              setActivePage(page.toLowerCase());
+            }
+          }}
+          className={classes.button}
+        >
+          {page}
+        </Button>
+      );
+    });
   };
 
   const renderItems = () => {
@@ -115,8 +125,9 @@ const SubLeaderboard = () => {
         open={payPigModalOpen}
         style={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "flex-end",
           alignItems: "baseline",
+          margin: "6%",
         }}
       >
         <PayPigPage />
@@ -174,6 +185,6 @@ const gifts = [{ name: "Subber29", text: "10", date: "4/1/20" }];
 const items = { donations, gifts, subs };
 
 const useStyles = makeStyles((theme) => ({
-  button: { margin: "0 15px 0 0" },
+  button: { margin: "0 15px 0 0", color: theme.palette.primary.contrastText },
   iconButton: { flexGrow: 1, color: theme.cta.ctaText },
 }));

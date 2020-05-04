@@ -80,7 +80,7 @@ const Profile = ({ history }) => {
   const renderProfileInfo = () => {
     return (
       <>
-        <Grid item sm={6} md={3}>
+        <Grid item xs={10} sm={8} md={3}>
           <Paper className={classes.paper} elevation={4}>
             <Typography gutterBottom variant='h6'>
               {userInfo.username}
@@ -103,7 +103,7 @@ const Profile = ({ history }) => {
             ))}
           </Paper>
         </Grid>
-        <Grid item sm={6} md={3}>
+        <Grid item>
           <PayPigPage />
         </Grid>
       </>

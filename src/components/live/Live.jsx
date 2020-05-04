@@ -193,7 +193,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         frameborder='0'
         src='https://player.twitch.tv/?channel=mockrabbit'
         allowfullscreen
-        className={smUp ? classes.iframe : classes.iframeSmUp}
+        className={classes.iframe}
         width='100%'
       ></iframe>
     );
@@ -531,7 +531,7 @@ const Live = ({ history, enqueueSnackbar }) => {
       >
         <PayPigPage />
       </Modal>
-      <div className={smUp ? classes.liveWrapper : classes.liveWrapperSmUp}>
+      <div className={classes.liveWrapper}>
         <Helmet>
           <title>MockRabbit Livestream</title>
         </Helmet>
@@ -539,12 +539,9 @@ const Live = ({ history, enqueueSnackbar }) => {
           {renderVideoPlayer()}
         </div>
         <div
+          className={classes.chatMenu}
           style={{
-            width: smUp ? 100 - chatSize + "%" : "350px",
-            minWidth: 250,
-            height: "calc(100vh - 64px)",
-            maxHeight: !smUp && 250,
-            marginBottom: !smUp && 50,
+            width: 100 - chatSize + "%",
           }}
         >
           {renderChatMenu()}
@@ -563,14 +560,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 64,
     display: "flex",
     justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: 56,
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 51,
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center",
+    },
   },
-  liveWrapperSmUp: {
-    marginTop: 64,
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-  },
+  // liveWrapperSmUp: {
+  //   marginTop: 56,
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  // },
   chatWrapper: {
     position: "relative",
     height: "100%",
@@ -595,9 +601,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-end",
   },
+  chatMenu: {
+    minWidth: 250,
+    height: "calc(100vh - 64px) !important",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 50,
+      maxHeight: 250,
+
+      width: "100% !important",
+    },
+  },
   shouldScroll: {
-    background: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    background: theme.palette.secondary.main,
+    color: theme.palette.secondary.contrastText,
     margin: "-32px 5px 0",
     position: "relative",
     padding: 5,
@@ -617,10 +633,11 @@ const useStyles = makeStyles((theme) => ({
   iframe: {
     position: "absolute",
     height: "calc(100vh - 64px)",
-  },
-  iframeSmUp: {
-    height: "100%",
-    minHeight: 300,
+    [theme.breakpoints.down("sm")]: {
+      height: "100%",
+      minHeight: 300,
+      position: "static",
+    },
   },
   highlight: {
     color: theme.highlight.color,
@@ -633,7 +650,9 @@ const useStyles = makeStyles((theme) => ({
   cta: {
     color: theme.cta.ctaText,
   },
-  icon: {},
+  icon: {
+    color: theme.palette.secondary.main,
+  },
   chatbox: {
     background: theme.palette.primary.main,
   },
