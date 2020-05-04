@@ -63,7 +63,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   /// Chat Setting Options
   // const
   const [chatSize, setChatSize] = useState(
-    localStorage.getItem("chatSize") || 80
+    localStorage.getItem("chatSize") || 77
   );
 
   const lorem = new LoremIpsum({
@@ -134,7 +134,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   }
 
   const resetSettings = () => {
-    setChatSize(80);
+    setChatSize(77);
     localStorage.removeItem("chatSize");
   };
 
