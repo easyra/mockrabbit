@@ -15,14 +15,33 @@ import { withSnackbar } from "notistack";
 function App({ location, enqueueSnackbar }) {
   const { userStatus } = useContext(FirebaseContext);
   const { socialLinks } = useContext(SiteContext);
-  const classes = useStyles();
+  const classes = {
+    action: {
+      background: "#ffea00",
+      color: "#000",
+      border: "none",
+      borderRadius: "4px",
+      padding: " 5px 15px",
+      fontSize: "0.875rem",
+      minWidth: "64px",
+      fontWeight: "700",
+      boxSizing: "border-box",
+      letterSpacing: "0.02857em",
+      textTransform: "uppercase",
+      lineHeight: 1.75,
+      margin: 0,
+      display: "block",
+      textAlign: "center",
+      textDecoration: "none",
+    },
+  };
   const loaded = userStatus !== null;
   const links = [];
   const messageArr = [
     {
       text: socialLinks.twitch,
       action: (
-        <a target='_blank' href={socialLinks.twitch} className={classes.action}>
+        <a target='_blank' href={socialLinks.twitch} style={classes.action}>
           GO
         </a>
       ),
@@ -30,11 +49,7 @@ function App({ location, enqueueSnackbar }) {
     {
       text: "Join the Discord",
       action: (
-        <a
-          target='_blank'
-          href={socialLinks.discord}
-          className={classes.action}
-        >
+        <a target='_blank' href={socialLinks.discord} style={classes.action}>
           GO
         </a>
       ),
@@ -44,8 +59,9 @@ function App({ location, enqueueSnackbar }) {
       action: (
         <a
           target='_blank'
+          style={{ color: "red" }}
           href={socialLinks.youtube}
-          className={classes.action}
+          style={classes.action}
         >
           GO
         </a>
@@ -54,11 +70,7 @@ function App({ location, enqueueSnackbar }) {
     {
       text: socialLinks.facebook,
       action: (
-        <a
-          target='_blank'
-          href={socialLinks.facebook}
-          className={classes.action}
-        >
+        <a target='_blank' href={socialLinks.facebook} style={classes.action}>
           GO
         </a>
       ),
@@ -66,7 +78,7 @@ function App({ location, enqueueSnackbar }) {
     {
       text: "Support the Stream",
       action: (
-        <a target='_blank' className={classes.action}>
+        <a target='_blank' style={classes.action}>
           GO
         </a>
       ),
@@ -74,7 +86,7 @@ function App({ location, enqueueSnackbar }) {
     {
       text: "Support the Stream",
       action: (
-        <a target='_blank' className={classes.action}>
+        <a target='_blank' style={classes.action}>
           GO
         </a>
       ),
@@ -103,25 +115,5 @@ function App({ location, enqueueSnackbar }) {
     </>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  action: {
-    ...theme.cta,
-    border: "none",
-    borderRadius: "4px",
-    padding: " 5px 15px",
-    fontSize: "0.875rem",
-    minWidth: "64px",
-    fontWeight: "700",
-    boxSizing: "border-box",
-    letterSpacing: "0.02857em",
-    textTransform: "uppercase",
-    lineHeight: 1.75,
-    margin: 0,
-    display: "block",
-    textAlign: "center",
-    textDecoration: "none",
-  },
-}));
 
 export default withRouter(withSnackbar(App));
