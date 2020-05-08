@@ -9,14 +9,18 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  Modal,
 } from "@material-ui/core";
 import { useContext } from "react";
 import { SiteContext } from "../SiteWrapper";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import PayPigPage from "../profile/PayPigPage";
+import { useState } from "react";
 
 const SocialCard = ({ type, elevation = 4 }) => {
   const classes = useStyles();
   const { socialLinks } = useContext(SiteContext);
+  const [payPigModal, setPayPigModal] = useState(false);
   const subscriberFeed = type !== "subscribe";
 
   const names = {
@@ -26,49 +30,63 @@ const SocialCard = ({ type, elevation = 4 }) => {
     subscribe: "Subscriber Feed",
   };
   return (
-    <Paper elevation={elevation} className={classes.paper}>
-      <AppBar elevation={0} position='static' color='primary'>
-        <Toolbar style={{ justifyContent: "space-between" }}>
-          {names[type]}
-          {subscriberFeed ? (
-            <Button
-              href={socialLinks[type]}
-              target='_blank'
-              className={classes.ctaText}
-              size=''
-              variant='outlined'
-            >
-              MORE
-            </Button>
-          ) : (
-            <Button
-              className={classes.ctaText}
-              variant='outlined'
-              startIcon={<FavoriteIcon />}
-            >
-              Subscribe
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
-      <List>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary='coming soon...' />
-        </ListItem>
-      </List>
-    </Paper>
+    <>
+      <Modal
+        open={payPigModal}
+        onClose={() => setPayPigModal(false)}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "baseline",
+        }}
+      >
+        <PayPigPage />
+      </Modal>
+      <Paper elevation={elevation} className={classes.paper}>
+        <AppBar elevation={0} position='static' color='primary'>
+          <Toolbar style={{ justifyContent: "space-between" }}>
+            {names[type]}
+            {subscriberFeed ? (
+              <Button
+                href={socialLinks[type]}
+                target='_blank'
+                className={classes.ctaText}
+                size=''
+                variant='outlined'
+              >
+                MORE
+              </Button>
+            ) : (
+              <Button
+                className={classes.ctaText}
+                variant='outlined'
+                startIcon={<FavoriteIcon />}
+                onClick={() => setPayPigModal(true)}
+              >
+                Subscribe
+              </Button>
+            )}
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem button>
+            <ListItemText primary='coming soon...' />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary='coming soon...' />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary='coming soon...' />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary='coming soon...' />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary='coming soon...' />
+          </ListItem>
+        </List>
+      </Paper>
+    </>
   );
 };
 
