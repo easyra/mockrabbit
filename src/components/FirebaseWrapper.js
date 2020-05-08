@@ -21,7 +21,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
 
   useEffect(() => {
     // setDummyMessages();
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         getUserInfo();
       } else {
@@ -49,17 +49,22 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   };
 
   const chatTurnedOn = () => {
-    database.ref("/chat").on("value", snapshot => {
-      if (snapshot.exists()) {
-        setChatMessages(Object.values(snapshot.val()));
-      }
-    });
-    database.ref("/chatUserList").on("value", snapshot => {
+    const key = database.ref("/chat").push().key;
+    database
+      .ref("/chat")
+      .orderByKey()
+      .startAt(key)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          setChatMessages(Object.values(snapshot.val()));
+        }
+      });
+    database.ref("/chatUserList").on("value", (snapshot) => {
       if (snapshot.exists()) {
         setUserList(Object.keys(snapshot.val()));
       }
     });
-    fetchUsername().then(username => {
+    fetchUsername().then((username) => {
       database
         .ref("/chatUserList")
         .onDisconnect()
@@ -70,9 +75,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     database.ref("/chat").off();
     database.ref("/chatUserList").off();
   };
-  const changedUserInUserList = val => {
+  const changedUserInUserList = (val) => {
     //null for delete, true to add user
-    fetchUsername().then(username => {
+    fetchUsername().then((username) => {
       if (username) {
         database.ref("/chatUserList").update({ [userInfo.username]: val });
       }
@@ -97,7 +102,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     }
   };
 
-  const registeredUser = async username => {
+  const registeredUser = async (username) => {
     let error = false;
 
     const batch = firestore.batch();
@@ -108,12 +113,12 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     batch.set(usersRef, { username, role: null, sub: null });
     batch.set(usernamesRef, { taken: true });
 
-    usernamesRef.get().then(doc => {
+    usernamesRef.get().then((doc) => {
       if (doc.exists) {
         enqueueSnackbar("Username already taken");
         error = true;
       } else {
-        usersRef.get().then(doc => {
+        usersRef.get().then((doc) => {
           if (doc.exists) {
             enqueueSnackbar("User is already registered");
             error = true;
@@ -139,7 +144,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
           .update({ sub: `tier${subTier}` });
         getUserInfo();
         enqueueSnackbar(`You became a tier ${subTier} sub! Congratz!!`, {
-          variant: "success"
+          variant: "success",
         });
       }
     }
@@ -152,7 +157,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         .collection("users")
         .doc(auth.currentUser.uid)
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             const { username, sub, role } = doc.data();
             setUserStatus(true);
@@ -175,10 +180,8 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     for (let i = 0; i < 101; i++) {
       const type = typeArray[Math.floor(Math.random() * typeArray.length)];
       const username =
-        generateRandomAnimalName()
-          .split(" ")
-          .join("")
-          .slice(0, 12) + Math.floor(Math.random() * 500);
+        generateRandomAnimalName().split(" ").join("").slice(0, 12) +
+        Math.floor(Math.random() * 500);
       const text =
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
       addMessage(text, username, type);
@@ -200,7 +203,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         chatTurnedOff,
         giveSubscription,
         changedUserInUserList,
-        registeredUser
+        registeredUser,
       }}
     >
       {children}
@@ -250,5 +253,5 @@ const typeArray = [
   "",
   "",
   "",
-  ""
+  "",
 ];
