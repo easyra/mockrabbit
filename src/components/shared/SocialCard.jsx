@@ -13,9 +13,8 @@ import {
 } from "@material-ui/core";
 import { useContext } from "react";
 import { SiteContext } from "../SiteWrapper";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PayPigPage from "../profile/PayPigPage";
 import { useState } from "react";
+import SubscribeButton from "./SubscribeButton";
 
 const SocialCard = ({ type, elevation = 4 }) => {
   const classes = useStyles();
@@ -31,17 +30,6 @@ const SocialCard = ({ type, elevation = 4 }) => {
   };
   return (
     <>
-      <Modal
-        open={payPigModal}
-        onClose={() => setPayPigModal(false)}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "baseline",
-        }}
-      >
-        <PayPigPage />
-      </Modal>
       <Paper elevation={elevation} className={classes.paper}>
         <AppBar elevation={0} position='static' color='primary'>
           <Toolbar style={{ justifyContent: "space-between" }}>
@@ -57,14 +45,7 @@ const SocialCard = ({ type, elevation = 4 }) => {
                 MORE
               </Button>
             ) : (
-              <Button
-                className={classes.ctaText}
-                variant='outlined'
-                startIcon={<FavoriteIcon />}
-                onClick={() => setPayPigModal(true)}
-              >
-                Subscribe
-              </Button>
+              <SubscribeButton variant='outlined' justify='flex-end' />
             )}
           </Toolbar>
         </AppBar>

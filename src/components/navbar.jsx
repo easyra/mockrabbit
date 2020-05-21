@@ -35,14 +35,13 @@ import { auth } from "./firebase";
 import { withSnackbar } from "notistack";
 import LoginPage from "./profile/LoginPage";
 import { SiteContext } from "./SiteWrapper";
-import PayPigPage from "./profile/PayPigPage";
 import { red } from "@material-ui/core/colors";
+import SubscribeButton from "./shared/SubscribeButton";
 
 const Navbar = ({ location, history, enqueueSnackbar }) => {
   const classes = useStyles();
   let homeButtonHidden = location.pathname === "/";
   const [loginModalOpen, setLoginModal] = useState(false);
-  const [payPigModal, setPayPigModal] = useState(false);
   const [accountNode, setAccountNode] = useState(null);
   const [sideBarOn, setSideBarOn] = useState(false);
   const { googleSignin, userStatus, signOut, getUserInfo } = useContext(
@@ -164,18 +163,6 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
         <LoginPage handleClose={() => setLoginModal(false)} />
       </Modal>
 
-      <Modal
-        open={payPigModal}
-        onClose={() => setPayPigModal(false)}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "baseline",
-        }}
-      >
-        <PayPigPage />
-      </Modal>
-
       {/* AppBar */}
       <AppBar
         className={classes.root}
@@ -234,15 +221,7 @@ const Navbar = ({ location, history, enqueueSnackbar }) => {
               </Button>
             </Hidden>
 
-            <Button
-              // color='secondary'
-              className={classes.cta}
-              variant='contained'
-              startIcon={<FavoriteIcon />}
-              onClick={() => setPayPigModal(true)}
-            >
-              Sub<Hidden xsDown>scribe</Hidden>
-            </Button>
+            <SubscribeButton xsDown />
           </div>
           <Button
             component={Link}

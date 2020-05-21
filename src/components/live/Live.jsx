@@ -31,6 +31,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { blueGrey, grey, yellow, green } from "@material-ui/core/colors";
 import { SiteContext } from "../SiteWrapper";
 import PayPigPage from "../profile/PayPigPage";
+import SubscribeButton from "../shared/SubscribeButton";
 
 const Live = ({ history, enqueueSnackbar }) => {
   const classes = useStyles();
@@ -290,12 +291,7 @@ const Live = ({ history, enqueueSnackbar }) => {
           {renderSettingsModal()}
           <div className={classes.chatBar}>
             <div style={{ flexGrow: 1 }}>
-              <IconButton
-                className={classes.cta}
-                onClick={() => setPayPigModal(true)}
-              >
-                <FavoriteIcon fontSize='small' />
-              </IconButton>
+              <SubscribeButton icon justify='flex-end' />
             </div>
 
             <IconButton
@@ -341,13 +337,7 @@ const Live = ({ history, enqueueSnackbar }) => {
         >
           (Subscribe for early unban)
         </Typography>
-        <Button
-          className={classes.ctaButton}
-          variant='contained'
-          startIcon={<FavoriteIcon />}
-        >
-          Subscribe
-        </Button>{" "}
+        <SubscribeButton justify='flex-end' />
       </Paper>
     );
   };
