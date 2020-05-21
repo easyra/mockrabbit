@@ -115,7 +115,9 @@ const Live = ({ history, enqueueSnackbar }) => {
   };
 
   const scrollDown = () => {
-    chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+    if (chatScroll.current) {
+      chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+    }
   };
 
   const handleScroll = () => {
@@ -198,6 +200,8 @@ const Live = ({ history, enqueueSnackbar }) => {
       ></iframe>
     );
   };
+
+  //-----------------------------------------------------Chat Components
   const renderChatMenu = () => {
     return (
       <>
@@ -217,23 +221,26 @@ const Live = ({ history, enqueueSnackbar }) => {
             }}
           >
             {/* Chat List */}
-            <SimpleBar
-              style={{
-                height: "100%",
-              }}
-              forceVisible='y'
-              autoHide={false}
-              scrollableNodeProps={{ ref: chatScroll }}
-              onScroll={handleScroll}
-            >
-              {chatMessages.map((chatMessage, i) => {
-                return renderChatMessage(
-                  chatMessage,
-                  chatMessages.length - 1 === i
-                );
-              })}
-              <div className='bottom'></div>
-            </SimpleBar>
+            {true && (
+              <SimpleBar
+                style={{
+                  height: "100%",
+                }}
+                forceVisible='y'
+                autoHide={false}
+                scrollableNodeProps={{ ref: chatScroll }}
+                onScroll={handleScroll}
+              >
+                {chatMessages.map((chatMessage, i) => {
+                  return renderChatMessage(
+                    chatMessage,
+                    chatMessages.length - 1 === i
+                  );
+                })}
+                <div className='bottom'></div>
+              </SimpleBar>
+            )}
+
             <Paper
               className={`${classes.shouldScroll} ${
                 !shouldScroll ? classes.active : ""
@@ -308,6 +315,39 @@ const Live = ({ history, enqueueSnackbar }) => {
             </IconButton>
           </div>
         </AppBar>
+      </Paper>
+    );
+  };
+  const renderBannedMenu = () => {
+    return (
+      <Paper className={classes.bannedMenu} color='secondary' square>
+        <Typography variant='h6' align='center' color='inherit'>
+          You are Banned
+        </Typography>
+        <Typography
+          variant='overline'
+          align='center'
+          color='secondary'
+          component='p'
+          gutterBottom
+        >
+          10H 5M
+        </Typography>
+        <Typography
+          variant='overline'
+          align='center'
+          color='inherit'
+          gutterBottom
+        >
+          (Subscribe for early unban)
+        </Typography>
+        <Button
+          className={classes.ctaButton}
+          variant='contained'
+          startIcon={<FavoriteIcon />}
+        >
+          Subscribe
+        </Button>{" "}
       </Paper>
     );
   };
@@ -548,6 +588,7 @@ const Live = ({ history, enqueueSnackbar }) => {
             width: 100 - chatSize + "%",
           }}
         >
+          {/* {renderBannedMenu()} */}
           {renderChatMenu()}
         </div>
       </div>
@@ -643,6 +684,18 @@ const useStyles = makeStyles((theme) => ({
       position: "static",
     },
   },
+  bannedMenu: {
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    boxSizing: "border-box",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    height: "100%",
+    padding: 15,
+  },
   highlight: {
     color: theme.highlight.color,
     // fontWeight: 500,
@@ -653,6 +706,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cta: {
     color: theme.cta.ctaText,
+  },
+  ctaButton: {
+    ...theme.cta,
   },
   icon: {
     color: theme.palette.secondary.main,
