@@ -18,6 +18,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userInfo, setUserInfo] = useState({});
   const [chatMessages, setChatMessages] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [initialKey, setInitialKey] = useState(null);
 
   useEffect(() => {
     // setDummyMessages();
@@ -49,7 +50,11 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   };
 
   const chatTurnedOn = () => {
-    const key = database.ref("/chat").push().key;
+    const key = initialKey || database.ref("/chat").push().key;
+    if (!initialKey) {
+      setInitialKey(database.ref("/chat").push().key);
+    }
+
     database
       .ref("/chat")
       .orderByKey()

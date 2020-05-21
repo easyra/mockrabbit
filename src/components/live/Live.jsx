@@ -494,7 +494,11 @@ const Live = ({ history, enqueueSnackbar }) => {
     }
   });
 
-  useEffect(() => {}, [mentionedUsers]);
+  useEffect(() => {
+    if (shouldScroll) {
+      scrollDown();
+    }
+  }, [chatMessages]);
 
   useEffect(() => {
     try {
