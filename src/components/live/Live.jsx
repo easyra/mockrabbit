@@ -123,6 +123,11 @@ const Live = ({ history, enqueueSnackbar }) => {
         banUser(arr[1], arr[2]);
       }
     }
+    if (cmd == "!unban") {
+      if (arr[1]) {
+        banUser(arr[1], "0m");
+      }
+    }
   };
 
   const handleNewMessage = async (text) => {

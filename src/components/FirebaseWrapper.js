@@ -64,9 +64,6 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
       time *= 60000;
     } else if (unit === "d") {
       time *= 8.64e7;
-    } else {
-      console.log("format wrong for time");
-      return;
     }
 
     time += Date.now();
@@ -89,7 +86,11 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     isUserMod().then((bool) => {
       if (bool) {
         firebase.database().ref(`banlist/${uid}`).set({ time });
-        addMessage(`${username} is banned for ${initialTime}`, "", "system");
+        const message =
+          time > Date.now()
+            ? `${username} is banned for ${initialTime}`
+            : `${username} is unbanned`;
+        addMessage(message, "", "system");
       } else {
         console.log("lacking permissions");
       }
