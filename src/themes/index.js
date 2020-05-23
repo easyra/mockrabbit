@@ -45,9 +45,9 @@ const subColors = {
     fontWeight: "500",
   },
   admin: {
-    background: grey["900"],
+    background: amber["600"],
     fontWeight: "500",
-    color: "#fff",
+    color: "#000",
   },
   moderator: {
     backgroundColor: purple["A400"],
@@ -102,6 +102,10 @@ const lightSettings = {
     margin: "7.5px 0",
     "&:hover": { background: yellow["A400"], opacity: 0.8 },
     ctaText: yellow["A700"],
+  },
+  system: {
+    color: "#fff",
+    background: teal[500],
   },
 };
 export const theme2 = createMuiTheme({

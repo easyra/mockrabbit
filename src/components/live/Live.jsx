@@ -16,9 +16,11 @@ import {
   Slider,
   Button,
   Select,
+  Icon,
 } from "@material-ui/core";
 import { LoremIpsum } from "lorem-ipsum";
-
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 import SimpleBar from "simplebar-react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -48,6 +50,8 @@ const Live = ({ history, enqueueSnackbar }) => {
     addMessage,
     changedUserInUserList,
     userList,
+    userBanned,
+    banUser,
   } = useContext(FirebaseContext);
   const { socials, changeTheme, themeOptions, activeTheme } = useContext(
     SiteContext
@@ -63,6 +67,8 @@ const Live = ({ history, enqueueSnackbar }) => {
   const [mentionedUsers, setMentionedUsers] = useState([]); // Array of strings of usernames that should be underlined if they are mentioned
   /// Chat Setting Options
   // const
+  const [hovering, setHovering] = useState(false); // used for subscribe button in banned menu
+
   const [chatSize, setChatSize] = useState(
     localStorage.getItem("chatSize") || 77
   );
@@ -108,8 +114,24 @@ const Live = ({ history, enqueueSnackbar }) => {
     }
   };
 
+  const command = (text) => {
+    const arr = text.trim().split(" ");
+    console.log(arr);
+    const cmd = arr[0];
+    if (cmd == "!ban") {
+      if (arr[1]) {
+        banUser(arr[1], arr[2]);
+      }
+    }
+  };
+
   const handleNewMessage = async (text) => {
-    await addMessage(text);
+    if (text[0] === "!") {
+      command(text);
+      await addMessage(text);
+    } else {
+      await addMessage(text);
+    }
     if (shouldScroll) {
       scrollDown();
     }
@@ -315,30 +337,61 @@ const Live = ({ history, enqueueSnackbar }) => {
     );
   };
   const renderBannedMenu = () => {
+    const bantime = (time) => {
+      const day = time / 8.64e7;
+      const hour = time / 3.6e6;
+      const minute = time / 60000;
+      const second = time / 1000;
+      if (day > 1) {
+        return Math.ceil(day) + " days";
+      }
+      if (hour > 1) {
+        return Math.ceil(hour) + " hours";
+      }
+      if (minute > 1) {
+        return Math.ceil(minute) + " minutes";
+      }
+      if (second > 1) {
+        return Math.ceil(second) + " seconds";
+      }
+    };
     return (
-      <Paper className={classes.bannedMenu} color='secondary' square>
-        <Typography variant='h6' align='center' color='inherit'>
-          You are Banned
-        </Typography>
-        <Typography
-          variant='overline'
-          align='center'
+      <div className={classes.bannedMenuWrapper}>
+        <Paper
+          elevation={4}
+          className={classes.bannedMenu}
           color='secondary'
-          component='p'
-          gutterBottom
+          square
         >
-          10H 5M
-        </Typography>
-        <Typography
-          variant='overline'
-          align='center'
-          color='inherit'
-          gutterBottom
-        >
-          (Subscribe for early unban)
-        </Typography>
-        <SubscribeButton justify='flex-end' />
-      </Paper>
+          {hovering ? (
+            <LockOpenIcon color='inherit' style={{ fontSize: "3rem" }} />
+          ) : (
+            <LockIcon color='inherit' style={{ fontSize: "3rem" }} />
+          )}
+          <Typography variant='h6' align='center' color='inherit'>
+            You are Banned
+          </Typography>
+          <Typography
+            variant='overline'
+            align='center'
+            color='secondary'
+            component='p'
+            gutterBottom
+          >
+            {bantime(userBanned)}
+          </Typography>
+          <Typography variant='overline' align='center' color='inherit'>
+            (Subscribe for early unban)
+          </Typography>
+          <div
+            onMouseOver={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+            onClick={() => setHovering(false)}
+          >
+            <SubscribeButton justify='flex-end' />
+          </div>
+        </Paper>
+      </div>
     );
   };
 
@@ -488,27 +541,29 @@ const Live = ({ history, enqueueSnackbar }) => {
         variant='outlined'
         key={key}
         elevation={mentionedCurrentUser ? 10 : 3}
-        className={`${classes.message} ${
-          mentionedCurrentUser ? classes.highlightMsg : ""
-        }`}
+        className={`${classes.message}
+        ${type === "system" && classes.system}
+        ${mentionedCurrentUser ? classes.highlightMsg : ""}`}
       >
         <Typography variant='body2' style={{ wordBreak: "break-word" }}>
-          <Chip
-            size='small'
-            style={{ marginRight: 5, cursor: "pointer" }}
-            className={chipClass}
-            label={username}
-            clickable={false}
-            onClick={() =>
-              setMentionedUsers((prevState) => {
-                if (prevState.includes(username)) {
-                  return prevState.filter((user) => user !== username);
-                } else {
-                  return [...prevState, username];
-                }
-              })
-            }
-          ></Chip>
+          {type !== "system" && (
+            <Chip
+              size='small'
+              style={{ marginRight: 5, cursor: "pointer" }}
+              label={username}
+              className={chipClass}
+              clickable={false}
+              onClick={() =>
+                setMentionedUsers((prevState) => {
+                  if (prevState.includes(username)) {
+                    return prevState.filter((user) => user !== username);
+                  } else {
+                    return [...prevState, username];
+                  }
+                })
+              }
+            ></Chip>
+          )}
           {validatedText}
         </Typography>
       </Paper>
@@ -578,8 +633,7 @@ const Live = ({ history, enqueueSnackbar }) => {
             width: 100 - chatSize + "%",
           }}
         >
-          {/* {renderBannedMenu()} */}
-          {renderChatMenu()}
+          {userBanned ? renderBannedMenu() : renderChatMenu()}
         </div>
       </div>
     </>
@@ -605,6 +659,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
     },
   },
+
   // liveWrapperSmUp: {
   //   marginTop: 56,
   //   display: "flex",
@@ -626,6 +681,20 @@ const useStyles = makeStyles((theme) => ({
     width: "fit-content",
     transition: "all 0.2s",
     ...theme.card,
+  },
+  system: {
+    // ...theme.system,
+    background: theme.palette.primary.light,
+    color: theme.palette.primary.contrastText,
+  },
+  notification: {
+    padding: 5,
+    margin: "10px 5px",
+    animation: "fadeIn 0.3s 1",
+    color: "#000",
+    background: "#fff",
+    width: "fit-content",
+    transition: "all 0.2s",
   },
   chat2: {
     position: "absolute",
@@ -674,17 +743,20 @@ const useStyles = makeStyles((theme) => ({
       position: "static",
     },
   },
+  bannedMenuWrapper: {
+    width: "100%",
+    height: "100%",
+    padding: 15,
+  },
   bannedMenu: {
     background: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    boxSizing: "border-box",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    width: "100%",
     height: "100%",
-    padding: 15,
+    // margin: 15,
   },
   highlight: {
     color: theme.highlight.color,

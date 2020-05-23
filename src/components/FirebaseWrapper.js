@@ -3,10 +3,6 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import generateRandomAnimalName from "random-animal-name-generator";
 import { withSnackbar } from "notistack";
-import { red } from "@material-ui/core/colors";
-import { Button } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-
 export const FirebaseContext = React.createContext({});
 export const FirebaseConsumer = FirebaseContext.Consumer;
 export const FirebaseProvider = FirebaseContext.Provider;
@@ -19,34 +15,139 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [chatMessages, setChatMessages] = useState([]);
   const [userList, setUserList] = useState([]);
   const [initialKey, setInitialKey] = useState(null);
-
+  const [userBanned, setUserBanned] = useState(null);
   useEffect(() => {
     // setDummyMessages();
+
     auth.onAuthStateChanged((user) => {
       if (user) {
+        // firebase.functions().httpsCallable("makeAdmin")();
+        // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", 1 * 3.6e6 + Date.now());
+        // forceTokenRefresh();
+        // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", "1m");
         getUserInfo();
+        checkUserBan();
       } else {
         setUserStatus(false);
       }
     });
   }, []);
 
+  //-------------------------------------------------------Auth/Login/Register Methods
+
   const googleSignin = () => {
     return firebase.auth().signInWithPopup(GoogleProvider);
   };
+
+  const isUserMod = async (uid) => {
+    // checks the claims on the signed in user's auth token claims
+    // forceTokenRefresh();
+    return await firebase
+      .auth()
+      .currentUser.getIdTokenResult()
+      .then((idTokenResult) => {
+        console.log(idTokenResult.claims);
+        return !!idTokenResult.claims.mod || !!idTokenResult.claims.admin;
+      });
+  };
+  const forceTokenRefresh = () => {
+    firebase.auth().currentUser.getIdToken(true);
+  };
+  //-----------------------------------------------Ban Methods
+  const banUser = async (username, time = "12h") => {
+    const initialTime = time;
+    const unit = time.slice(-1);
+    time = time.slice(0, -1);
+    if (unit === "h") {
+      time *= 3.6e6;
+    } else if (unit === "m") {
+      time *= 60000;
+    } else if (unit === "d") {
+      time *= 8.64e7;
+    } else {
+      console.log("format wrong for time");
+      return;
+    }
+
+    time += Date.now();
+
+    const uid = await firestore
+      .collection("usernames")
+      .doc(username.toLowerCase())
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          return doc.data().uid;
+        } else return false;
+      });
+    console.log(uid);
+    if (!uid) {
+      console.log("user not found");
+      return;
+    }
+
+    isUserMod().then((bool) => {
+      if (bool) {
+        firebase.database().ref(`banlist/${uid}`).set({ time });
+        addMessage(`${username} is banned for ${initialTime}`, "", "system");
+      } else {
+        console.log("lacking permissions");
+      }
+    });
+  };
+
+  const checkUserBan = () => {
+    //checks if user's uid is on list on the database
+    const uid = firebase.auth().currentUser.uid;
+    database.ref(`banlist/${uid}`).on("value", async (snapshot) => {
+      const timestamp = Date.now();
+
+      if (
+        snapshot.exists() &&
+        snapshot.val().time >= timestamp &&
+        !(await isUserMod())
+      ) {
+        setUserBanned(snapshot.val().time - Date.now());
+        setTimeout(() => {
+          setUserBanned(false);
+          console.log("userbanned", snapshot.val().time);
+        }, snapshot.val().time - timestamp + 1000);
+      } else {
+        setUserBanned(false);
+      }
+    });
+  };
+
+  // const c
 
   const signOut = () => {
     history.push("/");
     return auth.signOut();
   };
 
+  //----------------------------------Chat Methods
+
   const addMessage = (
     text,
     username = userInfo.username,
     type = userInfo.role || userInfo.sub
   ) => {
+    // forceTokenRefresh();
     const key = database.ref("/chat").push().key;
-    database.ref("/chat").update({ [key]: { username, text, key, type } });
+    database
+      .ref("/chat")
+      .update({
+        [key]: {
+          username,
+          text,
+          key,
+          type,
+          uid: auth.currentUser.uid,
+        },
+      })
+      .catch((err) => {
+        checkUserBan();
+      });
   };
 
   const chatTurnedOn = () => {
@@ -95,6 +196,19 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     // }
   });
 
+  useEffect(() => {
+    // const x = setInterval(() => {
+    //   if (userBanned >= Date.now()) {
+    //     setUserBanned(userBanned - Date.now());
+    //   } else {
+    //     setUserBanned(false);
+    //   }
+    // }, 1000);
+    // if (!userBanned) {
+    //   clearInterval(x);
+    // }
+  }, [userBanned]);
+
   const fetchUsername = async () => {
     if (userStatus) {
       const doc = await firestore
@@ -116,7 +230,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
       .collection("usernames")
       .doc(username.toLowerCase());
     batch.set(usersRef, { username, role: null, sub: null });
-    batch.set(usernamesRef, { taken: true });
+    batch.set(usernamesRef, { taken: true, uid: auth.currentUser.uid });
 
     usernamesRef.get().then((doc) => {
       if (doc.exists) {
@@ -196,6 +310,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   return (
     <FirebaseProvider
       value={{
+        banUser,
         googleSignin,
         userInfo,
         userList,
@@ -209,6 +324,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         giveSubscription,
         changedUserInUserList,
         registeredUser,
+        userBanned,
+        banUser,
+        setUserBanned,
       }}
     >
       {children}
