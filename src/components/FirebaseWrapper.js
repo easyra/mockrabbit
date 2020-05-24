@@ -55,15 +55,18 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   };
   //-----------------------------------------------Ban Methods
   const banUser = async (username, time = "12h") => {
-    const initialTime = time;
-    const unit = time.slice(-1);
+    let unit = time.slice(-1);
     time = time.slice(0, -1);
+    const initialTime = time;
     if (unit === "h") {
       time *= 3.6e6;
+      unit = "hours";
     } else if (unit === "m") {
       time *= 60000;
+      unit = "minutes";
     } else if (unit === "d") {
       time *= 8.64e7;
+      unit = "days";
     }
 
     time += Date.now();
@@ -86,9 +89,10 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     isUserMod().then((bool) => {
       if (bool) {
         firebase.database().ref(`banlist/${uid}`).set({ time });
+
         const message =
           time > Date.now()
-            ? `${username} is banned for ${initialTime}`
+            ? `${username} is banned for ${initialTime} ${unit}`
             : `${username} is unbanned`;
         addMessage(message, "", "system");
       } else {

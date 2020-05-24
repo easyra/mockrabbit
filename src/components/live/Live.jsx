@@ -689,8 +689,9 @@ const useStyles = makeStyles((theme) => ({
   },
   system: {
     // ...theme.system,
-    background: theme.palette.primary.light,
-    color: theme.palette.primary.contrastText,
+    // background: theme.palette.secondary.main,
+    // color: theme.palette.secondary.contrastText,
+    ...theme.moderator,
   },
   notification: {
     padding: 5,

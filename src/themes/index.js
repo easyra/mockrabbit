@@ -45,14 +45,14 @@ const subColors = {
     fontWeight: "500",
   },
   admin: {
-    background: amber["600"],
+    background: amber["A700"],
     fontWeight: "500",
     color: "#000",
   },
   moderator: {
-    backgroundColor: purple["A400"],
+    backgroundColor: amber["A200"],
     fontWeight: "500",
-    color: "#fff",
+    color: "#000",
   },
   notable: {
     background: amber["A400"],
