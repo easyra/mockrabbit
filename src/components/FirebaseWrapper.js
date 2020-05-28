@@ -22,9 +22,6 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     firebase.functions().httpsCallable("makeAdmin")();
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", 1 * 3.6e6 + Date.now());
-        // forceTokenRefresh();
-        // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", "1m");
         getUserInfo();
         checkUserBan();
       } else {
@@ -79,20 +76,19 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         uid = snapshot.val();
       });
 
-    console.log(uid);
-    if (!uid) {
-      return addMessage("User not found", "system");
-    }
-
     isUserMod().then((bool) => {
       if (bool) {
-        firebase.database().ref(`banlist/${uid}`).set({ time });
+        if (uid) {
+          firebase.database().ref(`banlist/${uid}`).set({ time });
 
-        const message =
-          time > Date.now()
-            ? `${username} is banned for ${initialTime} ${unit}`
-            : `${username} is unbanned`;
-        addMessage(message, "system");
+          const message =
+            time > Date.now()
+              ? `${username} is banned for ${initialTime} ${unit}`
+              : `${username} is unbanned`;
+          addMessage(message, "system");
+        } else {
+          addMessage("User not found", "system");
+        }
       } else {
         console.log("lacking permissions");
       }
@@ -139,6 +135,8 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         type = role;
       } else if (sub > 0) {
         type = "tier" + sub;
+      } else {
+        type = "default";
       }
     }
 
