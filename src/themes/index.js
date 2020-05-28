@@ -225,6 +225,31 @@ export const darkTheme = createMuiTheme({
   },
   ...darkSettings,
 });
+
+export const ezraccoon = createMuiTheme({
+  ...lightSettings,
+  palette: {
+    primary: { main: grey["900"] },
+    secondary: { main: green["A400"] },
+  },
+  cta: {
+    background: cyan["A400"],
+    color: "#000",
+    transition: "opacity 0.3s",
+    margin: "7.5px 0",
+    "&:hover": { background: cyan["A700"], opacity: 0.8 },
+    ctaText: cyan["A400"],
+  },
+
+  background: {
+    background: brown["700"],
+  },
+  card: {
+    background: grey[900],
+    color: "#fff",
+  },
+});
+
 export default {
   defaultTheme,
   darkTheme,
@@ -232,4 +257,5 @@ export default {
   theme2,
   theme3,
   omniTheme,
+  ezraccoon,
 };

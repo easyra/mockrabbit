@@ -23,6 +23,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     { theme: "theme2", name: "100% More Purple" },
     { theme: "theme3", name: "Bannana Party" },
     { theme: "omniTheme", name: "Omni" },
+    { theme: "ezraccoon", name: "Ezraccoon" },
   ];
 
   const changeTheme = (theme) => {
