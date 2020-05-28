@@ -10,6 +10,7 @@ import {
   AppBar,
   Toolbar,
   Grid,
+  CircularProgress,
 } from "@material-ui/core";
 import { useContext } from "react";
 import { FirebaseContext } from "../FirebaseWrapper";
@@ -21,11 +22,35 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const PayPigPage = () => {
   const classes = useStyles();
-  const { giveSubscription, userStatus } = useContext(FirebaseContext);
+  const {
+    userStatus,
+    giveSubscription,
+    enqueueSnackbar,
+    userInfo,
+  } = useContext(FirebaseContext);
   const { socials } = useContext(SiteContext);
   const [loginModalOpen, setLoginModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const [input, setInput] = useState("");
+
+  const handleSub = (sub) => {
+    setLoading(true);
+    giveSubscription(sub)
+      .then(() => {
+        setTimeout(() => {
+          enqueueSnackbar(
+            `${userInfo.username} is now a tier ${sub} subscriber`
+          );
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        setLoading(false);
+        enqueueSnackbar(`ERROR: ${err}`);
+      });
+  };
+
   const renderSubPage = (loggedin) => {
     if (loggedin) {
       return (
@@ -35,7 +60,7 @@ const PayPigPage = () => {
             no tier
           </Typography>
           <Button
-            onClick={() => giveSubscription(1)}
+            onClick={() => handleSub(1)}
             disableRipple
             className={classes.tier1}
             variant='contained'
@@ -44,7 +69,7 @@ const PayPigPage = () => {
             Tier 1 $5
           </Button>
           <Button
-            onClick={() => giveSubscription(2)}
+            onClick={() => handleSub(2)}
             className={classes.tier2}
             variant='contained'
             fullWidth
@@ -52,7 +77,7 @@ const PayPigPage = () => {
             Tier 2 $10
           </Button>
           <Button
-            onClick={() => giveSubscription(3)}
+            onClick={() => handleSub(3)}
             className={classes.tier3}
             variant='contained'
             fullWidth
@@ -60,7 +85,7 @@ const PayPigPage = () => {
             Tier 3 $15
           </Button>
           <Button
-            onClick={() => giveSubscription(4)}
+            onClick={() => handleSub(4)}
             className={classes.tier4}
             variant='contained'
             fullWidth
@@ -68,7 +93,7 @@ const PayPigPage = () => {
             Tier 4 $25
           </Button>
           <Button
-            onClick={() => giveSubscription(5)}
+            onClick={() => handleSub(5)}
             className={classes.tier5}
             variant='contained'
             fullWidth
@@ -100,6 +125,13 @@ const PayPigPage = () => {
         </>
       );
     }
+  };
+  const renderLoading = () => {
+    return (
+      <div style={{ display: "flex", justifyContent: "center", padding: 15 }}>
+        <CircularProgress />
+      </div>
+    );
   };
 
   return (
@@ -138,7 +170,7 @@ const PayPigPage = () => {
           >
             Donate
           </Button>
-          {renderSubPage(userStatus)}
+          {isLoading ? renderLoading() : renderSubPage(userStatus)}
         </div>
       </Paper>
     </>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import generateRandomAnimalName from "random-animal-name-generator";
 import { withSnackbar } from "notistack";
+import Axios from "axios";
 export const FirebaseContext = React.createContext({});
 export const FirebaseConsumer = FirebaseContext.Consumer;
 export const FirebaseProvider = FirebaseContext.Provider;
@@ -18,10 +19,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userBanned, setUserBanned] = useState(null);
   useEffect(() => {
     // setDummyMessages();
-
+    firebase.functions().httpsCallable("makeAdmin")();
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // firebase.functions().httpsCallable("makeAdmin")();
         // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", 1 * 3.6e6 + Date.now());
         // forceTokenRefresh();
         // banUser("ALOPjqekzqUlsZQSTdeYMMXdEjL2", "1m");
@@ -70,20 +70,18 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     }
 
     time += Date.now();
+    let uid = null;
 
-    const uid = await firestore
-      .collection("usernames")
-      .doc(username.toLowerCase())
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          return doc.data().uid;
-        } else return false;
+    await database
+      .ref("usernames/" + username.toLowerCase() + "/uid")
+      .once("value")
+      .then((snapshot) => {
+        uid = snapshot.val();
       });
+
     console.log(uid);
     if (!uid) {
-      console.log("user not found");
-      return;
+      return addMessage("User not found", "system");
     }
 
     isUserMod().then((bool) => {
@@ -94,7 +92,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
           time > Date.now()
             ? `${username} is banned for ${initialTime} ${unit}`
             : `${username} is unbanned`;
-        addMessage(message, "", "system");
+        addMessage(message, "system");
       } else {
         console.log("lacking permissions");
       }
@@ -132,13 +130,18 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
 
   //----------------------------------Chat Methods
 
-  const addMessage = (
-    text,
-    username = userInfo.username,
-    type = userInfo.role || userInfo.sub
-  ) => {
+  const addMessage = (text, type) => {
     // forceTokenRefresh();
     const key = database.ref("/chat").push().key;
+    const { role, sub, username } = userInfo;
+    if (!type) {
+      if (role !== "default") {
+        type = role;
+      } else if (sub > 0) {
+        type = "tier" + sub;
+      }
+    }
+
     database
       .ref("/chat")
       .update({
@@ -175,12 +178,10 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         setUserList(Object.keys(snapshot.val()));
       }
     });
-    fetchUsername().then((username) => {
-      database
-        .ref("/chatUserList")
-        .onDisconnect()
-        .update({ [username]: null });
-    });
+    database
+      .ref("/chatUserList")
+      .onDisconnect()
+      .update({ [userInfo.username]: null });
   };
   const chatTurnedOff = () => {
     database.ref("/chat").off();
@@ -188,11 +189,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   };
   const changedUserInUserList = (val) => {
     //null for delete, true to add user
-    fetchUsername().then((username) => {
-      if (username) {
-        database.ref("/chatUserList").update({ [userInfo.username]: val });
-      }
-    });
+    if (userInfo.username) {
+      database.ref("/chatUserList").update({ [userInfo.username]: val });
+    }
   };
 
   useEffect(() => {
@@ -216,76 +215,41 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
 
   const fetchUsername = async () => {
     if (userStatus) {
-      const doc = await firestore
-        .collection("users")
-        .doc(auth.currentUser.uid)
-        .get();
-      return doc.data().username;
+      return firebase.database().ref(`users/${userBanned.username}`);
     } else {
       return false;
     }
   };
 
   const registeredUser = async (username) => {
-    let error = false;
-
-    const batch = firestore.batch();
-    const usersRef = firestore.collection("users").doc(auth.currentUser.uid);
-    const usernamesRef = firestore
-      .collection("usernames")
-      .doc(username.toLowerCase());
-    batch.set(usersRef, { username, role: null, sub: null });
-    batch.set(usernamesRef, { taken: true, uid: auth.currentUser.uid });
-
-    usernamesRef.get().then((doc) => {
-      if (doc.exists) {
-        enqueueSnackbar("Username already taken");
-        error = true;
-      } else {
-        usersRef.get().then((doc) => {
-          if (doc.exists) {
-            enqueueSnackbar("User is already registered");
-            error = true;
-          } else {
-            batch.commit().then(() => {
-              getUserInfo();
-              history.push("/live");
-            });
-          }
-        });
-      }
+    Axios.post(
+      `https://us-central1-mockrabbittv.cloudfunctions.net/api/registerUser/${auth.currentUser.uid}/${username}`
+    ).then(({ data }) => {
+      enqueueSnackbar(data.message, {
+        variant: data.registered ? "success" : "error",
+      }).catch((err) => {
+        console.log(err);
+      });
     });
-    return error;
   };
-
-  const giveSubscription = (subTier, uid) => {
-    if (uid) {
-    } else {
-      if (auth.currentUser) {
-        firestore
-          .collection("users")
-          .doc(auth.currentUser.uid)
-          .update({ sub: `tier${subTier}` });
-        getUserInfo();
-        enqueueSnackbar(`You became a tier ${subTier} sub! Congratz!!`, {
-          variant: "success",
-        });
-      }
-    }
+  const giveSubscription = async (subTier) => {
+    const subscribe = firebase.functions().httpsCallable("giveSubscription");
+    return subscribe({ uid: auth.currentUser.uid, sub: subTier });
   };
 
   const getUserInfo = () => {
+    console.log("reached");
     if (auth.currentUser) {
+      console.log("reached1");
+      console.log(auth.currentUser.uid);
+
       firebase
-        .firestore()
-        .collection("users")
-        .doc(auth.currentUser.uid)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const { username, sub, role } = doc.data();
+        .database()
+        .ref(`users/${auth.currentUser.uid}`)
+        .on("value", (snapshot) => {
+          if (snapshot.exists()) {
             setUserStatus(true);
-            setUserInfo({ username, sub, role });
+            setUserInfo(snapshot.val());
           } else {
             history.push("/profile");
             enqueueSnackbar(
@@ -295,23 +259,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
           }
         });
     } else {
-      enqueueSnackbar("no user signed in");
+      // setUserStatus(false);
     }
   };
-
-  const setDummyMessages = () => {
-    database.ref("chat").set(null);
-    for (let i = 0; i < 101; i++) {
-      const type = typeArray[Math.floor(Math.random() * typeArray.length)];
-      const username =
-        generateRandomAnimalName().split(" ").join("").slice(0, 12) +
-        Math.floor(Math.random() * 500);
-      const text =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-      addMessage(text, username, type);
-    }
-  };
-
   return (
     <FirebaseProvider
       value={{
@@ -332,54 +282,11 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         userBanned,
         banUser,
         setUserBanned,
+        enqueueSnackbar,
       }}
     >
       {children}
     </FirebaseProvider>
   );
 };
-
 export default withSnackbar(withRouter(FirebaseWrapper));
-const typeArray = [
-  "tier1",
-  "tier1",
-  "tier1",
-  "tier2",
-  "tier3",
-  "tier4",
-  "tier5",
-  "tier1",
-  "tier1",
-  "tier1",
-  "tier2",
-  "tier3",
-  "tier4",
-  "moderator",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-];

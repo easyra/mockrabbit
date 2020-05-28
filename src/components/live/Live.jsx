@@ -517,7 +517,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     </Menu>
   );
   const renderChatMessage = (
-    { username, text, type = "default", key },
+    { username, text, type, key },
 
     last
   ) => {
@@ -525,7 +525,7 @@ const Live = ({ history, enqueueSnackbar }) => {
     // text: text of the message
     // type: checks type of message. usually used to tell if message is from sub or not
 
-    const chipClass = type.length > 0 ? classes[type] : classes.defaultChip;
+    let chipClass = type === "default" ? "defaultChip" : type;
 
     let opacity = null;
     const [validatedText, mentionedCurrentUser] = textValidated(text, username);
@@ -556,7 +556,7 @@ const Live = ({ history, enqueueSnackbar }) => {
               size='small'
               style={{ marginRight: 5, cursor: "pointer" }}
               label={username}
-              className={chipClass}
+              className={classes[chipClass]}
               clickable={false}
               onClick={() =>
                 setMentionedUsers((prevState) => {
