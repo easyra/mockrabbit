@@ -65,6 +65,7 @@ const Live = ({ history, enqueueSnackbar }) => {
   const [activeUser, setActiveUser] = useState(null);
   const [payPigModal, setPayPigModal] = useState(false);
   const [mentionedUsers, setMentionedUsers] = useState([]); // Array of strings of usernames that should be underlined if they are mentioned
+  const [logCounter, setLogCounter] = useState(0); //used to show grab previous messages and put into textfield
   /// Chat Setting Options
   // const
   const [hovering, setHovering] = useState(false); // used for subscribe button in banned menu
@@ -101,6 +102,9 @@ const Live = ({ history, enqueueSnackbar }) => {
       if (userStatus) {
         await handleNewMessage(textInput);
         setTextInput("");
+        if (userInfo.logs) {
+          setLogCounter(0);
+        }
       } else {
         enqueueSnackbar("Log in to send you message");
         history.push("/profile");
@@ -109,6 +113,9 @@ const Live = ({ history, enqueueSnackbar }) => {
   };
 
   const handleChange = (e) => {
+    if (userInfo.logs) {
+      setLogCounter(0);
+    }
     if (e.target.value !== "\n") {
       setTextInput(e.target.value);
     }
@@ -145,6 +152,24 @@ const Live = ({ history, enqueueSnackbar }) => {
   const scrollDown = () => {
     if (chatScroll.current) {
       chatScroll.current.scrollTop = chatScroll.current.scrollHeight;
+    }
+  };
+
+  const getLogMessage = async (e) => {
+    if (userInfo.logs) {
+      if (e.keyCode === 38 || e.keyCode === 40) {
+        const logs = userInfo.logs;
+        let count = logs.length - 1 - logCounter;
+        if (userInfo.logs) {
+          setTextInput(logs[count].text);
+
+          if (e.keyCode === 40 && logCounter > -0) {
+            setLogCounter(logCounter - 1);
+          } else if (e.keyCode === 38 && logCounter < logs.length - 1) {
+            setLogCounter(logCounter + 1);
+          }
+        }
+      }
     }
   };
 
@@ -296,6 +321,7 @@ const Live = ({ history, enqueueSnackbar }) => {
           onKeyPress={handleSubmit}
           onChange={handleChange}
           value={textInput}
+          onKeyDown={getLogMessage}
           fullWidth
           multiline
           fontSize='small'

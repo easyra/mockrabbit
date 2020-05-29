@@ -246,8 +246,12 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         .ref(`users/${auth.currentUser.uid}`)
         .on("value", (snapshot) => {
           if (snapshot.exists()) {
+            const userInfo = snapshot.val();
+            if (userInfo.logs) {
+              userInfo.logs = Object.values(userInfo.logs);
+            }
             setUserStatus(true);
-            setUserInfo(snapshot.val());
+            setUserInfo(userInfo);
           } else {
             history.push("/profile");
             enqueueSnackbar(
