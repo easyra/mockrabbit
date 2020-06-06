@@ -17,6 +17,8 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userList, setUserList] = useState([]);
   const [initialKey, setInitialKey] = useState(null);
   const [userBanned, setUserBanned] = useState(null);
+  const [poll, setPoll] = useState(null);
+  const [pollTimer, setPollTimer] = useState(100);
   useEffect(() => {
     // setDummyMessages();
     firebase.functions().httpsCallable("makeAdmin")();
@@ -50,6 +52,50 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const forceTokenRefresh = () => {
     firebase.auth().currentUser.getIdToken(true);
   };
+  //-------------------------------------------------Poll Methods
+  const addPoll = async (question, options) => {
+    const expire = 1000 * 60;
+
+    if (isUserMod()) {
+      database
+        .ref("/poll")
+        .set({
+          question,
+          options,
+          expired: false,
+          voted: { start: true },
+        })
+        .then((err) => console.log(err))
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const voteInPoll = (votedOption) => {
+    const uid = auth.currentUser.uid;
+
+    if (!poll.userVoted) {
+      database.ref("poll/voted").update({ [uid]: votedOption });
+    }
+  };
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref("poll")
+      .on("value", async (snapshot) => {
+        if (snapshot.exists()) {
+          let poll = snapshot.val();
+          poll.userVoted =
+            auth.currentUser &&
+            poll.voted &&
+            !!poll.voted[auth.currentUser.uid];
+          setPoll(poll);
+        } else {
+          setPoll(null);
+        }
+      });
+  }, []);
+
   //-----------------------------------------------Ban Methods
   const banUser = async (username, time = "12h") => {
     let unit = time.slice(-1);
@@ -271,6 +317,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         googleSignin,
         userInfo,
         userList,
+        poll,
         userStatus,
         signOut,
         getUserInfo,
@@ -285,6 +332,9 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         banUser,
         setUserBanned,
         enqueueSnackbar,
+        addPoll,
+        voteInPoll,
+        pollTimer,
       }}
     >
       {children}
