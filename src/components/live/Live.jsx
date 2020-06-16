@@ -279,7 +279,8 @@ const Live = ({ history, enqueueSnackbar }) => {
     return (
       <iframe
         frameborder='0'
-        src='https://player.twitch.tv/?channel=mockrabbit'
+        src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=localhost:3000/live'
+        // src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app/'
         allowfullscreen
         className={classes.iframe}
         width='100%'
