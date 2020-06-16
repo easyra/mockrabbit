@@ -279,8 +279,8 @@ const Live = ({ history, enqueueSnackbar }) => {
     return (
       <iframe
         frameborder='0'
-        src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost:3000&parent=www.localhost:3000'
-        // src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app/'
+        // src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost:3000&parent=www.localhost:3000'
+        src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost'
         allowfullscreen
         className={classes.iframe}
         width='100%'

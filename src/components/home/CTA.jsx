@@ -111,7 +111,7 @@ const CTA = () => {
       <Grid container className={classes.card}>
         <Grid item xs={12} md={8}>
           <ResponsiveEmbed
-            src={`https://player.twitch.tv/?channel=${socials.twitterID}`}
+            src={`https://player.twitch.tv/?channel=${socials.twitterID}&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost`}
           />
         </Grid>
         <Grid
