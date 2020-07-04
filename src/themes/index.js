@@ -26,12 +26,12 @@ const subColors = {
     color: "#000",
   },
   tier2: {
-    background: green["A400"],
+    background: teal["A400"],
     color: "#000",
   },
   tier3: {
-    background: red["A400"],
-    color: "#fff",
+    background: green["A400"],
+    color: "#000",
     fontWeight: "500",
   },
   tier4: {
@@ -128,7 +128,7 @@ export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: cyan["A400"] },
+    secondary: { main: teal["A400"] },
   },
   cta: {
     background: yellow["A400"],
@@ -140,10 +140,10 @@ export const defaultTheme = createMuiTheme({
   },
 
   background: {
-    background: grey["200"],
+    background: deepPurple["500"],
   },
   card: {
-    background: grey[900],
+    background: grey['900'],
     color: "#fff",
   },
 });

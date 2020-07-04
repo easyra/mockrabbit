@@ -271,9 +271,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
     ).then(({ data }) => {
       enqueueSnackbar(data.message, {
         variant: data.registered ? "success" : "error",
-      }).catch((err) => {
-        console.log(err);
-      });
+      })
     });
   };
   const giveSubscription = async (subTier) => {

@@ -96,9 +96,7 @@ const Home = ({ history }) => {
         <title>MockRabbit TV</title>
       </Helmet>
       <Grid container justify='space-around' className={classes.homeContainer}>
-        <Grid item md={6} sm={12} xs={12}>
-          <CTA />
-        </Grid>
+       
         <Hidden smDown>
           <Grid item md={4} sm={8} xs={12}>
             {renderLeaderboard()}
@@ -113,6 +111,9 @@ const Home = ({ history }) => {
               alt='' />*/}
           </Grid>
         </Hidden>
+        <Grid item md={6} sm={12} xs={12}>
+          <CTA />
+        </Grid>
       </Grid>
       {renderVideoCards()}
       {renderSocialCard()}

@@ -76,7 +76,7 @@ const SubLeaderboard = () => {
     const list = items[activePage].map((item) => {
       return renderItem(item, count++);
     });
-    for (let i = count; i <= 5; i++) {
+    for (let i = count; i <= 3; i++) {
       list.push(renderEmptyItem(i));
     }
 
@@ -146,18 +146,6 @@ const SubLeaderboard = () => {
 export default SubLeaderboard;
 
 const donations = [
-  {
-    type: "donation",
-    name: "Manny",
-    date: "4/1/20",
-    text: "$4.14",
-  },
-  {
-    type: "donation",
-    name: "Manny",
-    date: "4/1/20",
-    text: "$4.14",
-  },
   {
     type: "donation",
     name: "Manny",
