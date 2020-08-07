@@ -128,7 +128,7 @@ export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: teal["A400"] },
+    secondary: { main: cyan["300"] },
   },
   cta: {
     background: yellow["A400"],
