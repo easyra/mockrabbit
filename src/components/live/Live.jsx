@@ -832,6 +832,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           className={classes.chatMenu}
           style={{
             width: 100 - chatSize + '%',
+            maxHeight: chatOnly ? '100%' : 'inherit'
           }}
         >
           {userBanned ? renderBannedMenu() : renderChatMenu()}
