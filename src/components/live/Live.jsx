@@ -833,7 +833,6 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           id='chat-menu'
           style={{
             width: 100 - chatSize + '%',
-            maxHeight: chatOnly ? '100% ' : '250px'
           }}
         >
           {userBanned ? renderBannedMenu() : renderChatMenu()}
@@ -911,7 +910,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chatMenu: {
     minWidth: 250,
-    maxHeight: '100% !important',
+    maxHeight: '100% ',
     height: 'calc(100vh - 64px) !important',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 50,
