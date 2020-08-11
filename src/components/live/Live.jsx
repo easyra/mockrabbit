@@ -830,6 +830,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         </div>
         <div
           className={classes.chatMenu}
+          id='chat-menu'
           style={{
             width: 100 - chatSize + '%',
             maxHeight: chatOnly ? '100% ' : '250px'
@@ -914,7 +915,7 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100vh - 64px) !important',
     [theme.breakpoints.down('sm')]: {
       marginBottom: 50,
-      maxHeight: '250px !important',
+      maxHeight: '250px',
 
       width: '100% !important',
     },
