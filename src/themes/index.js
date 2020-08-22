@@ -128,15 +128,15 @@ export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: '#5FC4C7' },
+    secondary: { main: '#5fc4c7' },
   },
   cta: {
-    background: yellow["A400"],
+    background: '#fff560',
     color: "#000",
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { background: yellow["A700"], opacity: 0.8 },
-    ctaText: yellow["A400"],
+    "&:hover": { background: '#fff560', opacity: 0.8 },
+    ctaText:'#fff560',
   },
 
   background: {

@@ -255,6 +255,7 @@ export default withSnackbar(Navbar);
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    zIndex: 2000
   },
   menuButton: {
     marginRight: theme.spacing(2),

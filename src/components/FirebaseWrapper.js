@@ -19,6 +19,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
   const [userBanned, setUserBanned] = useState(null);
   const [poll, setPoll] = useState(null);
   const [pollTimer, setPollTimer] = useState(100);
+  const [streamID, setStreamID] = useState('')
   useEffect(() => {
     // setDummyMessages();
     firebase.functions().httpsCallable("makeAdmin")();
@@ -30,6 +31,14 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         setUserStatus(false);
       }
     });
+  }, []);
+  useEffect(() => {
+    database.ref('/streamID').on('value', snap => {
+      console.log(snap.val())
+      if (snap.exists()) {
+        setStreamID(snap.val().id)
+      }
+    })
   }, []);
 
   //-------------------------------------------------------Auth/Login/Register Methods
@@ -214,6 +223,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
       .startAt(key)
       .on("value", (snapshot) => {
         if (snapshot.exists()) {
+          console.log(snapshot.val())
           setChatMessages(Object.values(snapshot.val()));
         }
       });
@@ -333,6 +343,7 @@ const FirebaseWrapper = ({ children, history, enqueueSnackbar }) => {
         addPoll,
         voteInPoll,
         pollTimer,
+        streamID
       }}
     >
       {children}

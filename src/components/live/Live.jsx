@@ -60,7 +60,9 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     poll,
     pollTimer,
     voteInPoll,
+    streamID
   } = useContext(FirebaseContext);
+  console.log(streamID)
   const { socials, changeTheme, themeOptions, activeTheme } = useContext(
     SiteContext
   );
@@ -279,8 +281,9 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     return (
       <iframe
         frameborder='0'
-        // src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost:3000&parent=www.localhost:3000'
-        src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost'
+        // src='https://player.twitch.tv/?channel=mockrabbit&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost'
+        // src='https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fezrakun.tv%2Fvideos%2F336461657495898%2F&width=1280'
+        src={streamID}
         allowfullscreen
         className={classes.iframe}
         width='100%'

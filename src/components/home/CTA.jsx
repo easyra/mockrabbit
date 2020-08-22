@@ -24,10 +24,13 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { SiteContext } from "../SiteWrapper";
 import ResponsiveEmbed from "react-responsive-embed";
 import SocialCard from "../shared/SocialCard";
+import { FirebaseContext } from "../FirebaseWrapper";
 
 const CTA = () => {
   const [activePage, setActivePage] = useState(0);
   const { socials } = useContext(SiteContext);
+  const {streamID} = useContext(FirebaseContext)
+
 
   const classes = useStyles();
 
@@ -111,7 +114,7 @@ const CTA = () => {
       <Grid container className={classes.card}>
         <Grid item xs={12} md={8}>
           <ResponsiveEmbed
-            src={`https://player.twitch.tv/?channel=${socials.twitterID}&parent=mockrabbit.netlify.app&parent=www.mockrabbit.netlify.app&parent=localhost`}
+            src={streamID}
           />
         </Grid>
         <Grid

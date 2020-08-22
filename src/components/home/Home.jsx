@@ -42,14 +42,14 @@ const Home = ({ history }) => {
   const renderVideoCards = () => {
     return (
       <div className={classes.videoCard}>
-        <Typography
-          color='secondary'
+        {/* <Typography
+          // color=''
           style={{ margin: "0 25px", position: "relative", zIndex: 20 }}
           variant={"h4"}
           align='right'
         >
           MY VIDEOS
-        </Typography>
+        </Typography> */}
         <Grid container justify={"space-around"}>
           {renderVideoCard()}
           {renderVideoCard()}
@@ -64,15 +64,15 @@ const Home = ({ history }) => {
   const renderSocialCard = () => {
     return (
       <div className={classes.socialCards}>
-        <Typography
-          color='primary'
+        {/* <Typography
+          // color='primary'
           style={{ margin: "0 25px", position: "relative", zIndex: 20 }}
           variant={"h4"}
           align='right'
           gutterBottom
         >
           MY SOCIAL MEDIA
-        </Typography>
+        </Typography> */}
         <Grid container justify={"center"}>
           <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
             <SocialCard type={"facebook"} />
@@ -127,6 +127,7 @@ export default Home;
 const useStyles = makeStyles((theme) => ({
   videoCard: {
     background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
     padding: "50px 0",
   },
   cta: {
@@ -134,7 +135,8 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": { opacity: `1` },
   },
   socialCards: {
-    background: theme.palette.secondary.main,
+    ...theme.background,
+    color: theme.palette.primary.contrastText,  
     padding: "50px 0",
   },
   socialCard: {
