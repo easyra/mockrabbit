@@ -74,17 +74,18 @@ const Home = ({ history }) => {
           MY SOCIAL MEDIA
         </Typography> */}
         <Grid container justify={"center"}>
-          <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
+          <Grid className={classes.socialCard} item md xs={12} sm={12}>
             <SocialCard type={"facebook"} />
           </Grid>
-          <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
-            <SocialCard type={"subscribe"} />
-          </Grid>
-          <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
+
+          <Grid className={classes.socialCard} item md xs={12} sm={12}>
             <SocialCard type={"twitter"} />
           </Grid>
-          <Grid className={classes.socialCard} item md={5} xs={12} sm={12}>
+          <Grid className={classes.socialCard} item md xs={12} sm={12}>
             <SocialCard type={"youtube"} />
+          </Grid>
+          <Grid className={classes.socialCard} item md xs={12} sm={12}>
+            <SocialCard type={"subscribe"} />
           </Grid>
         </Grid>
       </div>
@@ -95,28 +96,22 @@ const Home = ({ history }) => {
       <Helmet>
         <title>MockRabbit TV</title>
       </Helmet>
-      <Grid container justify='space-around' className={classes.homeContainer}>
-       
-        <Hidden smDown>
-          <Grid item md={4} sm={8} xs={12}>
-            {renderLeaderboard()}
-            {/* <img
-              style={{
-                width: "100%",
-                maxWidth: 400,
-                height: "100%",
-                margin: "auto",
-              }}
-              src='https://svgsilh.com/svg_v2/305389.svg'
-              alt='' />*/}
-          </Grid>
-        </Hidden>
+      <Grid
+        container
+        justify='space-around'
+        alignItems='center'
+        className={classes.homeContainer}
+      >
         <Grid item md={6} sm={12} xs={12}>
           <CTA />
         </Grid>
+        <Grid item md={4} sm={12} xs={12}>
+          {renderLeaderboard()}
+        </Grid>
       </Grid>
-      {renderVideoCards()}
+
       {renderSocialCard()}
+      {renderVideoCards()}
       <Footer />
     </>
   );
@@ -136,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   },
   socialCards: {
     ...theme.background,
-    color: theme.palette.primary.contrastText,  
+    color: theme.palette.primary.contrastText,
     padding: "50px 0",
   },
   socialCard: {
@@ -147,7 +142,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 100,
   },
   homeContainer: {
-    margin: "calc(4% + 64px) 0 11%",
+    margin: "calc(4% + 64px) 0 5%",
     [theme.breakpoints.down("sm")]: {
       margin: "56px 0 0%",
     },

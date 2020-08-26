@@ -32,12 +32,12 @@ const SubLeaderboard = () => {
     return (
       <AppBar position='static' elevation={0} color='primary'>
         <Toolbar>
-          <Grid container alignItems='center'>
-            <div className={classes.iconButton}>
+          <Grid container alignItems='center' justify='flex-end'>
+            {/* <div className={classes.iconButton}>
               <IconButton color='inherit' onClick={() => setPayPigModal(true)}>
                 <FavoriteIcon />
               </IconButton>
-            </div>
+            </div> */}
 
             {renderAppButtons()}
           </Grid>
@@ -133,11 +133,11 @@ const SubLeaderboard = () => {
         <PayPigPage />
       </Modal>
       <Paper elevation='4'>
-        <Hidden smDown>{renderAppBar()}</Hidden>
-        <List dense subheader={renderListSubheader()}>
+        {renderAppBar()}
+        {/* <List className={classes.list} dense subheader={renderListSubheader()}> */}
+        <List className={classes.list} dense subheader={renderListSubheader()}>
           {renderItems()}
         </List>
-        <Hidden mdUp>{renderAppBar()}</Hidden>
       </Paper>
     </>
   );
@@ -175,4 +175,7 @@ const items = { donations, gifts, subs };
 const useStyles = makeStyles((theme) => ({
   button: { margin: "0 15px 0 0", color: theme.palette.primary.contrastText },
   iconButton: { flexGrow: 1, color: theme.cta.ctaText },
+  list: {
+    // background: theme.palette.secondary.light,
+  },
 }));

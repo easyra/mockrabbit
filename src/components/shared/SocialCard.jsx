@@ -49,10 +49,7 @@ const SocialCard = ({ type, elevation = 4 }) => {
             )}
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary='coming soon...' />
-          </ListItem>
+        <List className={classes.list}>
           <ListItem button>
             <ListItemText primary='coming soon...' />
           </ListItem>
@@ -105,5 +102,8 @@ const useStyles = makeStyles((theme) => ({
   ctaText: {
     color: theme.cta.ctaText,
     borderColor: theme.cta.ctaText,
+  },
+  list: {
+    // background: theme.palette.secondary.light,
   },
 }));

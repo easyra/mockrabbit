@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import { Helmet } from 'react-helmet';
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { Helmet } from "react-helmet";
 import {
   Grid,
   Paper,
@@ -21,30 +21,30 @@ import {
   LinearProgress,
   ButtonGroup,
   Badge,
-} from '@material-ui/core';
-import { LoremIpsum } from 'lorem-ipsum';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import SimpleBar from 'simplebar-react';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import SettingsIcon from '@material-ui/icons/Settings';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import 'simplebar/dist/simplebar.min.css';
-import { FirebaseContext } from '../FirebaseWrapper';
-import { withSnackbar } from 'notistack';
-import { useTheme } from '@material-ui/core/styles';
-import { blueGrey, grey, yellow, green } from '@material-ui/core/colors';
-import { SiteContext } from '../SiteWrapper';
-import PayPigPage from '../profile/PayPigPage';
-import SubscribeButton from '../shared/SubscribeButton';
+} from "@material-ui/core";
+import { LoremIpsum } from "lorem-ipsum";
+import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import SimpleBar from "simplebar-react";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import SettingsIcon from "@material-ui/icons/Settings";
+import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import "simplebar/dist/simplebar.min.css";
+import { FirebaseContext } from "../FirebaseWrapper";
+import { withSnackbar } from "notistack";
+import { useTheme } from "@material-ui/core/styles";
+import { blueGrey, grey, yellow, green } from "@material-ui/core/colors";
+import { SiteContext } from "../SiteWrapper";
+import PayPigPage from "../profile/PayPigPage";
+import SubscribeButton from "../shared/SubscribeButton";
 
 const Live = ({ history, enqueueSnackbar, chatOnly }) => {
   const classes = useStyles();
   const chatScroll = useRef(null);
   const lastMessage = useRef(null);
   const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const smUp = useMediaQuery(theme.breakpoints.up("sm"));
   const {
     userStatus,
     userInfo,
@@ -60,16 +60,16 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     poll,
     pollTimer,
     voteInPoll,
-    streamID
+    streamID,
   } = useContext(FirebaseContext);
-  console.log(streamID)
+  console.log(streamID);
   const { socials, changeTheme, themeOptions, activeTheme } = useContext(
     SiteContext
   );
   const [anchorEl, setAnchorEl] = useState(null); // Element Node for ChatRoom Menu
   const [emoteEl, setEmoteEl] = useState(null); // Element Node for Emote Menu
   const [settingsModalOpen, setSettingsModal] = useState(false);
-  const [textInput, setTextInput] = useState(''); // String for sending messages in chat
+  const [textInput, setTextInput] = useState(""); // String for sending messages in chat
   const [shouldScroll, setShouldScroll] = useState(true); // Boolean that enables auto-scroll when true
   const [chatLoaded, setChatLoaded] = useState(false); // Boolean that tells you when chat has finished loading
   const [activeUser, setActiveUser] = useState(null);
@@ -81,7 +81,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
   const [hovering, setHovering] = useState(false); // used for subscribe button in banned menu
 
   const [chatSize, setChatSize] = useState(
-    localStorage.getItem('chatSize') || (chatOnly ?  0:77 )
+    localStorage.getItem("chatSize") || (chatOnly ? 0 : 77)
   );
 
   const lorem = new LoremIpsum({
@@ -108,16 +108,16 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
 
   const handleSubmit = async (e) => {
     //------Chat Box Text Submit
-    if (e.key === 'Enter' && textInput.length > 0) {
+    if (e.key === "Enter" && textInput.length > 0) {
       if (userStatus) {
         await handleNewMessage(textInput);
-        setTextInput('');
+        setTextInput("");
         if (userInfo.logs) {
           setLogCounter(0);
         }
       } else {
-        enqueueSnackbar('Log in to send you message');
-        history.push('/profile');
+        enqueueSnackbar("Log in to send you message");
+        history.push("/profile");
       }
     }
   };
@@ -126,33 +126,33 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     if (userInfo.logs) {
       setLogCounter(0);
     }
-    if (e.target.value !== '\n') {
+    if (e.target.value !== "\n") {
       setTextInput(e.target.value);
     }
   };
 
   const command = (text) => {
-    const arr = text.trim().split(' ');
+    const arr = text.trim().split(" ");
     console.log(arr);
     const cmd = arr[0];
-    if (cmd == '!ban') {
+    if (cmd == "!ban") {
       if (arr[1]) {
         banUser(arr[1], arr[2]);
       }
     }
-    if (cmd == '!unban') {
+    if (cmd == "!unban") {
       if (arr[1]) {
-        banUser(arr[1], '0m');
+        banUser(arr[1], "0m");
       }
     }
     //Polling Commands
-    if (cmd == '!poll') {
-      const questionIndex = text.indexOf('?') + 1;
+    if (cmd == "!poll") {
+      const questionIndex = text.indexOf("?") + 1;
       if (questionIndex - 1 === -1) {
         return;
       }
       let pollQuestion = text.slice(6, questionIndex);
-      const poll = text.slice(questionIndex + 1).split('/');
+      const poll = text.slice(questionIndex + 1).split("/");
       const pollOptions = poll;
       const optionsObject = [];
 
@@ -161,11 +161,11 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
       }
 
       if (!poll[1]) {
-        return 'err';
+        return "err";
       }
       addPoll(pollQuestion, optionsObject);
     }
-    if (cmd === '!vote') {
+    if (cmd === "!vote") {
       if (poll && poll.options[arr[1] - 1]) {
         voteInPoll(poll.options[arr[1] - 1]);
       }
@@ -173,7 +173,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
   };
 
   const handleNewMessage = async (text) => {
-    if (text[0] === '!') {
+    if (text[0] === "!") {
       command(text);
       await addMessage(text);
     } else {
@@ -225,14 +225,14 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
 
   const resetSettings = () => {
     setChatSize(77);
-    localStorage.removeItem('chatSize');
+    localStorage.removeItem("chatSize");
   };
 
   //------------------------------------------------------ TextValidation
 
   const textValidated = (text, username) => {
-    const textArr = text.split(' ');
-    const highlight = text[0] === '>';
+    const textArr = text.split(" ");
+    const highlight = text[0] === ">";
     let mentionedCurrentUser = false; //  checks if current user is being mentioned in message
     for (let i = 0; i < textArr.length; i++) {
       const string = textArr[i];
@@ -251,7 +251,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
 
         textArr[i] = (
           <a
-            style={{ cursor: 'pointer', textDecoration: 'underline' }}
+            style={{ cursor: "pointer", textDecoration: "underline" }}
             className='mentioned'
             onClick={() =>
               setMentionedUsers((prevState) => {
@@ -263,15 +263,15 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
               })
             }
           >
-            {textArr[i]}{' '}
+            {textArr[i]}{" "}
           </a>
         );
       } else {
-        textArr[i] += ' '; // added spacing
+        textArr[i] += " "; // added spacing
       }
     }
     return [
-      <span className={highlight ? classes.highlight : ''}>{textArr}</span>,
+      <span className={highlight ? classes.highlight : ""}>{textArr}</span>,
       mentionedCurrentUser,
     ];
   };
@@ -321,18 +321,18 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         <>
           <Paper
             style={{
-              position: 'relative',
+              position: "relative",
               borderRadius: 0,
             }}
             className={classes.poll}
           >
             {!poll.expired && (
               <>
-                {' '}
+                {" "}
                 <Typography
                   variant='overline'
                   color='secondary'
-                  style={{ padding: '5px', paddingBottom: 0 }}
+                  style={{ padding: "5px", paddingBottom: 0 }}
                 >
                   {poll.question}
                 </Typography>
@@ -341,22 +341,22 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
                     <div className={classes.pollOption}>
                       <div
                         style={{
-                          display: 'flex',
-                          alignItems: 'baseline',
+                          display: "flex",
+                          alignItems: "baseline",
                         }}
                       >
                         <div
                           style={{
                             flexGrow: 1,
-                            alignItems: 'baseline',
-                            display: 'flex',
+                            alignItems: "baseline",
+                            display: "flex",
                           }}
                         >
                           <Chip
                             label={i + 1}
                             size='small'
                             variant='outlined'
-                            color={'secondary'}
+                            color={"secondary"}
                             component='div'
                             style={{ margin: 5 }}
                           />
@@ -364,8 +364,8 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
                             style={{ paddingLeft: 5 }}
                             variant='overline'
                           >
-                            {' '}
-                            {option}{' '}
+                            {" "}
+                            {option}{" "}
                           </Typography>
                         </div>
 
@@ -373,7 +373,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
                           style={{ marginLeft: 5 }}
                           variant='overline'
                         >
-                          {votesPercentage[i] + '%'}
+                          {votesPercentage[i] + "%"}
                         </Typography>
                       </div>
 
@@ -400,13 +400,13 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
 
             {!poll.expired && (
               <Typography
-                style={{ padding: '0px 5px' }}
+                style={{ padding: "0px 5px" }}
                 variant='overline'
                 component='div'
                 align='center'
               >
                 {poll.userVoted
-                  ? 'Your vote has been cast'
+                  ? "Your vote has been cast"
                   : `!vote (1-${poll.options.length})`}
               </Typography>
             )}
@@ -426,9 +426,9 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
             onClick={(e) => {
               if (e.target.classList) {
                 if (
-                  !e.target.classList.contains('MuiChip-label') &&
-                  !e.target.classList.contains('MuiChip-root') &&
-                  !e.target.classList.contains('mentioned')
+                  !e.target.classList.contains("MuiChip-label") &&
+                  !e.target.classList.contains("MuiChip-root") &&
+                  !e.target.classList.contains("mentioned")
                 ) {
                   setMentionedUsers([]);
                 }
@@ -439,7 +439,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
             {true && (
               <SimpleBar
                 style={{
-                  height: '100%',
+                  height: "100%",
                 }}
                 forceVisible='y'
                 autoHide={false}
@@ -458,7 +458,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
 
             <Paper
               className={`${classes.shouldScroll} ${
-                !shouldScroll ? classes.active : ''
+                !shouldScroll ? classes.active : ""
               }`}
               onClick={scrollDown}
               style={{ zIndex: shouldScroll ? -1 : 1 }}
@@ -479,7 +479,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         <TextField
           className={classes.chatbox}
           color='primary'
-          style={{ padding: 5, fontSize: '0.875rem', color: '#fff' }}
+          style={{ padding: 5, fontSize: "0.875rem", color: "#fff" }}
           onKeyPress={handleSubmit}
           onChange={handleChange}
           value={textInput}
@@ -490,7 +490,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           inputProps={{
             className: classes.chatboxInput,
           }}
-          placeholder={userStatus ? 'Type Here!' : 'Login to Type Something'}
+          placeholder={userStatus ? "Type Here!" : "Login to Type Something"}
           rowsMax='2'
           // variant='outlined'
           size='small'
@@ -536,16 +536,16 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
       const minute = time / 60000;
       const second = time / 1000;
       if (day > 1) {
-        return Math.ceil(day) + ' days';
+        return Math.ceil(day) + " days";
       }
       if (hour > 1) {
-        return Math.ceil(hour) + ' hours';
+        return Math.ceil(hour) + " hours";
       }
       if (minute > 1) {
-        return Math.ceil(minute) + ' minutes';
+        return Math.ceil(minute) + " minutes";
       }
       if (second > 1) {
-        return Math.ceil(second) + ' seconds';
+        return Math.ceil(second) + " seconds";
       }
     };
     return (
@@ -557,9 +557,9 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           square
         >
           {hovering ? (
-            <LockOpenIcon color='inherit' style={{ fontSize: '3rem' }} />
+            <LockOpenIcon color='inherit' style={{ fontSize: "3rem" }} />
           ) : (
-            <LockIcon color='inherit' style={{ fontSize: '3rem' }} />
+            <LockIcon color='inherit' style={{ fontSize: "3rem" }} />
           )}
           <Typography variant='h6' align='center' color='inherit'>
             You are Banned
@@ -611,18 +611,18 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
       open={settingsModalOpen}
       onClose={() => setSettingsModal(false)}
       style={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
         margin: 15,
       }}
     >
       <Paper style={{ padding: 15, width: 500 }}>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
           }}
         >
           <Typography gutterBottom variant='h6'>
@@ -639,7 +639,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           // style={{ transform: "rotate(180deg) scaleX(-1)" }}
           onChange={(e, newValue) => {
             setChatSize(newValue);
-            localStorage.setItem('chatSize', newValue);
+            localStorage.setItem("chatSize", newValue);
           }}
           color='primary'
           step={1}
@@ -686,7 +686,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         return (
           <span
             title={emote}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
             onClick={() => {
               setTextInput((prevState) => {
                 if (prevState.length === 0) {
@@ -713,16 +713,16 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     // text: text of the message
     // type: checks type of message. usually used to tell if message is from sub or not
 
-    let chipClass = type === 'default' ? 'defaultChip' : type;
+    let chipClass = type === "default" ? "defaultChip" : type;
 
     let opacity = null;
     const [validatedText, mentionedCurrentUser] = textValidated(text, username);
 
     if (mentionedUsers.length > 0) {
       if (mentionedUsers.includes(username)) {
-        opacity = '1';
+        opacity = "1";
       } else {
-        opacity = '0.5';
+        opacity = "0.5";
       }
     } else {
       opacity = 1;
@@ -735,14 +735,17 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         key={key}
         elevation={mentionedCurrentUser ? 10 : 3}
         className={`${classes.message}
-        ${type === 'system' && classes.system}
-        ${mentionedCurrentUser ? classes.highlightMsg : ''}`}
+        ${type === "system" && classes.system}
+        ${mentionedCurrentUser ? classes.highlightMsg : ""}`}
       >
-        <Typography variant='body2' style={{ wordBreak: 'break-word' }}>
-          {type !== 'system' && (
+        <Typography
+          variant='body2'
+          style={{ wordBreak: "break-word", opacity: 0.8 }}
+        >
+          {type !== "system" && (
             <Chip
               size='small'
-              style={{ marginRight: 5, cursor: 'pointer' }}
+              style={{ marginRight: 5, cursor: "pointer" }}
               label={username}
               className={classes[chipClass]}
               clickable={false}
@@ -782,7 +785,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
     try {
       chatTurnedOn();
     } catch {
-      console.log('error turning on chat');
+      console.log("error turning on chat");
     } finally {
       scrollDown();
     }
@@ -806,9 +809,9 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         open={payPigModal}
         onClose={() => setPayPigModal(false)}
         style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'flex-end',
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
         }}
       >
         <PayPigPage />
@@ -817,13 +820,13 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
         <Helmet>
           <title>MockRabbit Livestream</title>
         </Helmet>
-        <div style={{ width: '100%', position: 'relative', flex: 1 }}>
+        <div style={{ width: "100%", position: "relative", flex: 1 }}>
           <div
             style={{
-              maxWidth: '25%',
+              maxWidth: "25%",
               margin: 5,
-              position: 'absolute',
-              zIndex: '900',
+              position: "absolute",
+              zIndex: "900",
               right: 0,
             }}
           >
@@ -835,7 +838,7 @@ const Live = ({ history, enqueueSnackbar, chatOnly }) => {
           className={classes.chatMenu}
           id='chat-menu'
           style={{
-            width: 100 - chatSize + '%',
+            width: 100 - chatSize + "%",
           }}
         >
           {userBanned ? renderBannedMenu() : renderChatMenu()}
@@ -852,16 +855,16 @@ export default withSnackbar(Live);
 const useStyles = makeStyles((theme) => ({
   liveWrapper: {
     marginTop: 64,
-    display: 'flex',
-    justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
+    display: "flex",
+    justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
       marginTop: 56,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: 51,
-      justifyContent: 'center',
-      flexDirection: 'column',
-      alignItems: 'center',
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center",
     },
   },
 
@@ -873,18 +876,18 @@ const useStyles = makeStyles((theme) => ({
   //   alignItems: "center",
   // },
   chatWrapper: {
-    position: 'relative',
-    height: '100%',
-    width: '100%',
+    position: "relative",
+    height: "100%",
+    width: "100%",
   },
   message: {
     padding: 5,
-    margin: '10px 5px',
-    animation: 'fadeIn 0.3s 1',
-    color: '#000',
-    background: '#fff',
-    width: 'fit-content',
-    transition: 'all 0.2s',
+    margin: "10px auto 5px",
+    animation: "fadeIn 0.3s 1",
+    color: theme.palette.secondary.contrastText,
+    background: theme.palette.secondary.light,
+    width: "95%",
+    transition: "all 0.2s",
     ...theme.card,
   },
   system: {
@@ -895,74 +898,74 @@ const useStyles = makeStyles((theme) => ({
   },
   notification: {
     padding: 5,
-    margin: '10px 5px',
-    animation: 'fadeIn 0.3s 1',
-    color: '#000',
-    background: '#fff',
-    width: 'fit-content',
-    transition: 'all 0.2s',
+    margin: "10px 5px",
+    animation: "fadeIn 0.3s 1",
+    color: "#000",
+    background: "#fff",
+    width: "fit-content",
+    transition: "all 0.2s",
   },
   chat2: {
-    position: 'absolute',
-    height: 'calc(100% - 129px);',
-    width: '100%',
+    position: "absolute",
+    height: "calc(100% - 129px);",
+    width: "100%",
   },
   chatBar: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
   },
   chatMenu: {
     minWidth: 250,
-    maxHeight: '100% ',
-    height: 'calc(100vh - 64px) !important',
-    [theme.breakpoints.down('sm')]: {
+    maxHeight: "100% ",
+    height: "calc(100vh - 64px) !important",
+    [theme.breakpoints.down("sm")]: {
       marginBottom: 50,
-      maxHeight: '250px',
+      maxHeight: "250px",
 
-      width: '100% !important',
+      width: "100% !important",
     },
   },
   shouldScroll: {
     background: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
-    margin: '-32px 5px 0',
-    position: 'relative',
+    margin: "-32px 5px 0",
+    position: "relative",
     padding: 5,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     opacity: 0,
-    transition: 'opacity 0.2s',
+    transition: "opacity 0.2s",
   },
   active: {
     opacity: 1,
-    cursor: 'pointer',
+    cursor: "pointer",
   },
   defaultChip: {
     background: grey[300],
-    color: '#000',
+    color: "#000",
   },
   iframe: {
-    position: 'absolute',
-    height: 'calc(100vh - 64px)',
-    [theme.breakpoints.down('sm')]: {
-      height: '100%',
+    position: "absolute",
+    height: "calc(100vh - 64px)",
+    [theme.breakpoints.down("sm")]: {
+      height: "100%",
       minHeight: 300,
-      position: 'static',
+      position: "static",
     },
   },
   bannedMenuWrapper: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     padding: 15,
   },
   bannedMenu: {
     background: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: '100%',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    height: "100%",
     // margin: 15,
   },
   highlight: {
@@ -987,7 +990,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chatboxInput: {
     height: 38,
-    fontSize: '0.875rem',
+    fontSize: "0.875rem",
     color: theme.palette.primary.contrastText,
     padding: 5,
     background: theme.palette.primary.light,
@@ -1010,10 +1013,10 @@ const emotes = {
   monkaS: (
     <img
       style={{
-        margin: '0 5px -7px 0',
-        padding: '3px',
-        borderRadius: '50%',
-        background: '#fff',
+        margin: "0 5px -7px 0",
+        padding: "3px",
+        borderRadius: "50%",
+        background: "#fff",
       }}
       src='https://cdn.betterttv.net/emote/56e9f494fff3cc5c35e5287e/1x'
     />
@@ -1021,7 +1024,7 @@ const emotes = {
   PepeHands: (
     <img
       style={{
-        margin: '0 5px -7px 0',
+        margin: "0 5px -7px 0",
       }}
       src='https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/1x'
     />
@@ -1029,7 +1032,7 @@ const emotes = {
   OMEGALUL: (
     <img
       style={{
-        margin: '0 5px -7px 0',
+        margin: "0 5px -7px 0",
       }}
       src='https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/1x'
     />

@@ -37,7 +37,7 @@ const SiteWrapper = ({ children, enqueueSnackbar }) => {
     discordID: "",
     twitterID: "mockrabbit",
     email: "mockrabbit7@gmail.com",
-    name: "MockRabbit",
+    name: "Mock Rabbit",
   };
 
   const socialLinks = {

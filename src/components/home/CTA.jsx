@@ -13,9 +13,9 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
+  Hidden,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
 import StarIcon from "@material-ui/icons/Star";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -25,58 +25,40 @@ import { SiteContext } from "../SiteWrapper";
 import ResponsiveEmbed from "react-responsive-embed";
 import SocialCard from "../shared/SocialCard";
 import { FirebaseContext } from "../FirebaseWrapper";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const CTA = () => {
   const [activePage, setActivePage] = useState(0);
   const { socials } = useContext(SiteContext);
-  const {streamID} = useContext(FirebaseContext)
-
+  const { streamID } = useContext(FirebaseContext);
 
   const classes = useStyles();
 
   const renderAppBar = () => {
     return (
       <>
-        <AppBar position='static' elevation={0} color='primary'>
+        <AppBar
+          position='static'
+          elevation={0}
+          color='primary'
+          className={classes.nav}
+        >
           <Toolbar>
-            <div style={{ flexGrow: 1 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
               <IconButton
                 color='inherit'
-                className={activePage === 0 ? classes.active : classes.inactive}
+                // className={activePage === 0 ? classes.active : classes.inactive}
                 onClick={() => setActivePage(0)}
               >
-                <HomeIcon />
+                <FavoriteIcon />
               </IconButton>
             </div>
-
-            <IconButton
-              color='inherit'
-              className={activePage === 1 ? classes.active : classes.inactive}
-              onClick={() => setActivePage(1)}
-            >
-              <FacebookIcon />
-            </IconButton>
-            <IconButton
-              color='inherit'
-              className={activePage === 2 ? classes.active : classes.inactive}
-              onClick={() => setActivePage(2)}
-            >
-              <TwitterIcon />
-            </IconButton>
-            <IconButton
-              color='inherit'
-              className={activePage === 3 ? classes.active : classes.inactive}
-              onClick={() => setActivePage(3)}
-            >
-              <YouTubeIcon />
-            </IconButton>
-            <IconButton
-              color='inherit'
-              className={activePage === 4 ? classes.active : classes.inactive}
-              onClick={() => setActivePage(4)}
-            >
-              <StarIcon />
-            </IconButton>
           </Toolbar>
         </AppBar>
       </>
@@ -109,42 +91,52 @@ const CTA = () => {
     );
   };
 
+  const renderCTAText = () => (
+    <Grid
+      item
+      xs={12}
+      md={4}
+      container
+      justify='center'
+      alignItems='center'
+      direction='column'
+    >
+      <Typography
+        align='center'
+        variant='h6'
+        component='h1'
+        style={{ marginTop: 5 }}
+      >
+        {socials.name}
+      </Typography>
+      <Typography align='center' variant='overline'>
+        Mon-Fri
+      </Typography>
+      <Typography align='center' variant='overline' gutterBottom>
+        10AM-12AM
+      </Typography>
+      <Button
+        style={{ marginBottom: 15 }}
+        className={classes.cta}
+        component={Link}
+        startIcon={<PlayArrowIcon />}
+        to='/live'
+        variant='outlined'
+      >
+        Watch Now
+      </Button>
+    </Grid>
+  );
+
   const renderVideoCTA = () => {
     return (
       <Grid container className={classes.card}>
+        <Hidden smDown>{renderCTAText()}</Hidden>
+
         <Grid item xs={12} md={8}>
-          <ResponsiveEmbed
-            src={streamID}
-          />
+          <ResponsiveEmbed src={streamID} />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          container
-          alignItems='center'
-          direction='column'
-        >
-          <Typography align='center' variant='h6' style={{ marginTop: 5 }}>
-            {socials.name} Live Soon!
-          </Typography>
-          <Typography align='center' variant='overline'>
-            Mon-Fri
-          </Typography>
-          <Typography align='center' variant='overline' gutterBottom>
-            10AM-12AM
-          </Typography>
-          <Button
-            style={{ marginBottom: 15 }}
-            className={classes.cta}
-            component={Link}
-            startIcon={<PlayArrowIcon />}
-            to='/live'
-            variant='outlined'
-          >
-            Watch Now
-          </Button>
-        </Grid>
+        <Hidden mdUp>{renderCTAText()}</Hidden>
       </Grid>
     );
   };
@@ -174,7 +166,7 @@ const CTA = () => {
         style={{ marginBottom: 0 }}
         elevation={4}
       >
-        {renderAppBar()}
+        {/* {renderAppBar()} */}
         {renderCTAPage(activePage)}
       </Paper>
     </>
@@ -216,5 +208,8 @@ const useStyles = makeStyles((theme) => ({
   highlight: {},
   bg: {
     background: theme.palette.secondary.light,
+  },
+  nav: {
+    color: theme.cta.ctaText,
   },
 }));
