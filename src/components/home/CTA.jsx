@@ -117,10 +117,11 @@ const CTA = () => {
       </Typography>
       <Button
         style={{ marginBottom: 15 }}
-        className={classes.cta}
+        // className={classes.cta}
         component={Link}
         startIcon={<PlayArrowIcon />}
         to='/live'
+        color='secondary'
         variant='outlined'
       >
         Watch Now

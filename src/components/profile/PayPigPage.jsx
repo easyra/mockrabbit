@@ -163,8 +163,8 @@ const PayPigPage = () => {
           />
           <Button
             disabled={!input}
-            className={classes.donate}
-            color='primary'
+            // className={classes.donate}
+            color='secondary'
             variant='contained'
             fullWidth
           >

@@ -33,8 +33,9 @@ const SubscribeButton = ({
       </Modal>
       {!icon ? (
         <Button
-          className={classes[variant]}
+          // className={classes[variant]}
           variant={variant}
+          color='secondary'
           startIcon={<FavoriteIcon />}
           onClick={() => setPayPigModal(true)}
         >
@@ -44,7 +45,8 @@ const SubscribeButton = ({
       ) : (
         <IconButton
           onClick={() => setPayPigModal(true)}
-          className={classes.outlined}
+          color='secondary'
+          // className={classes.outlined}
         >
           <FavoriteIcon />
         </IconButton>

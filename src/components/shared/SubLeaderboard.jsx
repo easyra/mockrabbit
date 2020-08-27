@@ -30,7 +30,12 @@ const SubLeaderboard = () => {
 
   const renderAppBar = () => {
     return (
-      <AppBar position='static' elevation={0} color='primary'>
+      <AppBar
+        position='static'
+        elevation={0}
+        color='primary'
+        className={classes.appbar}
+      >
         <Toolbar>
           <Grid container alignItems='center' justify='flex-end'>
             {/* <div className={classes.iconButton}>
@@ -53,9 +58,8 @@ const SubLeaderboard = () => {
 
       return (
         <Button
-          variant='outlined'
-          disableElevation={active}
-          color={active ? "secondary" : "primary"}
+          variant={active ? "outlined" : ""}
+          color='inherit'
           onClick={() => {
             if (active) {
               setPayPigModal(true);
@@ -63,7 +67,7 @@ const SubLeaderboard = () => {
               setActivePage(page.toLowerCase());
             }
           }}
-          className={classes.button}
+          // className={classes.button}
         >
           {page}
         </Button>
@@ -175,6 +179,9 @@ const items = { donations, gifts, subs };
 const useStyles = makeStyles((theme) => ({
   button: { margin: "0 15px 0 0", color: theme.palette.primary.contrastText },
   iconButton: { flexGrow: 1, color: theme.cta.ctaText },
+  appbar: {
+    color: theme.palette.secondary.main,
+  },
   list: {
     // background: theme.palette.secondary.light,
   },
