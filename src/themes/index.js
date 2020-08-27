@@ -128,22 +128,22 @@ export const defaultTheme = createMuiTheme({
   ...lightSettings,
   palette: {
     primary: { main: grey["900"] },
-    secondary: { main: '#5fc4c7' },
+    secondary: { main: "#fff560" },
   },
   cta: {
-    background: '#fff560',
+    background: "#fff560",
     color: "#000",
     transition: "opacity 0.3s",
     margin: "7.5px 0",
-    "&:hover": { background: '#fff560', opacity: 0.8 },
-    ctaText:'#fff560',
+    "&:hover": { background: "#fff560", opacity: 0.8 },
+    ctaText: "#fff560",
   },
 
   background: {
-    background: '#473C5B',
+    background: "#473C5B",
   },
   card: {
-    background: grey['900'],
+    background: grey["900"],
     color: "#fff",
   },
 });

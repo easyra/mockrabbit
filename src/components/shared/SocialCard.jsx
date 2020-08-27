@@ -15,6 +15,9 @@ import { useContext } from "react";
 import { SiteContext } from "../SiteWrapper";
 import { useState } from "react";
 import SubscribeButton from "./SubscribeButton";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import YouTubeIcon from "@material-ui/icons/YouTube";
 
 const SocialCard = ({ type, elevation = 4 }) => {
   const classes = useStyles();
@@ -28,21 +31,28 @@ const SocialCard = ({ type, elevation = 4 }) => {
     twitter: "Twitter",
     subscribe: "Subscriber Feed",
   };
+
+  const icons = {
+    facebook: <FacebookIcon />,
+    youtube: <YouTubeIcon />,
+    twitter: <TwitterIcon />,
+  };
   return (
     <>
       <Paper elevation={elevation} className={classes.paper}>
         <AppBar elevation={0} position='static' color='primary'>
-          <Toolbar style={{ justifyContent: "space-between" }}>
-            {names[type]}
+          <Toolbar style={{ justifyContent: "flex-end" }}>
             {subscriberFeed ? (
               <Button
                 href={socialLinks[type]}
                 target='_blank'
-                className={classes.ctaText}
+                // className={classes.ctaText}
+                color='secondary'
                 size=''
                 variant='outlined'
+                startIcon={icons[type]}
               >
-                MORE
+                {names[type]}
               </Button>
             ) : (
               <SubscribeButton variant='outlined' justify='flex-end' />

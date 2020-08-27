@@ -69,6 +69,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 8,
     margin: 15,
     transition: "background 0.4s",
-    "&:hover": { background: theme.cta.ctaText },
+    "&:hover": { background: theme.palette.secondary.light },
   },
 }));
